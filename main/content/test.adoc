@@ -1,8 +1,0 @@
-+++
-title = "About2"
-menu = "main"
-markup = "asciidoc"
-+++
-
-
-Stuff1
