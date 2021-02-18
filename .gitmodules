@@ -1,6 +1,6 @@
-[submodule "themes/minimal"]
-	path = themes/minimal
-	url = https://github.com/calintat/minimal.git
 [submodule "main/themes/minimal"]
 	path = main/themes/minimal
 	url = https://github.com/calintat/minimal.git
+[submodule "main/themes/antora"]
+	path = main/themes/antora
+	url = https://github.com/basil/antora-default-ui-hugo-theme
