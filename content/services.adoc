@@ -72,16 +72,18 @@ business needs which in turn adds value to the client's existing or new products
 === Online data collection and scraping
 Providing services related to automatic online data collection, writing scalable web scrapers and web spiders.
 
-=== CI/CD (Continous integration and Continous delivery)
-Creation, maintenance and support of build pipelines in link:https://www.jenkins.io/[Jenkins]
+=== Infrastructure
+Services related to automating deployment and infrastructure creation in different cloud providers (link:https://aws.amazon.com/[AWS], link:https://azure.microsoft.com/en-us/[Azure])
+and automation using Ansible and Terraform.
+
+Creation, maintenance and support of CI/CD pipelines in link:https://www.jenkins.io/[Jenkins]
+
+Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
+Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
 
 === Code Reviews
 Manual code reviews as well as automatic code reviews using language-specific tools
 for the following languages: Perl, Python, Bash, C
-
-=== Packaging
-Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
-Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
 
 === Data visualization
 
