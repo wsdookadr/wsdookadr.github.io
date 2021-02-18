@@ -77,7 +77,7 @@ Providing services related to automatic online data collection, writing scalable
 Services related to automating deployment and infrastructure creation in different cloud providers (link:https://aws.amazon.com/[AWS], link:https://azure.microsoft.com/en-us/[Azure])
 and automation using Ansible and Terraform.
 
-Creation, maintenance and support of CI/CD pipelines in link:https://www.jenkins.io/[Jenkins]
+Creation, maintenance and support of link:https://en.wikipedia.org/wiki/CI/CD[CI/CD] pipelines in link:https://www.jenkins.io/[Jenkins]
 
 Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
 Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
@@ -93,7 +93,7 @@ for the following languages: Perl, Python, Bash, C
 
 Designing and preparing accurate data visualizations (charts, graphs, or other types of custom visualizations).
 
-=== Scripting/ETL
+=== Scripting/link:https://en.wikipedia.org/wiki/Extract,_transform,_load[ETL]
 Writing data processing pipelines in link:https://www.python.org/[Python], link:https://www.perl.org/[Perl], link:https://www.gnu.org/software/bash/[Bash]
 
 === Documentation
