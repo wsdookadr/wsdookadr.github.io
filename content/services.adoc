@@ -70,7 +70,8 @@ software, customizing opensource software to fit requirements and solve
 business needs which in turn adds value to the client's existing or new products.
 
 === Online data collection and scraping
-Providing services related to automatic online data collection, writing scalable web scrapers and web spiders.
+Providing services related to automatic online data collection, writing scalable web scrapers and web spiders
+(using link:https://github.com/scrapy/scrapy/[Scrapy], link:https://github.com/scrapinghub/splash/[Splash] or custom solutions)
 
 === Infrastructure
 Services related to automating deployment and infrastructure creation in different cloud providers (link:https://aws.amazon.com/[AWS], link:https://azure.microsoft.com/en-us/[Azure])
@@ -80,6 +81,9 @@ Creation, maintenance and support of CI/CD pipelines in link:https://www.jenkins
 
 Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
 Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
+
+Setting up and configuring monitoring and dashboards for link:https://www.nagios.org/[Nagios], link:https://icinga.com/[Icinga2] or link:https://prometheus.io/[Prometheus]/link:https://grafana.com/[Grafana].
+Development of custom monitoring plugins, adapted to the client's specific business needs.
 
 === Code Reviews
 Manual code reviews as well as automatic code reviews using language-specific tools
