@@ -23,7 +23,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5.5
 
       - run: gem install asciidoctor
 
@@ -31,11 +31,10 @@ jobs:
         working-directory: ./main
         run: |
           alias asciidoctor="asciidoctor --attribute=experimental=true --attribute=icons=font"
-          hugo --minify        
+          hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        working-directory: ./main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: main/public
