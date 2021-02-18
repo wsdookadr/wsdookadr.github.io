@@ -31,7 +31,7 @@ jobs:
         working-directory: ./main
         run: |
           alias asciidoctor="asciidoctor --attribute=experimental=true --attribute=icons=font"
-          hugo --minify
+          hugo --ignoreCache=true --minify
           pwd
 
       - name: Deploy
