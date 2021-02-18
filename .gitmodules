@@ -1,0 +1,3 @@
+[submodule "themes/antora"]
+	path = themes/antora
+	url = https://github.com/basil/antora-default-ui-hugo-theme
