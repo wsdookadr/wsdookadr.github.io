@@ -1,0 +1,15 @@
++++
+title = "Setting up the new blog"
+date = "2021-02-18"
+markup = "asciidoc"
+categories = ["blogging"]
++++
+
+Having used Jekyll before to write a blog, I saw link:https://pages.github.com/[Github Pages] is quite mainstream
+nowadays, so I thought of giving it a try.
+
+Together with link:https://github.com/marketplace/actions/deploy-to-github-pages[Github Deploy Actions] it actually automates
+a lot of the workflow nicely and I'm actually able to just write markup in link:https://asciidoc.org/userguide.html[asciidoc]
+and push to the blog repo and have it be compiled and see the changes soon after.
+
+

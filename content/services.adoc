@@ -1,0 +1,224 @@
++++
+title = "Services"
+menu = "main"
+markup = "asciidoc"
+date = 2021-01-01
++++
+
+= Commercial Services Offering
+
+Beginning with 2016, *S.C. MAGNA SOFTWARE S.R.L* offers services
+to clients world-wide, provides reliable software solutions to add
+value to the customers products and projects. Some of the key points
+in the delivered solutions are optimizing and improving the client's
+infrastructure, making pertinent and value-adding suggestions on the
+technical side, crafting tools and algorithms that aid in solving data
+problems and increase visibility into existing systems.
+
+For more details, see the details below. If you have any questions, please
+send an e-mail.
+
+== Contact details
+
+[width="70%"]
+[cols="40%,50%"]
+|===
+| *Company name*
+| *S.C. MAGNA SOFTWARE S.R.L*
+
+| Phone:
+| +40732070179 
+
+| Github:
+| link:https://github.com/wsdookadr/[link]
+
+| Stackoverflow:
+| link:https://stackoverflow.com/users/827519/wsdookadr[link] 
+
+| Email: 
+| mailto:stefan@garage-coding.com[stefan@garage-coding.com]
+
+| Company registration number:
+| J40/4134/18.03.2016 
+
+| Company tax number:
+| 35831444 
+
+| EU VAT ID:
+| RO42588403
+
+|===
+
+
+== Expertise
+
+=== Databases
+Both traditional RDBMS such as link:https://www.postgresql.org/[PostgreSQL], link:https://www.mysql.com/[MySQL]/link:https://mariadb.org/[MariaDB], link:https://www.sqlite.org/index.html[SQLite]
+and NoSQL solutions like link:https://www.elastic.co/[Elasticsearch] and link:https://redis.io/[Redis].
+
+* Analyzing, measuring and improving performance of existing SQL codebases
+* Backup planning and implementation
+* DR planning and implementation
+* Writing custom tools to analyze performance for a specific database
+* Monitoring
+* Support for production issues
+
+=== Custom Software development
+Designing, prototyping new software (in niche areas, sometimes involving
+non-mainstream technologies languages and frameworks), writing add-ons or plugins for existing
+software, customizing opensource software to fit requirements and solve
+business needs which in turn adds value to the client's existing or new products.
+
+=== Online data collection and scraping
+Providing services related to automatic online data collection, writing scalable web scrapers and web spiders.
+
+=== CI/CD (Continous integration and Continous delivery)
+Creation, maintenance and support of build pipelines in link:https://www.jenkins.io/[Jenkins]
+
+=== Code Reviews
+Manual code reviews as well as automatic code reviews using language-specific tools
+for the following languages: Perl, Python, Bash, C
+
+=== Packaging
+Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
+Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
+
+=== Data visualization
+
+Designing and preparing accurate data visualizations (charts, graphs, or other types of custom visualizations).
+
+=== Scripting/ETL
+Writing data processing pipelines in link:https://www.python.org/[Python], link:https://www.perl.org/[Perl], link:https://www.gnu.org/software/bash/[Bash]
+
+=== Documentation
+
+Writing technical and user documentation in the following markup languages:
+
+[options="compact"]
+* link:https://asciidoc.org/[AsciiDoc]
+* link:https://en.wikipedia.org/wiki/Markdown[Markdown]
+* link:https://www.latex-project.org/[LaTeX]
+* link:https://www.mediawiki.org/wiki/Markup_spec[Mediawiki]
+* link:https://orgmode.org/[Org]
+* link:https://www.office.com/[Microsoft Office]
+* link:https://www.libreoffice.org/[LibreOffice]
+
+== Opensource contributions
+
+Many companies are making use of link:https://en.wikipedia.org/wiki/Open-source_software[opensource software].
+*S.C. MAGNA SOFTWARE S.R.L* supports clients custom deployments and
+actively contributes to existing opensource software projects and modules,
+mainly database tools, mathematical software but also other areas:
+
+//[cols="20%,60%"]
+[width="70%"]
+[cols="20%,20%,20%,20%"]
+[options="header"]
+|===
+|type
+|technologies used
+|links
+|date
+
+|optimization
+|Python3
+|link:https://stackoverflow.com/a/65740442/827519[link]
+|2021-01-15
+
+|improved docs, tests
+|Python3
+|link:https://github.com/sympy/sympy/pull/20480[link] ; link:https://github.com/sympy/sympy/pull/20503[link]
+|2020-11-29
+
+|feature, improvement
+|Python3
+|link:https://github.com/scrapinghub/splash/pull/821[link]
+|2018-10-17
+
+|patch, feature
+|Elisp
+|link:https://github.com/dustinlacewell/org-olp/pull/1[link]
+|2018-04-19
+
+|patch, bugfix
+|Ruby
+|link:https://github.com/mislav/issuesync/pull/9[link]
+|2017-07-30
+
+|patch, feature
+|C
+|link:https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=868498[link]
+|2017-07-16
+
+|patch + improvement
+|Java
+|link:https://github.com/BaseXdb/basex/pull/1354[link]
+|2016-09-16
+
+|bugreport + reproducible test
+|Java
+|link:https://bugs.documentfoundation.org/show_bug.cgi?id=86131[link]
+|2014-11-10
+
+|patch,bugfix
+|C++
+|link:https://github.com/sleuthkit/sleuthkit/pull/329[link]
+|2014-05-06
+
+|patch,bugfix
+|Perl
+|link:https://github.com/ingydotnet/yaml-libyaml-pm/pull/2[link]
+|2014-03-12
+
+|patch,bugfix
+|Perl
+|link:https://github.com/GMOD/Bio-Graphics/pull/15[link]
+|2013-08-13
+
+|patch,bugfix
+|Perl
+|link:https://github.com/houseabsolute/test-class-moose/pull/15[link] ; link:https://rt.cpan.org/Ticket/Display.html?id=87801[link]
+|2013-08-12
+
+|patch,bugfix
+|Perl
+|link:https://github.com/gfx/p5-Sort-TimSort/pull/1[link]
+|2011-12-06
+
+|patch,improvement
+|Perl
+|link:https://github.com/ironcamel/App-p/pull/1[link]
+|2011-10-05
+
+|===
+
+
+== Opensource projects
+
+//[cols="20%,60%"]
+[width="70%"]
+[cols="30%,50%"]
+[options="header"]
+|===
+|project
+|description
+
+| link:https://github.com/wsdookadr/mysqltotsv[mysqltotsv]
+| Converts a MySQL dump to multiple TSV files, one for each table found
+
+| link:https://github.com/wsdookadr/sitemap-range-fetch[sitemap-range-fetch]
+| Uses sitemaps to fetch news article links from a certain time range
+
+| link:https://github.com/wsdookadr/fieldtop[fieldtop]
+| Finds near-overflow columns in MySQL databases
+
+| link:https://github.com/wsdookadr/parcel-cut[parcel-cut]
+| Module for land subdivision in geographic databases
+
+| link:https://github.com/wsdookadr/imagemagick-identify-parser[imagemagick-identify-parser]
+| Utility to extract image metadata and bring it to a format suitable for machine consumption
+
+|===
+
+
+
