@@ -26,7 +26,7 @@ link:https://en.wikipedia.org/wiki/Northern_Hemisphere[Northern Hemisphere]
 vs. link:https://en.wikipedia.org/wiki/Southern_Hemisphere[Southern Hemisphere].
 
 The bug itself would manifest in the totals row, for the percentages of views.
-Even though the total should have always been `100%`, it would be `100.41%`.
+Instead of having a grand total of `100%`, we had `100.41%`.
 
 It was definitely a case of link:https://en.wikipedia.org/wiki/Double_counting_(fallacy)[double-counting] but
 nobody knew exactly where it was coming from.
@@ -93,6 +93,10 @@ of each such table.
 
 When I was working as a DBA at a telecom company we had some spikes in
 the traffic of WAL logs in a PostgreSQL database that was replicated.
+This was caused by some queries which would generate a lot of WAL, and
+as a result there was more of it being transferred, it took longer for the
+replica to apply all the WAL and catch up with the master, and that was
+also causing a replication lag.
 
 It turned out that I could actually use
 link:https://www.postgresql.org/docs/11/pgwaldump.html[`pg_waldump`] to get
