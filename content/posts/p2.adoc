@@ -70,10 +70,9 @@ and in turn queries were accessing data from tables.
 
 The problem emerged after an upgrade of the visualization software involved.
 Contacting the support team of the vendor resulted in an answer like: _"Just upgrade to the next version"_
-(even when presented with an analysis of the problem).
+(even when presented with an analysis of the problem). I realized this wouldn't lead to a solution.
 
-I realized this wouldn't lead to a solution, wrote code to dig into
-the metadata storage of the visualization software, reverse-engineered
+So I wrote code to dig into the metadata storage of the visualization software, reverse-engineered
 the undocumented structure of the metadata, copied the data over to an
 link:https://sqlite.org/index.html[SQLite] database (which I basically
 used as a link:https://en.wikipedia.org/wiki/Graph_database[graph database] with nodes and edges) and came up with a
@@ -83,6 +82,9 @@ allowed me to then find the nodes that were pointed to by
 link:https://en.wikipedia.org/wiki/Dangling_pointer[broken links] in the
 dependency relations, and either re-create or update the objects in the
 current version of the reports in order for them to work properly.
+
+At this point, visibility was increased, the entire hierarchy of
+dependencies was clear.
 
 Having done all of this made it easy to solve the next
 task, which was to identify unused tables, by computing the
