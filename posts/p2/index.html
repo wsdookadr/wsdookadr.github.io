@@ -1,0 +1,67 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Non-standard solutions to some technical problems &#183; Blog</title><link rel=prev href=/posts/p1/><meta name=description content="Intro When I’m interviewing for contracts or for jobs, many times I get asked what are the hardest problems I’ve had to deal with. I’ll write below some of these problems as I remember them now.
+   Double-counting Some years ago, I was a consultant for a job in an analytics team. I was tasked with finding a bug in code that was counting the views of a top-10 Alexa website with hundreds of millions of views every month."><meta name=keywords content="databases,logs,monitoring,analytics,postgresql,interviews"><meta property="og:title" content="Non-standard solutions to some technical problems"><meta property="og:description" content="Intro When I’m interviewing for contracts or for jobs, many times I get asked what are the hardest problems I’ve had to deal with. I’ll write below some of these problems as I remember them now.
+   Double-counting Some years ago, I was a consultant for a job in an analytics team. I was tasked with finding a bug in code that was counting the views of a top-10 Alexa website with hundreds of millions of views every month."><meta property="article:published_time" content="2021-02-20T00:00:00+00:00"><meta property="article:modified_time" content="2021-02-20T00:00:00+00:00"><meta property="og:site_name" content="Blog"><meta property="article:section" content="posts"><meta property="article:tag" content="databases"><meta property="article:tag" content="logs"><meta property="article:tag" content="monitoring"><meta property="article:tag" content="analytics"><meta property="article:tag" content="postgresql"><meta property="article:tag" content="interviews"><meta name=twitter:card content="summary"><meta name=twitter:title content="Non-standard solutions to some technical problems"><meta name=twitter:description content="Intro When I’m interviewing for contracts or for jobs, many times I get asked what are the hardest problems I’ve had to deal with. I’ll write below some of these problems as I remember them now. …"><meta name=generator content="Hugo 0.79.1"><link rel=stylesheet href=/css/site.min.72989e8586a2239ea67ac4abbdb14c93dda32429d05c83e1eb621be0d97d1924.css integrity="sha256-cpiehYaiI56mesSrvbFMk92jJCnQXIPh62Ib4Nl9GSQ="></head><body class=article><header class=header><nav class=navbar><div class=navbar-brand><a class=navbar-item href=/>Blog</a>
+<button class=navbar-burger data-target=topbar-nav>
+<span></span><span></span><span></span></button></div><div id=topbar-nav class=navbar-menu><div class=navbar-end><a class=navbar-item href=/services/ title=Services>Services</a></div></div></nav></header><div class=body><div class=nav-container><aside class=nav><div class=panels><div class="nav-panel-menu is-active" data-panel=menu><nav class=nav-menu><h3 class=title><a href=/>Blog</a></h3><ul class=nav-list><li class=nav-item data-depth=0><button class=nav-item-toggle></button>
+<a class=nav-link href=/posts/>Posts</a><ul class=nav-list><li class="nav-item is-current-page" data-depth=1><a class=nav-link href=/posts/p2/>Non-standard solutions to some technical problems</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p1/>Setting up the new blog</a></li></ul></li><li class=nav-item data-depth=0><a class=nav-link href=/services/>Services</a></li></ul></nav></div><div class=nav-panel-explore data-panel=explore style=display:none><div class=context><span class=title></span><span class=version></span></div></div></div></aside></div><main class=article><div class=toolbar role=navigation><button class=nav-toggle></button>
+<a href=/ class=home-link></a><nav class=breadcrumbs aria-label=breadcrumbs><ul><li><a href=/>Blog</a></li><li><a href=/posts/>Posts</a></li><li>Non-standard solutions to some technical problems</li></ul></nav></div><div class=content><article class=doc><h1 class=page>Non-standard solutions to some technical problems</h1><div class="openblock is-before-toc"><div class=title>Posted on February 20, 2021
+&#183; Tagged with
+<a href=/tags/databases/>databases</a>, <a href=/tags/logs/>logs</a>, <a href=/tags/monitoring/>monitoring</a>, <a href=/tags/analytics/>analytics</a>, <a href=/tags/postgresql/>postgresql</a>, <a href=/tags/interviews/>interviews</a></div></div><div class=sect1><h2 id=_intro>Intro</h2><div class=sectionbody><div class=paragraph><p>When I’m interviewing for contracts or for jobs, many times I get asked
+what are the hardest problems I’ve had to deal with. I’ll write below
+some of these problems as I remember them now.</p></div></div></div><div class=sect1><h2 id=_double_counting>Double-counting</h2><div class=sectionbody><div class=paragraph><p>Some years ago, I was a consultant for a job in an analytics team. I
+was tasked with finding a bug in code that was counting the views of a
+top-10 Alexa website with hundreds of millions of views every month.</p></div><div class=paragraph><p>The code was counting the number of views coming from different
+areas around the world. In order to summarize this vast amount
+of data, and bucket it into geographical regions, it would have
+to classify each city in the world to a certain region, and
+there were two main regions that we were interested in:
+<a href=https://en.wikipedia.org/wiki/Northern_Hemisphere>Northern Hemisphere</a>
+vs. <a href=https://en.wikipedia.org/wiki/Southern_Hemisphere>Southern Hemisphere</a>.</p></div><div class=paragraph><p>The bug itself would manifest in the totals row, for the percentages of views.
+Even though the total should have always been <code>100%</code>, it would be <code>100.41%</code>.</p></div><div class=paragraph><p>It was definitely a case of <a href=https://en.wikipedia.org/wiki/Double_counting_(fallacy)>double-counting</a> but
+nobody knew exactly where it was coming from.</p></div><div class=paragraph><p>The codebase was a fairly large 40k lines of code Perl written in a very
+arcane pre-Perl5 codingstyle. Tests were absent and there was pushback
+in trying to introduce them. Checking all arithmetic operations would
+have taken way too much time and effort.</p></div><div class=paragraph><p>Making changes to the code and re-running it on full or partial data
+was prohibitive because there were hundreds of gigabytes of data
+to analyze.</p></div><div class=paragraph><p>After many days of looking at the code, and trying to understand where
+the problem was coming from, I realized that the only chance I had was to try
+to craft the simplest test possible.</p></div><div class=paragraph><p>Eventually I managed to craft that test: I wrote a program that would run the
+Perl code with a one-line log file, each time with a different city on the planet.
+Right after the Perl code was run, my program would check the reports generated
+to see if the percentages were correct.</p></div><div class=paragraph><p>For a few islands in the Atlantic Ocean, it turned out that the
+percentages were wrong. Looking further I realized that this was
+because the cities on those islands were mapped to both the Northern and the Southern hemispheres
+(on this occasion I learned that there were <a href=https://en.wikipedia.org/wiki/Comma-separated_values>CSV</a> data
+files that described this <code>City→Hemisphere</code> mapping). Then checking
+the world map, it turned out some of those islands really were near
+the equator.</p></div></div></div><div class=sect1><h2 id=_dashboard_dependencies>Dashboard dependencies</h2><div class=sectionbody><div class=paragraph><p>When I was working a devops position in a company, I was handed a problem about
+dashboards being broken and reports in them not showing up anymore.</p></div><div class=paragraph><p>The way these were structured was this: <code>Dashboards -→ Reports -→ Queries -→ Tables</code></p></div><div class=paragraph><p>So a dashboard had multiple reports, and reports were using queries,
+and in turn queries were accessing data from tables.</p></div><div class=paragraph><p>The problem emerged after an upgrade of the visualization software involved.
+Contacting the support team of the vendor resulted in an answer like: <em>"Just upgrade to the next version"</em>
+(even when presented with an analysis of the problem).</p></div><div class=paragraph><p>I realized this wouldn’t lead to a solution, wrote code to dig into
+the metadata storage of the visualization software, reverse-engineered
+the undocumented structure of the metadata, copied the data over to an
+<a href=https://sqlite.org/index.html>SQLite</a> database (which I basically
+used as a <a href=https://en.wikipedia.org/wiki/Graph_database>graph database</a> with nodes and edges) and came up with a
+<a href=https://graphviz.org/>GraphViz</a>-based program that
+was able to track object dependencies across upgrades. This
+allowed me to then find the nodes that were pointed to by
+<a href=https://en.wikipedia.org/wiki/Dangling_pointer>broken links</a> in the
+dependency relations, and either re-create or update the objects in the
+current version of the reports in order for them to work properly.</p></div><div class=paragraph><p>Having done all of this made it easy to solve the next
+task, which was to identify unused tables, by computing the
+<a href=https://en.wikipedia.org/wiki/Degree_(graph_theory)>in-degree</a>
+of each such table.</p></div></div></div><div class=sect1><h2 id=_identifying_wal_size_generated_by_queries>Identifying WAL size generated by queries</h2><div class=sectionbody><div class=paragraph><p>When I was working as a DBA at a company we had some spikes in the
+traffic of WAL logs in a PostgreSQL database that was replicated.</p></div><div class=paragraph><p>It turned out that I could actually use
+<a href=https://www.postgresql.org/docs/11/pgwaldump.html><code>pg_waldump</code></a> to get
+the transaction ids in each WAL file. In addition, I realized that if I
+monitored the queries that were running on the database servers using the
+<a href=https://www.postgresql.org/docs/11/monitoring-stats.html><code>pg_stat_activity</code></a>
+catalog I could get the queries and their transaction ids. By joining
+these two pieces of information, I was able to find out how much WAL
+each query had generated, and then pick the outliers and report them
+back to the teams that had written them, in order to be refactored.</p></div></div></div><div class=sect1><h2 id=_conclusion>Conclusion</h2><div class=sectionbody><div class=paragraph><p>Sometimes seemingly hard bugs can be solved by crafting the right test. Sometimes they require
+crafting tools that increase observability and visibility into the ways systems work.</p></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>If you liked this article and would like to discuss more about how MAGNA SOFTWARE S.R.L
+can help your business regarding <a href=https://wsdookadr.github.io/services/>production issues</a>, feel
+free to <a href=https://calendly.com/stefan-petrea/30min>book a 30-minute call</a> with me so we can get
+to know eachother and discuss a future collaboration.</td></tr></tbody></table></div></div></div><nav class=pagination><span class=prev><a href=/posts/p1/>Setting up the new blog</a></span></nav></article><aside class="toc sidebar" data-title data-levels=2><div class=toc-menu></div></aside></div></main></div><footer class=footer><p>This page was built with <a href=https://gohugo.io/>Hugo 0.79.1</a> using the <a href=https://github.com/basil/antora-default-ui-hugo-theme>Hugo port</a> of the <a href=https://gitlab.com/antora/antora-ui-default>Antora default UI</a>. The source code for this UI is licensed under the terms of the <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License, Version 2.0</a> (MPL-2.0).</p></footer><div id=copy-to-clipboard style=display:none data-svg=/img/octicons-16.svg></div><script src=/js/site.min.da461a26436bc4ba84975879f2d7f90a593245b694bbea075400ef251e78b2e0.js integrity="sha256-2kYaJkNrxLqEl1h58tf5ClkyRbaUu+oHVADvJR54suA="></script><script src=/js/vendor/highlight.pack.79c21a0aa45cc5756c18c07f0cf37be9ad1e1b728f6f0e6b210c3913cfef592f.js integrity="sha256-ecIaCqRcxXVsGMB/DPN76a0eG3KPbw5rIQw5E8/vWS8="></script><script>;[].slice.call(document.querySelectorAll('pre code.hljs')).forEach(function(node){hljs.highlightBlock(node)})</script></body></html>
