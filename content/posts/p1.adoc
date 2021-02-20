@@ -2,7 +2,7 @@
 title = "Setting up the new blog"
 date = "2021-02-18"
 markup = "asciidoc"
-categories = ["blogging"]
+tags = ["blogging"]
 +++
 
 Having used Jekyll before to write a blog, I saw link:https://pages.github.com/[Github Pages] is quite mainstream

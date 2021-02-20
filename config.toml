@@ -21,3 +21,7 @@ paginate = 3
   [markup.highlight]
     # Disable Goldmark Chroma syntax highlighter
     codeFences = false
+
+[taxonomies]
+    tag = "tags"
+    category = "categories"
