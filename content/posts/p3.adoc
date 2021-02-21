@@ -26,7 +26,7 @@ to the smaller tree, element-by-element and this is +++$O(m\cdot n)$+++.
 
 It's possible to write a different solution using
 link:https://en.wikipedia.org/wiki/Merkle_tree[Merkle trees] that has
-+++$O(m+n)$+++ link:https://en.wikipedia.org/wiki/Time_complexity[time complexity].
++++$O(m+n)$+++ link:https://en.wikipedia.org/wiki/Time_complexity[time complexity] (if we consider +++$O(1)$+++ the time to compute one hash).
 
 The Merkle trees can be computed
 link:https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design[bottom-up]
@@ -35,8 +35,9 @@ only requires checking if a hash is present in a list.
 
 [NOTE]
 This will pass all the tests, but if we want to avoid false positives
-completely, once a hash match is found we need to do a tree-equality check
-too (just like we would do if an element is present in a Bloom filter).
+completely, once a hash match is found we need to do one tree-equality check.
+Merkle trees can generate link:https://stackoverflow.com/a/14197504/827519[false positives] 
+because link:https://en.wikipedia.org/wiki/Collision_(computer_science)[hash collisions] are possible.
 
 [source%linenums,python]
 ----
