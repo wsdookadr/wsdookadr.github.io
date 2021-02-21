@@ -2,14 +2,66 @@
 title = "Setting up the new blog"
 date = "2021-02-18"
 markup = "asciidoc"
-tags = ["blogging"]
+tags = ["blogs","blogging","setup"]
 +++
 
-Having used Jekyll before to write a blog, I saw link:https://pages.github.com/[Github Pages] is quite mainstream
+== Previous setup
+
+Previously I was writing a blog using the following: link:https://www.gnu.org/software/emacs/[Emacs] + link:https://orgmode.org/[Org-Mode] + link:https://jekyllrb.com/[Jekyll].
+Here is a short assessment of that setup:
+
+The pros:
+
+* Emacs tries to pack as much functionality as possible without the need for external dependencies
+* Org-Mode allows you to have runnable code blocks and include the results of said code blocks
+inside the rendered version of the documents. The link:https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.226.2202[active document concept] is
+really nice (but nowadays that's also achievable with link:https://jupyter.org/[Jupyter])
+
+The cons:
+
+* Org-Mode has a very complex setup for publishing articles that requires too much configuration
+* The org-mode caching mechanisms are rather complex and require a lot of configuration to get right
+* Jekyll is quite slow for rendering pages from markup
+* Emacs as an editor can get quite heavy and slow after adding different modes to it
+
+All the configuration problems that Emacs and Org-Mode generate really take up a lot of time.
+They can definitely be solved but they take up time.
+
+Reading some more I came across these two quotes:
+
+[quote, The Unix Philosophy]
+link:https://en.wikipedia.org/wiki/Unix_philosophy#Doug_McIlroy_on_Unix_programming[This is the Unix philosophy: Write programs that do one thing and do it well.]
+
+[quote, The Suckless minimalist Philosophy]
+Our philosophy is about keeping things simple, minimal and usable. We
+believe this should become the mainstream philosophy in the IT
+sector. Unfortunately, the tendency for complex, error-prone and slow
+software seems to be prevalent in the present-day software industry.
+`[..]`
+Ingenious ideas are simple. Ingenious software is simple. Simplicity is
+the heart of the Unix philosophy. The more code lines you have removed,
+the more progress you have made.
+link:https://suckless.org/philosophy/[https://suckless.org/philosophy/]
+
+If we're looking at Emacs or Org-Mode, they don't seem to follow any of
+those principles and are really at the opposite pole. They're monolithic
+pieces of software that are trying to do a lot.
+
+== New setup
+
+I recently noticed that link:https://pages.github.com/[Github Pages] is quite mainstream
 nowadays, so I thought of giving it a try.
 
 Together with link:https://github.com/marketplace/actions/deploy-to-github-pages[Github Deploy Actions] it actually automates
 a lot of the workflow nicely and I'm actually able to just write markup in link:https://asciidoc.org/userguide.html[asciidoc]
 and push to the blog repo and have it be compiled and see the changes soon after.
 
+What I'm noticing is Asciidoc as a markup format requires much less customizations.
+The documentation for it is very clear too.
 
+[NOTE]
+If you liked this article and would like
+S.C. MAGNA SOFTWARE S.R.L to help you with setting up a blog for your company or link:https://wsdookadr.github.io/services/[other services], feel free to
+link:https://calendly.com/stefan-petrea/30min[book a 30-minute call] with me so we can get to know each other and discuss
+a future collaboration.
+ 
