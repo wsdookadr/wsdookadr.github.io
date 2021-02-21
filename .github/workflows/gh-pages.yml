@@ -25,7 +25,9 @@ jobs:
         with:
           ruby-version: 2.5.5
 
-      - run: gem install asciidoctor
+      - run: |
+          gem install pygments.rb -v 2.1.0
+          gem install asciidoctor -v 2.0.12
 
       - name: Build
         run: |

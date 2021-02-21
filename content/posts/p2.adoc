@@ -32,13 +32,15 @@ It was definitely a case of link:https://en.wikipedia.org/wiki/Double_counting_(
 nobody knew exactly where it was coming from.
 
 The codebase was a fairly large 40k lines of code Perl written in a very
-arcane pre-Perl5 codingstyle. Tests were absent and there was pushback
-in trying to introduce them. Checking all arithmetic operations would
-have taken way too much time and effort.
+arcane pre-Perl5 codingstyle. Tests were absent, and rewriting the code
+to be object-oriented in order to be able to tests different parts of
+the code in isolation was not an option given the size of the codebase.
+Checking all the code, and the arithmetic operations would have taken way too much time
+and effort.
 
 Making changes to the code and re-running it on full or partial data
-was prohibitive because there were hundreds of gigabytes of data
-to analyze.
+was also prohibitive because there were hundreds of gigabytes of data
+to analyze in the full dataset.
 
 After many days of looking at the code, and trying to understand where
 the problem was coming from, I realized that the only chance I had was to try
@@ -49,13 +51,19 @@ Perl code with a one-line log file, each time with a different city on the plane
 Right after the Perl code was run, my program would check the reports generated
 to see if the percentages were correct.
 
-For a few islands in the Atlantic Ocean, it turned out that the
-percentages were wrong.  Looking further I realized that this was
-because the cities on those islands were mapped to both the Northern and the Southern hemispheres
-(on this occasion I learned that there were link:https://en.wikipedia.org/wiki/Comma-separated_values[CSV] data
-files that described this `City->Hemisphere` mapping). Then checking
-the world map, it turned out some of those islands really were near
-the equator.
+The data is split up by a CSV mapping(a `City->Hemisphere` mapping). The
+planet was split into Northern/Southern hemispheres, which have cities
+allocated to them and some cities were placed in both the northern and
+southern CSV categories, resulting in counting the same numbers twice.
+
+Running the code with one-line log lines, with just 1 city at a time,
+revealed that for some cities (on some islands in the Atlantic Ocean)
+the totals were exceeding 100%, then grepping for the codebase for
+those cities also revealed the presence of the CSV files in question,
+and that those cities were marked as being in both the Northern and the
+Southern hemisphere CSV files.
+
+This was a case where the bug was located in the data, and not the code itself.
 
 == Dashboard dependencies
 
@@ -68,9 +76,18 @@ The way these were structured was this: `Dashboards --> Reports --> Queries --> 
 So a dashboard had multiple reports, and reports were using queries,
 and in turn queries were accessing data from tables.
 
-The problem emerged after an upgrade of the visualization software involved.
-Contacting the support team of the vendor resulted in an answer like: _"Just upgrade to the next version"_
-(even when presented with an analysis of the problem). I realized this wouldn't lead to a solution.
+The problem emerged after an upgrade of the visualization software
+involved. Contacting the support team of the vendor resulted in an
+answer like: _"Just upgrade to the next version"_ (even when presented
+with an analysis of the problem).  There's only two problems with that:
+
+* upgrading a system that has active users requires planning, approval, and sometimes
+having a replica to do the upgrade on in order not to affect production and users if
+something goes wrong during the upgrade
+* upgrading was exactly what broke the reports in the first place. so upgrading that
+system again could have caused even more reports being broken
+
+I realized upgrading wouldn't lead to a solution.
 
 So I wrote code to dig into the metadata storage of the visualization software, reverse-engineered
 the undocumented structure of the metadata, copied the data over to an

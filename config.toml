@@ -15,9 +15,11 @@ paginate = 3
 
 [markup]
   [markup.asciidocext]
+  backend = "html5"
     [markup.asciidocext.attributes]
       "icons" = "font"
-      "source-highlighter" = "highlightjs"
+      "source-highlighter" = "pygments"
+      stem = "asciimath"
   [markup.highlight]
     # Disable Goldmark Chroma syntax highlighter
     codeFences = false
