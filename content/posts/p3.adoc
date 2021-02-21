@@ -1,0 +1,52 @@
++++
+title = "Fast sub-tree containment checks"
+date = "2021-02-21"
+markup = "asciidoc"
+tags = ["algorithms","data-structures"]
++++
+
+:pygments-css: style
+
+++++
+<div></div>
+++++
+
+++++
+include::layouts/partials/mathjax.html[]
+++++
+
+
+There's a problem on leetcode called link:https://leetcode.com/problems/subtree-of-another-tree/["Subtree of Another tree"].
+It requires to check whether one binary tree is a subtree of another binary tree.
+
+There are two official solutions presented, one involving a link:https://en.wikipedia.org/wiki/Tree_traversal#Pre-order[pre-order traversal] which is 
++++$O(m^2 + n^2+m\cdot n)$+++ and another one
+that checks does a traversal for every subtree of the bigger tree, and checks if it's equal
+to the smaller tree, element-by-element and this is +++$O(m\cdot n)$+++.
+
+It's possible to write a different solution using
+link:https://en.wikipedia.org/wiki/Merkle_tree[Merkle trees] that has
++++$O(m+n)$+++ link:https://en.wikipedia.org/wiki/Time_complexity[time complexity].
+
+The Merkle trees can be computed
+link:https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design[bottom-up]
+and the hashes for each node can be stored. Then the containment check
+only requires checking if a hash is present in a list.
+
+[NOTE]
+This will pass all the tests, but if we want to avoid false positives
+completely, once a hash match is found we need to do a tree-equality check
+too (just like we would do if an element is present in a Bloom filter).
+
+[source%linenums,python]
+----
+include::content/posts/p3-code1.py[indent=1]
+----
+
+[NOTE]
+If you liked this article and would like to discuss more about how
+S.C. MAGNA SOFTWARE S.R.L can help you optimize and fine-tune slow
+code and solve link:https://wsdookadr.github.io/services/[production issues], feel free to
+link:https://calendly.com/stefan-petrea/30min[book a 30-minute call] with me so we can get to know each other and discuss
+a future collaboration.
+ 
