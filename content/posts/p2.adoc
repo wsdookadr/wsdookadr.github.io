@@ -13,9 +13,9 @@ some of these problems as I remember them now.
 
 == Double-counting
 
-Some years ago, I was a consultant for a job in an analytics team. I
-was tasked with finding a bug in code that was counting the views of a
+Some years ago, I was working as a consultant in the analytics team of a
 top-10 Alexa website with hundreds of millions of views every month.
+I was tasked with finding a bug in the code that was counting page views.
 
 The code was counting the number of views coming from different
 areas around the world. In order to summarize this vast amount
@@ -74,14 +74,16 @@ showing up anymore.
 The way these were structured was this: `Dashboards --> Reports --> Queries --> Tables`
 
 So a dashboard had multiple reports, and reports were using queries,
-and in turn queries were accessing data from tables.
+and in turn queries were accessing data from tables (all these relations
+we'll call _references_ or _links_ later on).
 
 The problem emerged after an upgrade of the visualization software
-involved. Contacting the support team of the vendor resulted in an
-answer like: _"Just upgrade to the next version"_ (even when presented
-with an analysis of the problem).  There's only two problems with that:
+involved (this upgrade was done 10 months before I had joined the
+company). Contacting the vendor support team resulted in an answer
+like: _"Just upgrade to the next version"_ (even when presented with a
+full analysis of the problem). There were only two problems with that:
 
-* upgrading a system that has active users requires planning, approval, and sometimes
+* upgrading a running system with active users requires planning, approval, and sometimes
 having a replica to do the upgrade on in order not to affect production and users if
 something goes wrong during the upgrade
 * upgrading was exactly what broke the reports in the first place. so upgrading that
@@ -98,7 +100,8 @@ was able to track object dependencies across upgrades. This
 allowed me to then find the nodes that were pointed to by
 link:https://en.wikipedia.org/wiki/Dangling_pointer[broken links] in the
 dependency relations, and either re-create or update the objects in the
-current version of the reports in order for them to work properly.
+current version of the reports in order for them to work properly (the changes
+performed were such that all references would point to valid objects).
 
 At this point, visibility was increased, the entire hierarchy of
 dependencies was clear.
