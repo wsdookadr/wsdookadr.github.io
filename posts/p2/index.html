@@ -19,27 +19,35 @@ there were two main regions that we were interested in:
 vs. <a href=https://en.wikipedia.org/wiki/Southern_Hemisphere>Southern Hemisphere</a>.</p></div><div class=paragraph><p>The bug itself would manifest in the totals row, for the percentages of views.
 Instead of having a grand total of <code>100%</code>, we had <code>100.41%</code>.</p></div><div class=paragraph><p>It was definitely a case of <a href=https://en.wikipedia.org/wiki/Double_counting_(fallacy)>double-counting</a> but
 nobody knew exactly where it was coming from.</p></div><div class=paragraph><p>The codebase was a fairly large 40k lines of code Perl written in a very
-arcane pre-Perl5 codingstyle. Tests were absent and there was pushback
-in trying to introduce them. Checking all arithmetic operations would
-have taken way too much time and effort.</p></div><div class=paragraph><p>Making changes to the code and re-running it on full or partial data
-was prohibitive because there were hundreds of gigabytes of data
-to analyze.</p></div><div class=paragraph><p>After many days of looking at the code, and trying to understand where
+arcane pre-Perl5 codingstyle. Tests were absent, and rewriting the code
+to be object-oriented in order to be able to tests different parts of
+the code in isolation was not an option given the size of the codebase.
+Checking all the code, and the arithmetic operations would have taken way too much time
+and effort.</p></div><div class=paragraph><p>Making changes to the code and re-running it on full or partial data
+was also prohibitive because there were hundreds of gigabytes of data
+to analyze in the full dataset.</p></div><div class=paragraph><p>After many days of looking at the code, and trying to understand where
 the problem was coming from, I realized that the only chance I had was to try
 to craft the simplest test possible.</p></div><div class=paragraph><p>Eventually I managed to craft that test: I wrote a program that would run the
 Perl code with a one-line log file, each time with a different city on the planet.
 Right after the Perl code was run, my program would check the reports generated
-to see if the percentages were correct.</p></div><div class=paragraph><p>For a few islands in the Atlantic Ocean, it turned out that the
-percentages were wrong. Looking further I realized that this was
-because the cities on those islands were mapped to both the Northern and the Southern hemispheres
-(on this occasion I learned that there were <a href=https://en.wikipedia.org/wiki/Comma-separated_values>CSV</a> data
-files that described this <code>City→Hemisphere</code> mapping). Then checking
-the world map, it turned out some of those islands really were near
-the equator.</p></div></div></div><div class=sect1><h2 id=_dashboard_dependencies>Dashboard dependencies</h2><div class=sectionbody><div class=paragraph><p>When I was working a devops position in an online gaming company, I was
+to see if the percentages were correct.</p></div><div class=paragraph><p>The data is split up by a CSV mapping(a <code>City→Hemisphere</code> mapping). The
+planet was split into Northern/Southern hemispheres, which have cities
+allocated to them and some cities were placed in both the northern and
+southern CSV categories, resulting in counting the same numbers twice.</p></div><div class=paragraph><p>Running the code with one-line log lines, with just 1 city at a time,
+revealed that for some cities (on some islands in the Atlantic Ocean)
+the totals were exceeding 100%, then grepping for the codebase for
+those cities also revealed the presence of the CSV files in question,
+and that those cities were marked as being in both the Northern and the
+Southern hemisphere CSV files.</p></div><div class=paragraph><p>This was a case where the bug was located in the data, and not the code itself.</p></div></div></div><div class=sect1><h2 id=_dashboard_dependencies>Dashboard dependencies</h2><div class=sectionbody><div class=paragraph><p>When I was working a devops position in an online gaming company, I was
 handed a problem about dashboards being broken and reports in them not
 showing up anymore.</p></div><div class=paragraph><p>The way these were structured was this: <code>Dashboards -→ Reports -→ Queries -→ Tables</code></p></div><div class=paragraph><p>So a dashboard had multiple reports, and reports were using queries,
-and in turn queries were accessing data from tables.</p></div><div class=paragraph><p>The problem emerged after an upgrade of the visualization software involved.
-Contacting the support team of the vendor resulted in an answer like: <em>"Just upgrade to the next version"</em>
-(even when presented with an analysis of the problem). I realized this wouldn’t lead to a solution.</p></div><div class=paragraph><p>So I wrote code to dig into the metadata storage of the visualization software, reverse-engineered
+and in turn queries were accessing data from tables.</p></div><div class=paragraph><p>The problem emerged after an upgrade of the visualization software
+involved. Contacting the support team of the vendor resulted in an
+answer like: <em>"Just upgrade to the next version"</em> (even when presented
+with an analysis of the problem). There’s only two problems with that:</p></div><div class=ulist><ul><li><p>upgrading a system that has active users requires planning, approval, and sometimes
+having a replica to do the upgrade on in order not to affect production and users if
+something goes wrong during the upgrade</p></li><li><p>upgrading was exactly what broke the reports in the first place. so upgrading that
+system again could have caused even more reports being broken</p></li></ul></div><div class=paragraph><p>I realized upgrading wouldn’t lead to a solution.</p></div><div class=paragraph><p>So I wrote code to dig into the metadata storage of the visualization software, reverse-engineered
 the undocumented structure of the metadata, copied the data over to an
 <a href=https://sqlite.org/index.html>SQLite</a> database (which I basically
 used as a <a href=https://en.wikipedia.org/wiki/Graph_database>graph database</a> with nodes and edges) and came up with a
