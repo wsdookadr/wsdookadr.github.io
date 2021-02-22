@@ -1,0 +1,21 @@
++++
+title = "Supported Technologies"
+menu = "main"
+markup = "asciidoc"
++++
+
+[NOTE]
+Check the link:https://wsdookadr.github.io/services/[Services page] for a list of services provided for these technologies
+
+* *Web servers*: link:https://www.nginx.com/[Nginx], link:https://httpd.apache.org/[Apache2], link:http://www.haproxy.org/[HAProxy]
+* *Web frameworks*: link:https://www.djangoproject.com/[Django], link:https://mojolicious.org/[Mojolicious]
+* *Operating Systems*: link:https://releases.ubuntu.com/[Ubuntu LTS], link:https://www.debian.org/[Debian], link:https://www.redhat.com/en[Redhat], Windows
+* *Programming Languages*: link:https://www.python.org/[Python], link:https://www.perl.org/[Perl5], link:https://www.gnu.org/software/bash/[Bash], link:https://www.java.com/en/[Java], link:https://en.wikipedia.org/wiki/XQuery[XQuery], SQL (multiple dialects, including link:https://www.postgresql.org/docs/11/plpgsql.html[plpgsql])
+* *Monitoring*: link:https://www.nagios.org/[Nagios], link:https://icinga.com/[Icinga], link:https://prometheus.io/[Prometheus], link:https://grafana.com/[Grafana]
+* *Databases*: link:https://www.postgresql.org/[PostgreSQL], link:https://www.mysql.com/[MySQL], link:https://www.sqlite.org/index.html[SQLite], link:https://redis.io/[Redis], link:https://basex.org/[BaseX]
+* *Cloud provisioning*: link:https://www.ansible.com/[Ansible], link:https://www.terraform.io/[Terraform]
+* *Cloud providers*: AWS, Azure, DigitalOcean
+* *Other* : link:https://postgis.net/[PostGIS], link:https://www.openscad.org/[OpenSCAD], link:https://ffmpeg.org/[FFmpeg], link:https://imagemagick.org/index.php[ImageMagick], link:https://www.latex-project.org/[LaTeX], link:https://www.gnu.org/software/make/[GNU Make]
+
+
+
