@@ -7,5 +7,5 @@ For more details, see the details below.</description></item><item><title>Suppor
 Web frameworks: Django, Mojolicious
 Operating Systems: Ubuntu LTS, Debian, Redhat, Windows
 Programming Languages: Python, Perl5, Bash, Java, XQuery, SQL (multiple dialects, including plpgsql)
-Monitoring: Nagios, Icinga, Prometheus, Grafana
+Monitoring: Nagios, Icinga, Prometheus, Grafana, Elasticsearch, Kibana
 Databases: PostgreSQL, MySQL, SQLite, Redis, BaseX</description></item></channel></rss>
