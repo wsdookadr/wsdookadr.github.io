@@ -75,6 +75,7 @@ Support for opensource software in the following situations:
 * outstanding/open bugs which you need fixed
 * opensource software that is insufficiently documented
 * fixing build pipelines of opensource software
+* reviewing existing opensource tools for a specific purpose and crafting a survey document of the tools available and their capabilities 
 * other types of software maintenance related to opensource
 
 === Online data collection and scraping
