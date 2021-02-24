@@ -69,6 +69,9 @@ non-mainstream technologies languages and frameworks), writing add-ons or plugin
 software, customizing opensource software to fit requirements and solve
 business needs which in turn adds value to the client's existing or new products.
 
+=== Support for opensource software
+Offering support for opensource packages that have bugs,are insufficiently documented or requires maintenance.
+
 === Online data collection and scraping
 Providing services related to automatic online data collection, writing scalable web scrapers and web spiders
 (using link:https://github.com/scrapy/scrapy/[Scrapy], link:https://github.com/scrapinghub/splash/[Splash] or custom solutions)
