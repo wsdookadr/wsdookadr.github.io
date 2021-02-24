@@ -26,6 +26,9 @@ send an e-mail.
 | *Company name*
 | *S.C. MAGNA SOFTWARE S.R.L*
 
+| Email: 
+| mailto:stefan@garage-coding.com[stefan@garage-coding.com]
+
 | Phone:
 | +40732070179 
 
@@ -34,9 +37,6 @@ send an e-mail.
 
 | Stackoverflow:
 | link:https://stackoverflow.com/users/827519/wsdookadr[link] 
-
-| Email: 
-| mailto:stefan@garage-coding.com[stefan@garage-coding.com]
 
 | Company registration number:
 | J40/4134/18.03.2016 
