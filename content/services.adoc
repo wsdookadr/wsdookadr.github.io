@@ -105,16 +105,11 @@ Writing data processing pipelines in link:https://www.python.org/[Python], link:
 
 === Documentation
 
-Writing technical and user documentation in the following markup languages:
+Technical writing services for the following types of documents:
 
-[options="compact"]
-* link:https://asciidoc.org/[AsciiDoc]
-* link:https://en.wikipedia.org/wiki/Markdown[Markdown]
-* link:https://www.latex-project.org/[LaTeX]
-* link:https://www.mediawiki.org/wiki/Markup_spec[Mediawiki]
-* link:https://orgmode.org/[Org]
-* link:https://www.office.com/[Microsoft Office]
-* link:https://www.libreoffice.org/[LibreOffice]
+* software specifications
+* user documentation
+* software architecture diagrams
 
 == Opensource contributions
 
