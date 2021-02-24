@@ -70,7 +70,11 @@ software, customizing opensource software to fit requirements and solve
 business needs which in turn adds value to the client's existing or new products.
 
 === Support for opensource software
-Offering support for opensource packages that have bugs,are insufficiently documented or requires maintenance.
+Support for the following situations:
+
+* opensource packages that have bugs which you need fixed
+* opensource packages that are insufficiently documented
+* other types of require maintenance
 
 === Online data collection and scraping
 Providing services related to automatic online data collection, writing scalable web scrapers and web spiders
