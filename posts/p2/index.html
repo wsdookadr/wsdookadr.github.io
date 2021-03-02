@@ -36,10 +36,11 @@ planet was split into Northern/Southern hemispheres, which have cities
 allocated to them and some cities were placed in both the northern and
 southern CSV categories, resulting in counting the same numbers twice.</p></div><div class=paragraph><p>Running the code with one-line log lines, with just 1 city at a time,
 revealed that for some cities (on some islands in the Atlantic Ocean)
-the totals were exceeding 100%, then grepping for the codebase for
+the percentages were wrong(different than 100%), then grepping the codebase for
 those cities also revealed the presence of the CSV files in question,
 and that those cities were marked as being in both the Northern and the
-Southern hemisphere CSV files.</p></div><div class=paragraph><p>This was a case where the bug was located in the data, and not the code itself.</p></div></div></div><div class=sect1><h2 id=_dashboard_dependencies>Dashboard dependencies</h2><div class=sectionbody><div class=paragraph><p>When I was working a devops position in an online gaming company, I was
+Southern hemisphere CSV files. After an e-mail thread where the suggestion
+of modifying the CSV file was discussed, the problem was solved.</p></div><div class=paragraph><p>In this case the bug was located in the data, and not the code itself.</p></div></div></div><div class=sect1><h2 id=_dashboard_dependencies>Dashboard dependencies</h2><div class=sectionbody><div class=paragraph><p>When I was working a devops position in an online gaming company, I was
 handed a problem about dashboards being broken and reports in them not
 showing up anymore.</p></div><div class=paragraph><p>The way these were structured was this: <code>Dashboards -→ Reports -→ Queries -→ Tables</code></p></div><div class=paragraph><p>So a dashboard had multiple reports, and reports were using queries,
 and in turn queries were accessing data from tables (all these relations
@@ -77,9 +78,10 @@ monitored the queries that were running on the database servers using the
 catalog I could get the queries and their transaction ids. By joining
 these two pieces of information, I was able to find out how much WAL
 each query had generated, and then pick the outliers and report them
-back to the teams that had written them, in order to be refactored.</p></div></div></div><div class=sect1><h2 id=_conclusion>Conclusion</h2><div class=sectionbody><div class=paragraph><p>Sometimes seemingly hard bugs can be solved by crafting the right kind of
-test. Sometimes they require crafting tools that increase observability
-and visibility into the ways systems work.</p></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>If you liked this article and would like to discuss more about how MAGNA SOFTWARE S.R.L
+back to the teams that had written them, in order to be refactored.</p></div></div></div><div class=sect1><h2 id=_conclusion>Conclusion</h2><div class=sectionbody><div class=paragraph><p>Sometimes seemingly hard bugs can be solved by crafting the right kind
+of test (which in turn shorterns the cycle of trying out potential
+fixes). Sometimes they require crafting new tools that increase
+observability and visibility into the ways systems work.</p></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>If you liked this article and would like to discuss more about how MAGNA SOFTWARE S.R.L
 can help your business regarding <a href=https://wsdookadr.github.io/services/>production issues</a>, feel
 free to <a href=https://calendly.com/stefan-petrea/30min>book a 30-minute call</a> with me so we can get
 to know each other and discuss a future collaboration.</td></tr></tbody></table></div></div></div><nav class=pagination><span class=prev><a href=/posts/p1/>Setting up the new blog</a></span>

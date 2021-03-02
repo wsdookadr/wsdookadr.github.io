@@ -36,7 +36,7 @@ to the smaller tree, element-by-element and this is $O(m\cdot n)$.</p></div><div
 $O(m+n)$ <a href=https://en.wikipedia.org/wiki/Time_complexity>time complexity</a> (if we consider $O(1)$ the time to compute one hash).</p></div><div class=paragraph><p>The Merkle trees can be computed
 <a href=https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design>bottom-up</a>
 and the hashes for each node can be stored. Then the containment check
-only requires checking if a hash is present in a list.</p></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>This will pass all the tests, but if we want to avoid false positives
+only requires checking if a certain hash is present in a dictionary.</p></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>This will pass all the tests, but if we want to avoid false positives
 completely, once a hash match is found we need to do one tree-equality check.
 Merkle trees can generate <a href=https://stackoverflow.com/a/14197504/827519>false positives</a>
 because <a href=https://en.wikipedia.org/wiki/Collision_(computer_science)>hash collisions</a> are possible.</td></tr></tbody></table></div><div class=listingblock><div class=content><pre class="pygments highlight" style=background:#f8f8f8><code data-lang=python><table class=linenotable><tbody><tr><td class=linenos><div class=linenodiv><pre><span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px> 1</span>
