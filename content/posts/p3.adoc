@@ -31,7 +31,7 @@ link:https://en.wikipedia.org/wiki/Merkle_tree[Merkle trees] that has
 The Merkle trees can be computed
 link:https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design[bottom-up]
 and the hashes for each node can be stored. Then the containment check
-only requires checking if a hash is present in a list.
+only requires checking if a certain hash is present in a dictionary.
 
 [NOTE]
 This will pass all the tests, but if we want to avoid false positives

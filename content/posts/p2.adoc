@@ -58,12 +58,13 @@ southern CSV categories, resulting in counting the same numbers twice.
 
 Running the code with one-line log lines, with just 1 city at a time,
 revealed that for some cities (on some islands in the Atlantic Ocean)
-the totals were exceeding 100%, then grepping for the codebase for
+the percentages were wrong(different than 100%), then grepping the codebase for
 those cities also revealed the presence of the CSV files in question,
 and that those cities were marked as being in both the Northern and the
-Southern hemisphere CSV files.
+Southern hemisphere CSV files. After an e-mail thread where the suggestion
+of modifying the CSV file was discussed, the problem was solved.
 
-This was a case where the bug was located in the data, and not the code itself.
+In this case the bug was located in the data, and not the code itself.
 
 == Dashboard dependencies
 
@@ -132,9 +133,10 @@ back to the teams that had written them, in order to be refactored.
 
 == Conclusion
 
-Sometimes seemingly hard bugs can be solved by crafting the right kind of
-test. Sometimes they require crafting tools that increase observability
-and visibility into the ways systems work.
+Sometimes seemingly hard bugs can be solved by crafting the right kind
+of test (which in turn shorterns the cycle of trying out potential
+fixes). Sometimes they require crafting new tools that increase
+observability and visibility into the ways systems work.
 
 [NOTE]
 If you liked this article and would like to discuss more about how MAGNA SOFTWARE S.R.L
