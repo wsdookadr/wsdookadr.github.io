@@ -2,8 +2,17 @@
 Double-counting Some years ago, I was working as a consultant in the analytics team of a top-10 Alexa website with hundreds of millions of views every month. I was tasked with finding a bug in the code that was counting page views.</description></item><item><title>Setting up the new blog</title><link>https://wsdookadr.github.io/posts/p1/</link><pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p1/</guid><description>Previous setup Previously I was writing a blog using the following: Emacs + Org-Mode + Jekyll. Here is a short assessment of that setup:
 The pros:
 Emacs tries to pack as much functionality as possible without the need for external dependencies
-Org-Mode allows you to have runnable code blocks and include the results of said code blocks inside the rendered version of the documents. The active document concept is really nice (but nowadays that’s also achievable with Jupyter)</description></item><item><title>Services</title><link>https://wsdookadr.github.io/services/</link><pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/services/</guid><description>Beginning with 2016, S.C. MAGNA SOFTWARE S.R.L offers services to clients world-wide, provides reliable software solutions to add value to the customers products and projects. Some of the key points in the delivered solutions are optimizing and improving the client’s infrastructure, making pertinent and value-adding suggestions on the technical side, crafting tools and algorithms that aid in solving data problems and increase visibility into existing systems.
-For more details, see the details below.</description></item><item><title>Consulting</title><link>https://wsdookadr.github.io/consulting/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/consulting/</guid><description>.sectionbody { hyphens: initial; word-break: } The consulting process starts with an initial call where we discuss the projects you or your company needs help with, which services can be provided, and what technologies might be used.
+Org-Mode allows you to have runnable code blocks and include the results of said code blocks inside the rendered version of the documents. The active document concept is really nice (but nowadays that’s also achievable with Jupyter)</description></item><item><title>Services</title><link>https://wsdookadr.github.io/services/</link><pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/services/</guid><description>Starting with 2016 S.C. MAGNA SOFTWARE S.R.L offers a variety of software services and solutions to clients world-wide.
+For reference, see the details below. If you have any questions feel free to send an e-mail.
+Contact details Company name
+S.C. MAGNA SOFTWARE S.R.L
+Email:
+stefan@garage-coding.com
+stefan.petrea@gmail.com
+Phone:
++40732070179
+Stackoverflow:
+link</description></item><item><title>Consulting</title><link>https://wsdookadr.github.io/consulting/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/consulting/</guid><description>.sectionbody { hyphens: initial; word-break: } The consulting process starts with an initial call where we discuss the projects you or your company needs help with, which services can be provided, and what technologies might be used.
 These are the forms of consulting offered:
 hourly-rate project
 fixed-priced project
