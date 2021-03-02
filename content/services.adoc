@@ -7,16 +7,11 @@ date = 2021-01-01
 
 = Commercial Services Offering
 
-Beginning with 2016, *S.C. MAGNA SOFTWARE S.R.L* offers services
-to clients world-wide, provides reliable software solutions to add
-value to the customers products and projects. Some of the key points
-in the delivered solutions are optimizing and improving the client's
-infrastructure, making pertinent and value-adding suggestions on the
-technical side, crafting tools and algorithms that aid in solving data
-problems and increase visibility into existing systems.
+Starting with 2016 *S.C. MAGNA SOFTWARE S.R.L* offers a variety of
+software services and solutions to clients world-wide.
 
-For more details, see the details below. If you have any questions, please
-send an e-mail.
+For reference, see the details below. If you have any questions feel
+free to send an e-mail.
 
 == Contact details
 
