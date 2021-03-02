@@ -24,12 +24,15 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.5.5
+          
+      - name: Install packages
+        run: |
+          sudo apt-get install -y --no-install-recommends graphviz
 
       - run: |
           gem install pygments.rb -v 2.1.0
           gem install asciidoctor -v 2.0.12
           gem install asciidoctor-diagram -v 2.1.0
-          apt-get install -y --no-install-recommends graphviz
 
       - name: Build
         run: |
