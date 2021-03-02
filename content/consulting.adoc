@@ -1,0 +1,106 @@
++++
+title = "Consulting"
+menu = "main"
+markup = "asciidoc"
++++
+
+// fix for word breaks at the end of a line
+++++
+<div></div>
+
+<style type='text/css'>
+.sectionbody {
+    hyphens: initial;
+    word-break: 
+}
+</style>
+++++
+
+The consulting process starts with an link:https://calendly.com/stefan-petrea/30min[initial call]
+where we discuss the projects you or your company needs help with,
+which link:/services/[services] can be provided, and what link:/supported-tech/[technologies] might be used.
+
+These are the forms of consulting offered:
+
+* link:#_hourly_rate_projects[hourly-rate project]
+* link:#_fixed_priced_projects[fixed-priced project]
+
+For reference, a diagram is provided below to summarize the process
+
+[graphviz, "consulting_diagram", "svg",opts="inline"]
+----
+digraph {
+    node [shape=rectangle];
+    graph [splines=polyline];
+    // graph [splines=true];
+    n1 [href="https://calendly.com/stefan-petrea/30min",label="initial\nconversation/call"];
+    n2 [label="fixed-priced\nproject"];
+    n3 [label="hourly-rate\nproject"];
+    n4 [label="assessment report +\ntime estimate +\ncost", xlabel="fee for asssessment\n is paid upfront"];
+    n5 [label="client receives\ntime and cost\nestimates"];
+    n6 [label="contract draft\nis sent to the client"];
+    n7 [label="negotiation of terms"];
+
+    n20[label="work begins"];
+    n21[label="deliverables + invoice\nare sent to the client"];
+
+    n1 -> n2;
+    n1 -> n3;
+    n2 -> n4  [label="   hard to estimate"];
+    n2 -> n5  [label="   easy to estimate"];
+    n5 -> n20 [label="      client agrees\nwith the offer"];
+    n4 -> n20 [label="      client agrees\nwith the offer"];
+
+
+    n3 -> n6;
+    n6 -> n7;
+    n7 -> n20 [label="   both sides agree\non terms"];
+
+    {rank=same; n2; n3;}
+
+    n20 -> n21;
+
+}
+----
+
+== Hourly-rate projects
+
+A contract will be submitted to you, and we can negotiate the terms of
+the contract. When we reach a final form of the contract which both
+sides agree on, we can sign it and the work can start.
+
+When both sides agree, the contract is signed and work can begin.
+
+
+[NOTE]
+This form of collaboration is prefered when specifications/requirements
+can change throughout the duration of the project, or when the client requires
+a longer-term collaboration and there is a constant flow of work and tasks beyond
+the ones discussed in the initial call.
+
+== Fixed-priced projects
+
+If the project is easy to estimate, an estimate will be provided and
+work can begin.
+
+There are cases where the work is hard to estimate (usually for lack of
+context). In those cases, the client will provide access to code and
+documents related to the project in order to allow for an assessment
+(for a fixed upfront fee). The result of this phase will be twofold:
+
+1. a report will be created with the findings of the analysis as well as
+recommendations/suggestions, further steps and approaches for the project
+2. an estimate for the fixed-priced project value will be made and
+communicated to the client
+
+[NOTE]
+This form of collaboration is prefered when specifications/requirements
+are well-defined and understood but do _not_ change throughout the
+duration of the project (followup work is always possible as part of additional
+projects).
+
+== Contact
+
+If you have any questions feel free to send an e-mail to
+mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com]
+

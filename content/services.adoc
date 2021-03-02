@@ -29,14 +29,16 @@ send an e-mail.
 | Email: 
 | mailto:stefan@garage-coding.com[stefan@garage-coding.com]
 
+mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com]
+
 | Phone:
 | +40732070179 
 
+| Stackoverflow:
+| link:https://stackoverflow.com/users/827519/wsdookadr[link]
+
 | Github:
 | link:https://github.com/wsdookadr/[link]
-
-| Stackoverflow:
-| link:https://stackoverflow.com/users/827519/wsdookadr[link] 
 
 | Company registration number:
 | J40/4134/18.03.2016 

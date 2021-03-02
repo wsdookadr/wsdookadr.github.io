@@ -8,13 +8,13 @@ copyright = ""
 paginate = 3
 
 [params]
-  description = "t123"
+  description = "Blog"
   keywords = ["consulting","consultant","software","freelance","databases","math","opensource"]
-# editThisPage = "https://github.com/basil/antora-default-ui-hugo-theme/edit/master/exampleSite/content/"
   since = 2015
 
 [markup]
   [markup.asciidocext]
+  extensions = ["asciidoctor-diagram"]
   backend = "html5"
     [markup.asciidocext.attributes]
       "icons" = "font"

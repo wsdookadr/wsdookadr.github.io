@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - main  # Set a branch to deploy
+      - main
 
 jobs:
   deploy:
@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          submodules: true
+          fetch-depth: 0
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -28,6 +28,8 @@ jobs:
       - run: |
           gem install pygments.rb -v 2.1.0
           gem install asciidoctor -v 2.0.12
+          gem install asciidoctor-diagram -v 2.1.0
+          apt-get install -y --no-install-recommends graphviz
 
       - name: Build
         run: |

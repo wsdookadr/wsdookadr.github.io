@@ -134,7 +134,7 @@ back to the teams that had written them, in order to be refactored.
 == Conclusion
 
 Sometimes seemingly hard bugs can be solved by crafting the right kind
-of test (which in turn shorterns the cycle of trying out potential
+of test (which in turn shortens the cycle of trying out potential
 fixes). Sometimes they require crafting new tools that increase
 observability and visibility into the ways systems work.
 
