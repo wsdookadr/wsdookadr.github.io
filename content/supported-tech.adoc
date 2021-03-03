@@ -5,7 +5,7 @@ markup = "asciidoc"
 +++
 
 [NOTE]
-Check the link:https://wsdookadr.github.io/services/[Services page] for a list of services provided for these technologies
+Check the link:/services/[Services page] for a list of services provided for these technologies
 
 * *Web servers*: link:https://www.nginx.com/[Nginx], link:https://httpd.apache.org/[Apache2], link:http://www.haproxy.org/[HAProxy]
 * *Web frameworks*: link:https://www.djangoproject.com/[Django], link:https://mojolicious.org/[Mojolicious]
