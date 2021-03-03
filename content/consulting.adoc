@@ -65,15 +65,12 @@ digraph {
 
 == Hourly-rate projects
 
-A contract will be submitted to you, and we can negotiate the terms of
-the contract. When we reach a final form of the contract which both
-sides agree on, we can sign it and the work can start.
-
-When both sides agree, the contract is signed and work can begin.
-
+The client receives a draft version of the contract and negotiations
+will be carried out regarding those terms. When both sides agree
+on the terms, the contract is signed and work can begin.
 
 [NOTE]
-This form of collaboration is prefered when specifications/requirements
+This form of collaboration is preferred when specifications/requirements
 can change throughout the duration of the project, or when the client requires
 a longer-term collaboration and there is a constant flow of work and tasks beyond
 the ones discussed in the initial call.
@@ -94,7 +91,7 @@ recommendations/suggestions, further steps and approaches for the project
 communicated to the client
 
 [NOTE]
-This form of collaboration is prefered when specifications/requirements
+This form of collaboration is preferred when specifications/requirements
 are well-defined and understood but do _not_ change throughout the
 duration of the project (followup work is always possible as part of additional
 projects).
