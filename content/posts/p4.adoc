@@ -14,25 +14,26 @@ with. The main goal of the project was collecting various datasets from
 web services.
 
 One of those web services has an endpoint that receives as a parameter a
-series of points that define polygon for which the API request is made
-(the response will be a series of objects that are located inside that
+series of points that define a polygon for which the API request is made
+(the response will be a series of resources that are located inside that
 polygon). The API supports pagination, so if the area of the polygon is
 too big, we'll have to do additional requests for all the result pages.
 
-Since the service is localized for a specific country, it would be possible
+Since the service is localized to a specific country, it would be possible
 to compute a link:https://en.wikipedia.org/wiki/Minimum_bounding_box[bounding box]
 for the country, and then partition that into small rectangles of fixed dimensions
 to cover the entire country. 
 
-But since the country surface is not of rectangular shape, this would mean a certain
-volume of useless requests (outside the country's area).
+But since the country surface is not of rectangular shape, this would mean
+a certain volume of useless requests (outside the country's area), since
+some of those small rectangles will fall outside the country's borders.
 
-It's possible to generate a partition of the country into rectangles
-of certain dimensions, and then make API requests for each of those
-rectangles.
+So we take a better route, and instead of the country's bounding box,
+we partition the country's area into rectangles of certain dimensions,
+and then we make API requests for each of those small rectangles.
 
 We're going to make use of link:https://github.com/Toblerity/Shapely[Shapely] and
-link:https://geopandas.org/[GeoPandas].
+link:https://geopandas.org/[GeoPandas] to achieve this.
 
 == Installing Geopandas and dependencies
 
@@ -93,10 +94,12 @@ def geom_to_gdf(g, label):
 ----
 
 
-Next, we read a GeoJSON file with all boundaries for all countries, we turn that into a GeoDataFrame
-and we slice it to get the specific country we're interested in. Since some countries are defined by a
-MULTIPOLYGON (composed of different territories, but also the mainland). We get the largest of these regions and
-extract the underlying Shapely Geometry object.
+Next, we read a GeoJSON file with all boundaries for all countries, we
+turn that into a GeoDataFrame and we slice it to get the specific country
+we're interested in. Since some countries are defined by a MULTIPOLYGON
+(composed of different territories, but also the mainland), we get the
+largest of these regions(the mainland) and extract the underlying Shapely
+Geometry object.
 
 [source%linenums,python]
 ----
@@ -110,8 +113,9 @@ def init_data():
 init_data()
 ----
 
-Then we'll use a bounding box, and we create a grid using the country bounding box.
-We also want to have the cell width and height configurable.
+Then we'll use a bounding box, and we create a grid using the
+country bounding box.  We also want to have the cell width and height
+configurable.
 
 We go over all the cells in the bounding box and we only retain those
 that intersect the country's surface. Performing the intersection is
