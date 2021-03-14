@@ -1,0 +1,201 @@
++++
+title = "Polygon gridding using Geopandas and Shapely"
+date = "2021-03-14"
+markup = "asciidoc"
+tags = ["gis","geopandas","python","maps","visualization","scraping"]
++++
+
+:pygments-css: style
+
+== Intro
+
+This post will discuss some work involving maps I've helped a client
+with. The main goal of the project was collecting various datasets from
+web services.
+
+One of those web services has an endpoint that receives as a parameter a
+series of points that define polygon for which the API request is made
+(the response will be a series of objects that are located inside that
+polygon). The API supports pagination, so if the area of the polygon is
+too big, we'll have to do additional requests for all the result pages.
+
+Since the service is localized for a specific country, it would be possible
+to compute a link:https://en.wikipedia.org/wiki/Minimum_bounding_box[bounding box]
+for the country, and then partition that into small rectangles of fixed dimensions
+to cover the entire country. 
+
+But since the country surface is not of rectangular shape, this would mean a certain
+volume of useless requests (outside the country's area).
+
+It's possible to generate a partition of the country into rectangles
+of certain dimensions, and then make API requests for each of those
+rectangles.
+
+We're going to make use of link:https://github.com/Toblerity/Shapely[Shapely] and
+link:https://geopandas.org/[GeoPandas].
+
+== Installing Geopandas and dependencies
+
+Below is a set of steps that allows to build Geopandas and its dependencies.
+
+The library `proj` needs to be installed. The `proj-bin` package in Debian/Ubuntu offers an old version
+of the library, so we build a newer version (`7.2.1`) locally.
+
+[source%linenums,bash]
+----
+sudo apt-get install libspatialindex-dev
+sudo apt-get install libtiff-dev
+
+mkdir $HOME/sources/
+cd $HOME/sources/
+wget https://download.osgeo.org/proj/proj-7.2.1.tar.gz
+tar xzvf proj-7.2.1.tar.gz
+cd proj-7.2.1/
+./configure
+make
+
+cd proj-7.2.1/src/
+ln -s . bin/
+PROJ_DIR=`pwd`/src PROJ_INCDIR=`pwd`/src PROJ_LIBDIR=`pwd`/src/.libs pip3 install --user pyproj
+
+pip3 install --user rtree
+pip3 install --user pygeos
+----
+
+
+== Gridding the country's area
+
+We start out by telling `pyproj` the path to the data directory for `proj`, and defining a function
+that will help with converting a Shapely Geometry object to a GeoDataFrame object that Geopandas
+can plot later on.
+
+[source%linenums,python]
+----
+import pyproj
+pyproj.datadir.set_data_dir("/home/user/sources/proj-7.2.1/data")
+import geopandas
+from fiona.crs import from_epsg
+import numpy as np
+import sys
+import shapely
+import warnings
+warnings.filterwarnings("ignore")
+
+country_key = "Spain"
+
+# Convert a shapely.geometry to a GeoDataFrame
+def geom_to_gdf(g, label):
+    gdf = geopandas.GeoDataFrame()
+    gdf.crs = from_epsg(4326)
+    gdf.loc[0, 'geometry'] = g
+    gdf.loc[0, 'Location'] = label
+    return gdf
+----
+
+
+Next, we read a GeoJSON file with all boundaries for all countries, we turn that into a GeoDataFrame
+and we slice it to get the specific country we're interested in. Since some countries are defined by a
+MULTIPOLYGON (composed of different territories, but also the mainland). We get the largest of these regions and
+extract the underlying Shapely Geometry object.
+
+[source%linenums,python]
+----
+def init_data():
+    global g_country
+    df = geopandas.read_file("/home/user/Downloads/custom.geo.json")
+    country_regions = df[df['admin'] == country_key].geometry.explode().tolist()
+    max_region = max(country_regions, key=lambda a: a.area)
+    g_country = max_region
+
+init_data()
+----
+
+Then we'll use a bounding box, and we create a grid using the country bounding box.
+We also want to have the cell width and height configurable.
+
+We go over all the cells in the bounding box and we only retain those
+that intersect the country's surface. Performing the intersection is
+much faster using Shapely objects than Geopandas GeoDataFrame objects.
+
+[source%linenums,python]
+----
+gdf_country = geom_to_gdf(g_country, country_key + '_mainland')
+
+ax = gdf_country.plot(markersize=.1, figsize=(16, 16), cmap='jet')
+
+xmin, ymin, xmax, ymax= gdf_country.total_bounds
+
+## real cell dimensions
+cell_width  = 0.0817750
+cell_height = 0.0321233
+
+grid_cells = []
+for x0 in np.arange(xmin, xmax+cell_width, cell_width ):
+    for y0 in np.arange(ymin, ymax+cell_height, cell_height):
+        x1 = x0-cell_width
+        y1 = y0+cell_height
+        new_cell = shapely.geometry.box(x0, y0, x1, y1)
+        if new_cell.intersects(g_country):
+            grid_cells.append(new_cell)
+        else:
+            pass
+----
+
+Then we plot the country's polygon as well as all the cells that
+intersect, in order to be able to check the result visually.
+
+image:/posts/p4-spain.png[]
+
+Finally, we write out the coordinates of every cell in a file, so our
+scraper can use these coordinates in order to make API requests.
+
+[source%linenums,python]
+----
+cell_df = geopandas.GeoDataFrame(grid_cells, columns=['geometry'], crs=from_epsg(4326))
+cell_df.plot(ax=ax,facecolor="none", edgecolor='grey')
+
+# preparing the output
+with open("cells_" + country_key + ".txt", "w") as f: 
+    for cell in grid_cells:
+        # last point is excluded (since it's the same as the 1st)
+        bounds = []
+        for x,y in cell.exterior.coords[:-1]:
+            x1,y1 = float('%.6f'%(x,)) , float('%.6f'%(y,))
+            bounds.append([x1,y1])
+        f.write(str(bounds) + "\n")
+----
+
+== Writing the scraper
+
+We now use the file `cells_Spain.txt` that we've generated in the previous section, as input
+for our scraper.
+
+We can write the scraper in many different ways(Scrapy would be one way),
+but using link:https://www.gnu.org/software/parallel/[GNU Parallel]
+and Bash is very effective in this case.
+
+[source%linenums,bash]
+----
+#!/bin/bash
+
+fetch_page() {
+    num="$1"
+    bounds="$2"
+    echo "$num"
+
+    set -x
+    curl \
+        -H 'Referer: https://www.website.com/api' \
+        -H 'content-type: application/json' \
+        -H 'Origin: https://www.website.com' \
+        --data-raw '{"bounds": '"$bounds"'}}' \
+        'https://api.website.com/' > data/$num.json
+    set +x
+}
+
+mkdir data
+export -f fetch_page
+cat cells_Spain.txt | parallel --no-notice -k -j2 'fetch_page {#} {}' ::: 
+----
+
+include::layouts/partials/promo-scraping.adoc[]
