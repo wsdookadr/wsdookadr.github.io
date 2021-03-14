@@ -159,8 +159,8 @@ grid_cells <span style=color:#666>=</span> []
             grid_cells<span style=color:#666>.</span>append(new_cell)
         <span style=color:green;font-weight:700>else</span>:
             <span style=color:green;font-weight:700>pass</span>
-</pre></td></tr></tbody></table></code></pre></div></div><div class=paragraph><p>Then we plot the country’s polygon as well as all the cells that
-intersect, in order to be able to check the result visually.</p></div><div class=paragraph><p><span class=image><img src=/posts/p4-spain.png alt="p4 spain"></span></p></div><div class=paragraph><p>Finally, we write out the coordinates of every cell in a file, so our
+</pre></td></tr></tbody></table></code></pre></div></div><div class=paragraph><p>Then we plot the country’s polygon as well as all the cells that intersect
+it. This allows us to visually check if everything looks right:</p></div><div class=paragraph><p><span class=image><img src=/posts/p4-spain.png alt="p4 spain"></span></p></div><div class=paragraph><p>Finally, we write out the coordinates of every cell in a file, so our
 scraper can use these coordinates in order to make API requests.</p></div><div class=listingblock><div class=content><pre class="pygments highlight" style=background:#f8f8f8><code data-lang=python><table class=linenotable><tbody><tr><td class=linenos><div class=linenodiv><pre><span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px> 1</span>
 <span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px> 2</span>
 <span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px> 3</span>
