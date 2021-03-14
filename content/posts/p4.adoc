@@ -145,8 +145,8 @@ for x0 in np.arange(xmin, xmax+cell_width, cell_width ):
             pass
 ----
 
-Then we plot the country's polygon as well as all the cells that
-intersect, in order to be able to check the result visually.
+Then we plot the country's polygon as well as all the cells that intersect
+it. This allows us to visually check if everything looks right:
 
 image:/posts/p4-spain.png[]
 
