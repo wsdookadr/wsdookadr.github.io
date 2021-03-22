@@ -99,7 +99,7 @@ country_key <span style=color:#666>=</span> <span style=color:#ba2121>&#34;Spain
 </pre></td></tr></tbody></table></code></pre></div></div><div class=paragraph><p>Next, we read a GeoJSON file with all boundaries for all countries, we
 turn that into a GeoDataFrame and we slice it to get the specific country
 we’re interested in. Since some countries are defined by a MULTIPOLYGON
-(composed of different territories, but also the mainland), we get the
+(composed of the mainland, as well as overseas regions), we get the
 largest of these regions(the mainland) and extract the underlying Shapely
 Geometry object.</p></div><div class=listingblock><div class=content><pre class="pygments highlight" style=background:#f8f8f8><code data-lang=python><table class=linenotable><tbody><tr><td class=linenos><div class=linenodiv><pre><span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px>1</span>
 <span style=color:inherit;background-color:transparent;padding-left:5px;padding-right:5px>2</span>
