@@ -31,13 +31,12 @@ For reference, a diagram is provided below to summarize the process
 ----
 digraph {
     node [shape=rectangle];
-    graph [splines=polyline];
+    // graph [splines=polyline];
     // graph [splines=true];
     n1 [href="https://calendly.com/stefan-petrea/30min",label="initial\nconversation/call"];
     n2 [label="fixed-priced\nproject"];
     n3 [label="hourly-rate\nproject"];
-    n4 [label="assessment report +\ntime estimate +\ncost", xlabel="fee for asssessment\n is paid upfront"];
-    n5 [label="client receives\ntime and cost\nestimates"];
+    n4 [label="assessment report +\ntime estimate +\ncost", xlabel="upfront assessment\n fee"];
     n6 [label="contract draft\nis sent to the client"];
     n7 [label="negotiation of terms"];
 
@@ -46,9 +45,7 @@ digraph {
 
     n1 -> n2;
     n1 -> n3;
-    n2 -> n4  [label="   hard to estimate"];
-    n2 -> n5  [label="   easy to estimate"];
-    n5 -> n20 [label="      client agrees\nwith the offer"];
+    n2 -> n4 ;
     n4 -> n20 [label="      client agrees\nwith the offer"];
 
 
@@ -57,6 +54,7 @@ digraph {
     n7 -> n20 [label="   both sides agree\non terms"];
 
     {rank=same; n2; n3;}
+    {rank=same; n4; n7;}
 
     n20 -> n21;
 
@@ -71,19 +69,15 @@ on the terms, the contract is signed and work can begin.
 
 [NOTE]
 This form of collaboration is preferred when specifications/requirements
-can change throughout the duration of the project, or when the client requires
+_can_ change throughout the duration of the project, or when the client requires
 a longer-term collaboration and there is a constant flow of work and tasks beyond
 the ones discussed in the initial call.
 
 == Fixed-priced projects
 
-If the project is easy to estimate, an estimate will be provided and
-work can begin.
-
-There are cases where the work is hard to estimate (usually for lack of
-context). In those cases, the client will provide access to code and
-documents related to the project in order to allow for an assessment
-(for a fixed upfront fee). The result of this phase will be twofold:
+The client provides access to code and/or documents related to
+the project in order to allow for an assessment (for a fixed upfront
+fee). The result of this phase will be twofold:
 
 1. a report will be created with the findings of the analysis as well as
 recommendations/suggestions, further steps and approaches for the project

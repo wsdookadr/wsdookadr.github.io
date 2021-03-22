@@ -97,7 +97,7 @@ def geom_to_gdf(g, label):
 Next, we read a GeoJSON file with all boundaries for all countries, we
 turn that into a GeoDataFrame and we slice it to get the specific country
 we're interested in. Since some countries are defined by a MULTIPOLYGON
-(composed of different territories, but also the mainland), we get the
+(composed of the mainland, as well as overseas regions), we get the
 largest of these regions(the mainland) and extract the underlying Shapely
 Geometry object.
 
