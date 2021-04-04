@@ -161,12 +161,17 @@ The steps are the following:
 
 == Removing redundant granules
 
+The AOI(area of interest) itself might be located partially in one satellite
+image, and partially in another satellite image. In order to extract it,
+we need to pick certain granules (satellite images) that cover the AOI, download them,
+join them, and then cut out the AOI.
+
 One of the problems I noticed when dealing with the metadata returned
 by the Sentinel API was that it returns overlapping granules. This is
 because the overlapping images were actually taken on different orbits
-of the satellites over the same area.
+of the satellites over nearly the same area.
 
-Further, here's a small table describing the types of images that you
+Furthermore, here's a small table describing the types of images that you
 can expect to get back:
 
 [%header,cols="1,1,1,1"]
@@ -261,6 +266,18 @@ python3.8 ./sentinel-toolbelt.py --auth_file auth.json --aoi_file ./sample_input
 ----
 
 You can also use the `--start_date` and `--end_date` switches to only use images taken from a certain period.
+
+The file `auth.json` has the following structure:
+
+[source]
+----
+{
+    "user": ".....",
+    "pass": "....."
+}
+----
+
+and you can get a username/password by link:https://scihub.copernicus.eu/dhus/#/self-registration[creating an account here].
 
 == Results
 
