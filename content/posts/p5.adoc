@@ -287,3 +287,4 @@ Here are results from intermediary and final steps (you can zoom-in a lot, they'
 +++
 
 
+include::layouts/partials/promo-gis.adoc[]
