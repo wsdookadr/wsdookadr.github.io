@@ -31,6 +31,7 @@ For reference, a diagram is provided below to summarize the process
 ----
 digraph {
     node [shape=rectangle];
+
     // graph [splines=polyline];
     // graph [splines=true];
     n1 [href="https://calendly.com/stefan-petrea/30min",label="initial\nconversation/call"];

@@ -1,0 +1,286 @@
++++
+title = "Creating mosaics, clipping and removing overlapping satellite images"
+date = "2021-04-02"
+markup = "asciidoc"
+tags = ["gis","python","maps","visualization"]
++++
+
+:pygments-css: style
+
+== Intro
+
+This post describes ways to download, clip and join satellite images.
+
+== Background
+
+There's a number of satellites launched by the European
+Space Agency that take images of Earth which are then sent
+to ground stations and made publicly available through the
+link:https://scihub.copernicus.eu/[Copernicus Open Access Hub] and its
+respective API.
+
+In this post we're focusing mainly on the data
+from `Sentinel-2A` and `Sentinel-2B` which were
+designed for multiple purposes, one of those purposes being
+link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-2/mission-objectives[land monitoring].
+
+Here are some of the other satellites together with their launch dates
+and lifespans.
+
+[%header,cols="1,1,1"]
+|===
+
+| *satellite*
+| *launch date*
+| *end of lifespan*
+
+| Sentinel-2A
+| link:https://sentinel.esa.int/web/sentinel/missions/sentinel-2[2015-06-23]
+| link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-2/satellite-description[2022-09-23] (7.25y lifespan)
+
+| Sentinel-2B
+| link:https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2/Watch_live_Sentinel-2B_launch[2017-05-07]
+| link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-2/satellite-description[2024-08-07] (7.25y lifespan)
+
+| Sentinel-3B
+| link:https://www.esa.int/Newsroom/Press_Releases/Call_for_Media_Copernicus_Sentinel-3B_satellite_launch_event[2018-04-25]
+| link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-3/overview/mission-summary[2025-04-25]
+
+| Sentinel-3A
+| link:https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-3/About_the_launch[2016-02-16]
+| link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-3/satellite-description[2023-02-16]
+
+| Sentinel-5P
+| link:https://sentinel.esa.int/web/sentinel/missions/sentinel-5p[2017-10-13]
+| link:https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-5p/satellite-description[2024-10-13] (7y)
+
+| Sentinel-6A (currently Sentinel-6 Michael Freilich, also known as Jason-CS)
+| link:http://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-6[2020-11-21] link:https://space.skyrocket.de/doc_sdat/jason-cs.htm[link1]
+| link:https://www.eumetsat.int/copernicus-sentinel-6-monitoring-global-ocean[2026-04-21] (5.5 years)
+
+| Sentinel-6B
+| link:https://space.skyrocket.de/doc_sdat/jason-cs.htm[~ 2026-01-01]
+| link:https://www.eumetsat.int/copernicus-sentinel-6-monitoring-global-ocean[~ 2031-06-01]
+
+|===
+
+
+The Copernicus Hub has a link:https://scihub.copernicus.eu/userguide/LongTermArchive[data retention policy].
+The policy states that data is readily available for download for the past 12 months, and older data downloads
+can be triggered and downloaded within 24 hours.
+
+== Setup
+
+The following libraries are required. We're installing them through the
+`conda` package manager that comes with the Anaconda3 Python distribution.
+There's a link:https://repo.anaconda.com/archive/Anaconda3-2020.11-Windows-x86_64.exe[Windows installer] and a link:https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh[Linux installer].
+
+The nice part about Anaconda3 is that they offer curated versions of
+these packages and their package manager takes care of external libraries as well.
+This makes the install much easier, so fixes like the one I had to do link:/posts/p4/#_installing_geopandas_and_dependencies[for Geopandas] here
+when it was installed directly from PyPi are not necessary anymore.
+
+[%header,cols="1,3,1"]
+|===
+| library
+| functionality
+| version
+
+| link:https://rasterio.readthedocs.io/en/latest/[rasterio]
+| raster image library
+| 1.2.1
+
+| link:https://sentinelsat.readthedocs.io/en/stable/[sentinelsat]
+| library that offers ways to query data collected from Sentinel through the Sentinel-2A and Sentinel-2B satellites
+| 0.14 
+
+| link:https://shapely.readthedocs.io/en/stable/manual.html[shapely]
+| library that provides algorithms for processing vector data
+| 1.7.1
+
+| link:https://gdal.org/programs/index.html[GDAL]
+| library and set of tools that allows processing of geographical raster images from commandline. it's also
+  a dependency for other lirbaries.
+| 3.1.4
+
+| link:https://geopandas.org/[geopandas]
+| library for transforming and querying geographical data frames (the data frames can contain metadata with polygon contours) 
+| 0.9.0
+
+| link:https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html[matplotlib.pyplot]
+| library for plotting data and drawing vectorial as well as raster data (mostly used for previews and summarizing data)
+| 3.4.0
+
+| link:https://jupyter.org/[Jupyter]
+| 
+| 1.0.0
+
+| Anaconda distribution
+| 
+| Anaconda3 *2020.11*
+
+| Python version used
+|
+| Python *3.8.5*
+
+|===
+
+In order to install these, create a new environment, switch to it and then
+install the packages.
+
+[source,bash]
+----
+conda create -n e3 python=3.8.5
+conda activate e3
+conda install rasterio==1.2.1 sentinelsat==0.14 shapely==1.7.1
+conda install gdal==3.1.4 geopandas==0.9.0 matplotlib==3.4.0 jupyter==1.0.0
+----
+
+Now also install the sentinel-utils package
+
+[source,bash]
+----
+pip install sentinel-utils
+----
+
+== Summary of the full algorithm
+
+The steps are the following:
+
+. Reading the input data (the region of interest) from a GeoJSON file
+. Querying the Sentinel API to get the tiles that intersect the region of interest
+. Removing redundant granules I 
+. Removing redundant granules II
+. Downloading the reduced set of granules (multiple zip archives stored on disk)
+. Unpacking the archives
+. Raster conversion `JP2OpenJPEG` -> `GeoTiff`
+. Joining all the raster images `TCI` (True Color) into one big image
+. Reprojecting the image to `EPSG:4326`
+. Clipping the region of interest from the big image
+
+== Removing redundant granules
+
+One of the problems I noticed when dealing with the metadata returned
+by the Sentinel API was that it returns overlapping granules. This is
+because the overlapping images were actually taken on different orbits
+of the satellites over the same area.
+
+Further, here's a small table describing the types of images that you
+can expect to get back:
+
+[%header,cols="1,1,1,1"]
+|===
+|public
+|level
+|dimensions
+|disk space
+
+|No
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-0[Level-0]
+|25km x 23km
+|?
+
+|No
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-1a[Level-1A]
+|25km x 23km
+|?
+
+|No
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-1b[Level-1B]
+|25km x 23km
+|27 MB
+
+|Yes
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-1c[Level-1C]
+|100km x 100km
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types[600 MB]
+
+|Yes
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-2a[Level-2A]
+|100km x 100km
+|link:https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types[800 MB]
+
+|===
+
+So in order to minimize the amount of data you download, we can decide
+which of the granules covering the area of interest we want to download
+(depending on the attributes of each granule). Reducing these images
+also helps later on with the other steps (the less images we're joining/reprojecting,
+the less time it will take).
+
+.1 Input data
+[.left]
+image::/posts/p5-algo-1-1.png[width=70%,scalewidth=50%]
+
+.2 Union of all polygons
+[.left]
+image::/posts/p5-algo-1-2.png[width=70%,scalewidth=50%]
+
+.3 After removing redundant polygons
+image::/posts/p5-algo-1-3.png[scalewidth=50%]
+
+{nbsp}
+
+This algorithm goes through all polygons and adds them to union_poly
+only if they're not already contained in `union_poly` (in other words,
+we're only adding them to `union_poly` if they can increase the total area covered).
+
+In the code below, `ps` is the set of polygons used as input.
+
+[source%linenums,python3]
+----
+union_poly = ps[0]
+union_parts = [ps[0],]
+for p in ps[1:]:
+    common = union_poly.intersection(p)
+    if p.area - common.area < 0.001:
+        pass
+    else:
+        union_parts.append(p)
+        union_poly = union_poly.union(p)
+----
+
+== The area of interest
+
+The area of interest is a polygon (you can draw one yourself on link:http://geojson.io/[geojson.io]) that describes the final area we want clipped from the granules.
+Here are two examples, one of
+link:https://en.wikipedia.org/wiki/Cluj-Napoca[Cluj-Napoca], and the other of link:https://en.wikipedia.org/wiki/Madrid[Madrid].
+
+image:/posts/p5-cluj-aoi.png[]
+
+image:/posts/p5-madrid-aoi.png[]
+
+== Results
+
+The dates at which the images were taken will matter, because even though they adjacent images will match
+(which can be seen by looking at rivers or roads continuing from one image to an adjacent one), the colors
+can differ a lot if they're from different seasons.
+
+Here are results from intermediary and final steps (you can zoom-in a lot, they're very large):
+
+// cluj_merged1_4326
++++
+<iframe allowfullscreen="true" src="https://www.easyzoom.com/embed/21b362a723544e77a5ce4c7837905c1f" width="780" height="440"></iframe>
++++
+
+//cluj_seamleass_merged1_4326
++++
+<iframe allowfullscreen="true" src="https://www.easyzoom.com/embed/1f1c9d562f764cdeb01f76a42f064aea" width="780" height="440"></iframe>
++++
+
+//madrid_merged1_4326
++++
+<iframe allowfullscreen="true" src="https://www.easyzoom.com/embed/8e22b3a509e1406393b735afdd0341b2" width="780" height="440"></iframe>
++++
+
+//cluj_merged1_region
++++
+<iframe allowfullscreen="true" src="https://www.easyzoom.com/embed/411723a7f8774e71a9f53d06d8105184" width="780" height="440"></iframe>
++++
+
+//madrid_merged1_region
++++
+<iframe allowfullscreen="true" src="https://www.easyzoom.com/embed/ac5aee8c2b15451fb86fdc78eafaeccb" width="780" height="440"></iframe>
++++
+
+

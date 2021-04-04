@@ -130,6 +130,11 @@ mainly database tools, mathematical software but also other areas:
 |links
 |date
 
+|updating test suite
+|Perl
+|link:https://github.com/rhandom/perl-net-server/pull/22
+|2021-03-22
+
 |optimization
 |Python3
 |link:https://stackoverflow.com/a/65740442/827519[link]
