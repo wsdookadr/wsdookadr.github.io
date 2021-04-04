@@ -253,9 +253,11 @@ image:/posts/p5-madrid-aoi.png[]
 
 == Results
 
-The dates at which the images were taken will matter, because even though they adjacent images will match
-(which can be seen by looking at rivers or roads continuing from one image to an adjacent one), the colors
-can differ a lot if they're from different seasons.
+The dates at which the images were taken will matter, because even though
+the adjacent images will match (and you can see this by looking at rivers
+or roads continuing from one image to next one), the colors can differ
+a lot if the images were taken in different seasons (for example one in
+autumn and one during winter).
 
 Here are results from intermediary and final steps (you can zoom-in a lot, they're very large):
 
