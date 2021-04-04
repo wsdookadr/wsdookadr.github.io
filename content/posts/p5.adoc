@@ -9,7 +9,8 @@ tags = ["gis","python","maps","visualization"]
 
 == Intro
 
-This post describes ways to download, clip and join satellite images.
+This post describes ways to download, clip and join satellite images. The module link:https://github.com/wsdookadr/sentinel-mosaic[`sentinel-mosaic`] is
+used throughout this blog post.
 
 == Background
 
