@@ -251,6 +251,17 @@ image:/posts/p5-cluj-aoi.png[]
 
 image:/posts/p5-madrid-aoi.png[]
 
+== Usage
+
+After going through the setup described above, and defining an area of interest, you can run the entire algorithm like so:
+
+[source,bash]
+----
+python3.8 ./sentinel-toolbelt.py --auth_file auth.json --aoi_file ./sample_inputs/p12_madrid.geojson --dl_dir ./out/madrid/
+----
+
+You can also use the `--start_date` and `--end_date` switches to only use images taken from a certain period.
+
 == Results
 
 The dates at which the images were taken will matter, because even though
