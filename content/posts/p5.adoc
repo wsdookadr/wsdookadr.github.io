@@ -137,11 +137,11 @@ conda install rasterio==1.2.1 sentinelsat==0.14 shapely==1.7.1
 conda install gdal==3.1.4 geopandas==0.9.0 matplotlib==3.4.0 jupyter==1.0.0
 ----
 
-Now also install the sentinel-utils package
+Now also install the `sentinel-mosaic` package
 
 [source,bash]
 ----
-pip install sentinel-utils
+pip install sentinel-mosaic
 ----
 
 == Summary of the full algorithm
