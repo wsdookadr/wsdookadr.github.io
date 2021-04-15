@@ -133,6 +133,8 @@ install the packages.
 ----
 conda create -n e3 python=3.8.5
 conda activate e3
+conda config --add channels conda-forge
+conda config --set channel_priority strict
 conda install rasterio==1.2.1 sentinelsat==0.14 shapely==1.7.1
 conda install gdal==3.1.4 geopandas==0.9.0 matplotlib==3.4.0 jupyter==1.0.0
 ----
