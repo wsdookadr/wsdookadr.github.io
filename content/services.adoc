@@ -170,6 +170,11 @@ mainly database tools, mathematical software but also other areas:
 |link:https://github.com/BaseXdb/basex/pull/1354[link]
 |2016-09-16
 
+|bugreport + test
+|Javascript
+|link:https://github.com/mozilla-comm/ical.js/issues/91[issue] link:https://github.com/mozilla-comm/ical.js/pull/176[pull request]
+|2015-06-05
+
 |bugreport + reproducible test
 |Java
 |link:https://bugs.documentfoundation.org/show_bug.cgi?id=86131[link]
