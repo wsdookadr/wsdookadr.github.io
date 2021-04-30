@@ -130,6 +130,11 @@ mainly database tools, mathematical software but also other areas:
 |links
 |date
 
+|enhancement + test
+|C
+|link:https://github.com/postgis/postgis/pull/610[link], link:https://trac.osgeo.org/postgis/ticket/4628[link]
+|2021-04-30
+
 |updating test suite
 |Perl
 |link:https://github.com/rhandom/perl-net-server/pull/22[link]
@@ -172,7 +177,7 @@ mainly database tools, mathematical software but also other areas:
 
 |bugreport + test
 |Javascript
-|link:https://github.com/mozilla-comm/ical.js/issues/91[issue] link:https://github.com/mozilla-comm/ical.js/pull/176[pull request]
+|link:https://github.com/mozilla-comm/ical.js/issues/91[issue], link:https://github.com/mozilla-comm/ical.js/pull/176[pull request]
 |2015-06-05
 
 |bugreport + reproducible test
