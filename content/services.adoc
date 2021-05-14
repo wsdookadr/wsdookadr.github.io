@@ -131,13 +131,13 @@ mainly database tools, mathematical software but also other areas:
 |date
 
 |test suite optimization
-|GDAL,bash,Makefile
+|postgis,GDAL,bash,Makefile
 |link:https://trac.osgeo.org/postgis/ticket/4783[link], link:https://github.com/postgis/postgis/pull/613[link]
 |2021-05-14
 
 |test
+|SQL,plpgsql,postgis,Makefile
 |link:https://github.com/postgis/postgis/pull/612[link], link:https://trac.osgeo.org/postgis/ticket/4905[link]
-|SQL,plpgsql,Makefile
 |2021-05-14
 
 |enhancement + test
