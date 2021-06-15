@@ -33,7 +33,7 @@ to mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
 
 |bugfix
 |Perl
-|link:https://github.com/darold/pgbadger/issues/662[link], link:https://github.com/darold/pgbadger/pull/663
+|link:https://github.com/darold/pgbadger/issues/662[link], link:https://github.com/darold/pgbadger/pull/663[link]
 |2021-06-15
 
 |test suite optimization
