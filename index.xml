@@ -13,7 +13,7 @@ link
 2020-06-09
 bugfix
 Perl
-link, link:https://github.com/darold/pgbadger/pull/663</description></item><item><title>Supported Technologies</title><link>https://wsdookadr.github.io/supported-tech/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/supported-tech/</guid><description>Check the Services page for a list of services provided for these technologies Web servers: Nginx, Apache2, HAProxy
+link, link</description></item><item><title>Supported Technologies</title><link>https://wsdookadr.github.io/supported-tech/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/supported-tech/</guid><description>Check the Services page for a list of services provided for these technologies Web servers: Nginx, Apache2, HAProxy
 Web frameworks: Django, Mojolicious
 Operating Systems: Ubuntu LTS, Debian, Redhat, Windows
 Programming Languages: Python, Perl5, Bash, Java, XQuery, SQL (multiple dialects, including plpgsql)
