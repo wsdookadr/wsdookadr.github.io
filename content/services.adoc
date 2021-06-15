@@ -5,120 +5,16 @@ markup = "asciidoc"
 date = 2021-01-01
 +++
 
-= Commercial Services Offering
+= Commercial Services
 
-Starting with 2016 *S.C. MAGNA SOFTWARE S.R.L* offers a variety of
-software services and solutions to clients world-wide.
+I'm offering services related to databases, custom software
+(including custom addons, modules etc), automation, infrastructure
+and documentation.
 
-For reference, see the details below. If you have any questions feel
-free to send an e-mail.
-
-== Contact details
-
-[width="70%"]
-[cols="40%,50%"]
-|===
-| *Company name*
-| *S.C. MAGNA SOFTWARE S.R.L*
-
-| Email: 
-| mailto:stefan@garage-coding.com[stefan@garage-coding.com]
-
-mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com]
-
-| Phone:
-| +40732070179 
-
-| Stackoverflow:
-| link:https://stackoverflow.com/users/827519/wsdookadr[link]
-
-| Github:
-| link:https://github.com/wsdookadr/[link]
-
-| Company registration number:
-| J40/4134/18.03.2016 
-
-| Company tax number:
-| 35831444 
-
-| EU VAT ID:
-| RO42588403
-
-| Accepted payment methods:
-| Bank account transfer, Paypal
-
-|===
-
-
-== Expertise
-
-=== Databases
-Both traditional RDBMS such as link:https://www.postgresql.org/[PostgreSQL], link:https://www.mysql.com/[MySQL]/link:https://mariadb.org/[MariaDB], link:https://www.sqlite.org/index.html[SQLite]
-and NoSQL solutions like link:https://www.elastic.co/[Elasticsearch] and link:https://redis.io/[Redis].
-
-* Analyzing, measuring and improving performance of existing SQL codebases
-* Backup planning and implementation
-* DR planning and implementation
-* Writing custom tools to analyze performance for a specific database
-* Monitoring
-* Support for production issues
-
-=== Custom Software development
-Designing, prototyping new software (in niche areas, sometimes involving
-non-mainstream technologies languages and frameworks), writing add-ons or plugins for existing
-software, customizing opensource software to fit requirements and solve
-business needs which in turn adds value to the client's existing or new products.
-
-=== Support for opensource software
-Support for opensource software in the following situations:
-
-* outstanding/open bugs which you need fixed
-* opensource software that is insufficiently documented
-* fixing build pipelines of opensource software
-* reviewing existing opensource tools for a specific purpose and crafting a survey document of the tools available and their capabilities 
-* other types of software maintenance related to opensource
-
-=== Online data collection and scraping
-Providing services related to automatic online data collection, writing scalable web scrapers and web spiders
-(using link:https://github.com/scrapy/scrapy/[Scrapy], link:https://github.com/scrapinghub/splash/[Splash] or custom solutions)
-
-=== Infrastructure
-Services related to automating deployment and infrastructure creation in different cloud providers (link:https://aws.amazon.com/[AWS], link:https://azure.microsoft.com/en-us/[Azure])
-and automation using Ansible and Terraform.
-
-Creation, maintenance and support of link:https://en.wikipedia.org/wiki/CI/CD[CI/CD] pipelines in link:https://www.jenkins.io/[Jenkins]
-
-Creation of software packages and setting up package repositories for Debian / Redhat / CentOS (deb and rpm packages).
-Designing and writing new link:https://www.docker.com/[Docker] images as well as maintaining existing ones.
-
-Setting up and configuring monitoring and dashboards for link:https://www.nagios.org/[Nagios], link:https://icinga.com/[Icinga2] or link:https://prometheus.io/[Prometheus]/link:https://grafana.com/[Grafana].
-Development of custom monitoring plugins, adapted to the client's specific business needs.
-
-=== Code Reviews
-Manual code reviews as well as automatic code reviews using language-specific tools
-for the following languages: Perl, Python, Bash, C
-
-=== Data visualization
-
-Designing and preparing accurate data visualizations (charts, graphs, or other types of custom visualizations).
-
-=== Scripting/link:https://en.wikipedia.org/wiki/Extract,_transform,_load[ETL]
-Writing data processing pipelines in link:https://www.python.org/[Python], link:https://www.perl.org/[Perl], link:https://www.gnu.org/software/bash/[Bash]
-
-=== Documentation
-
-Technical writing services for the following types of documents:
-
-* software specifications
-* user documentation
-* software architecture diagrams
+If you need more details or want a quote for a project send an e-mail
+to mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
 
 == Opensource contributions
-
-Many companies are making use of link:https://en.wikipedia.org/wiki/Open-source_software[opensource software].
-*S.C. MAGNA SOFTWARE S.R.L* supports clients custom deployments and
-actively contributes to existing opensource software projects and modules,
-mainly database tools, mathematical software but also other areas:
 
 //[cols="20%,60%"]
 [width="70%"]
@@ -129,6 +25,16 @@ mainly database tools, mathematical software but also other areas:
 |technologies used
 |links
 |date
+
+|docs improvements
+|Perl
+|link:https://github.com/darold/pgbadger/pull/665[link]
+|2020-06-09
+
+|bugfix
+|Perl
+|link:https://github.com/darold/pgbadger/issues/662[link], link:https://github.com/darold/pgbadger/pull/663
+|2021-06-15
 
 |test suite optimization
 |postgis,GDAL,bash,Makefile
@@ -227,7 +133,6 @@ mainly database tools, mathematical software but also other areas:
 
 |===
 
-
 == Opensource projects
 
 //[cols="20%,60%"]
@@ -254,6 +159,5 @@ mainly database tools, mathematical software but also other areas:
 | Utility to extract image metadata and bring it to a format suitable for machine consumption
 
 |===
-
 
 

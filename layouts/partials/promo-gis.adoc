@@ -1,7 +1,4 @@
 
 [NOTE]
-If you liked this article and would like to discuss more about how MAGNA SOFTWARE S.R.L
-can help you or your business with custom solutions for link:https://wsdookadr.github.io/services/#_custom_software_development[creating maps and processing satellite images], feel
-free to link:https://calendly.com/stefan-petrea/30min[book a 30-minute call] with me so we can get
-to know each other and discuss a future collaboration.
- 
+If you liked this article and would like to discuss more about custom software solutions
+feel free to get in touch at mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
