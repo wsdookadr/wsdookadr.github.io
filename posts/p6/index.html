@@ -1,0 +1,202 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Multiple instance Activitywatch remote server setup &#183; Blog</title><link rel=prev href=/posts/p5/><meta name=description content="Intro My setup includes several laptops, a desktop, and a storage server.
+ Because I split my time across multiple projects, and sometimes I have a dedicated laptop for one project, I find this setup to be useful.
+ For some time I’ve wanted to take a closer look at how exactly I spend my time during the day, for both personal projects and client work.
+ I’ve tried other solutions in the past but they didn’t work very well."><meta name=keywords content="linux,windows,setup,time-tracking,activitywatch"><meta property="og:title" content="Multiple instance Activitywatch remote server setup"><meta property="og:description" content="Intro My setup includes several laptops, a desktop, and a storage server.
+ Because I split my time across multiple projects, and sometimes I have a dedicated laptop for one project, I find this setup to be useful.
+ For some time I’ve wanted to take a closer look at how exactly I spend my time during the day, for both personal projects and client work.
+ I’ve tried other solutions in the past but they didn’t work very well."><meta property="article:published_time" content="2021-10-23T00:00:00+00:00"><meta property="article:modified_time" content="2021-10-23T00:00:00+00:00"><meta property="og:site_name" content="Blog"><meta property="article:section" content="posts"><meta property="article:tag" content="linux"><meta property="article:tag" content="windows"><meta property="article:tag" content="setup"><meta property="article:tag" content="time-tracking"><meta property="article:tag" content="activitywatch"><meta name=twitter:card content="summary"><meta name=twitter:title content="Multiple instance Activitywatch remote server setup"><meta name=twitter:description content="Intro My setup includes several laptops, a desktop, and a storage server.
+ Because I split my time across multiple projects, and sometimes I have a dedicated laptop for one project, I find this setup …"><meta name=generator content="Hugo 0.79.1"><link rel=stylesheet href=/css/site.min.72989e8586a2239ea67ac4abbdb14c93dda32429d05c83e1eb621be0d97d1924.css integrity="sha256-cpiehYaiI56mesSrvbFMk92jJCnQXIPh62Ib4Nl9GSQ="></head><body class=article><header class=header><nav class=navbar><div class=navbar-brand><a class=navbar-item href=/>Blog</a>
+<button class=navbar-burger data-target=topbar-nav>
+<span></span><span></span><span></span></button></div><div id=topbar-nav class=navbar-menu><div class=navbar-end><a class=navbar-item href=/services/ title=Services>Services</a>
+<a class=navbar-item href=/supported-tech/ title="Supported Technologies">Supported Technologies</a></div></div></nav></header><div class=body><div class=nav-container><aside class=nav><div class=panels><div class="nav-panel-menu is-active" data-panel=menu><nav class=nav-menu><h3 class=title><a href=/>Blog</a></h3><ul class=nav-list><li class=nav-item data-depth=0><button class=nav-item-toggle></button>
+<a class=nav-link href=/posts/>Posts</a><ul class=nav-list><li class="nav-item is-current-page" data-depth=1><a class=nav-link href=/posts/p6/>Multiple instance Activitywatch remote server setup</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p5/>Creating mosaics, clipping and removing overlapping satellite images</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p4/>Polygon gridding using Geopandas and Shapely</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p3/>Fast sub-tree containment checks</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p2/>Non-standard solutions to some technical problems</a></li><li class=nav-item data-depth=1><a class=nav-link href=/posts/p1/>Setting up the new blog</a></li></ul></li><li class=nav-item data-depth=0><a class=nav-link href=/services/>Services</a></li><li class=nav-item data-depth=0><a class=nav-link href=/supported-tech/>Supported Technologies</a></li></ul></nav></div><div class=nav-panel-explore data-panel=explore style=display:none><div class=context><span class=title></span><span class=version></span></div></div></div></aside></div><main class=article><div class=toolbar role=navigation><button class=nav-toggle></button>
+<a href=/ class=home-link></a><nav class=breadcrumbs aria-label=breadcrumbs><ul><li><a href=/>Blog</a></li><li><a href=/posts/>Posts</a></li><li>Multiple instance Activitywatch remote server setup</li></ul></nav></div><div class=content><article class=doc><h1 class=page>Multiple instance Activitywatch remote server setup</h1><div class="openblock is-before-toc"><div class=title>Posted on October 23, 2021
+&#183; Tagged with
+<a href=/tags/linux/>linux</a>, <a href=/tags/windows/>windows</a>, <a href=/tags/setup/>setup</a>, <a href=/tags/time-tracking/>time-tracking</a>, <a href=/tags/activitywatch/>activitywatch</a></div></div><div class=sect1><h2 id=_intro>Intro</h2><div class=sectionbody><div class=paragraph><p>My setup includes several laptops, a desktop, and a storage server.</p></div><div class=paragraph><p>Because I split my time across multiple projects, and sometimes I have
+a dedicated laptop for one project, I find this setup to be useful.</p></div><div class=paragraph><p>For some time I’ve wanted to take a closer look at how exactly I spend
+my time during the day, for both personal projects and client work.</p></div><div class=paragraph><p>I’ve tried other solutions in the past but they didn’t work very well.</p></div><div class=paragraph><p>Every now and then I have a look at Github and try to review an existing
+projects and that’s how I came across <a href=https://activitywatch.net/>ActivityWatch</a> (<a href=https://github.com/ActivityWatch/>github</a>).
+So ActivityWatch looks like a very well put-together solution, with a main server
+<code>aw-server</code> that collects the data, and a series of <code>aw-watcher-*</code>
+projects that monitor activity in different ways on the machines where
+they’re deployed. I really liked that type of design, and I really like
+that it gets out of my way and I don’t have to touch it after I have it
+set up.</p></div><div class=paragraph><p>Another reason is sometimes I need to create reports from this data.</p></div></div></div><div class=sect1><h2 id=_local_setup>Local Setup</h2><div class=sectionbody><div class=paragraph><p>Running ActivityWatch locally is very simple, the setup looks like this:</p></div><div class=imageblock><div class=content><svg viewBox="0 0 568.43 171" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="755" height="227"><g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 167)"><title>G</title><polygon fill="#fff" points="-4,4 -4,-167 564.4331,-167 564.4331,4 -4,4" stroke="transparent"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="280.2166" y="-7.8">Local Setup</text><g class="node" id="node1"><title>aws1</title><ellipse cx="296.3408" cy="-145" fill="none" rx="56.59" ry="18" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="296.3408" y="-141.3">aw-server</text></g><g class="node" id="node2"><title>aww1</title><ellipse cx="103.3408" cy="-73" fill="none" rx="103.1819" ry="18" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="103.3408" y="-69.3">aw-watcher-window</text></g><g class="edge" id="edge1"><title>aww1->aws1</title><path d="M147.1355-89.3379C177.7441-100.7567 218.5577-115.9824 249.7613-127.6232" fill="none" stroke="#000"/><polygon fill="#000" points="248.9369,-131.0512 259.5296,-131.2673 251.3837,-124.4927 248.9369,-131.0512" stroke="#000"/></g><g class="node" id="node3"><title>awf1</title><ellipse cx="296.3408" cy="-73" fill="none" rx="82.5854" ry="18" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="296.3408" y="-69.3">aw-watcher-afk</text></g><g class="edge" id="edge2"><title>awf1->aws1</title><path d="M296.3408-91.1686c0-7.700400000000002.0-16.857100000000003.0-25.4148" fill="none" stroke="#000"/><polygon fill="#000" points="292.8409,-116.5867 296.3408,-126.5867 299.8409,-116.5868 292.8409,-116.5867" stroke="#000"/></g><g class="node" id="node4"><title>awb1</title><ellipse cx="473.3408" cy="-73" fill="none" rx="87.1846" ry="18" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="473.3408" y="-69.3">aw-watcher-web</text></g><g class="edge" id="edge3"><title>awb1->aws1</title><path d="M433.6186-89.1582C406.0551-100.3705 369.3114-115.3171 340.7747-126.9252" fill="none" stroke="#000"/><polygon fill="#000" points="339.3809,-123.7136 331.4368,-130.7237 342.0185,-130.1977 339.3809,-123.7136" stroke="#000"/></g></g></svg></div></div><div class=paragraph><p>The watchers will collect events and just send them to <code>aw-server</code> where they get stored (so far I know it can
+store the data in SQLite by default, or MongoDB).</p></div><div class=paragraph><p>The watchers will send to whatever is listening on host 127.0.0.1 port 5600 (in this case <code>aw-server</code>).</p></div><div class=paragraph><p>I wrote a couple of Systemd user unit files to start all of these (except for <code>aw-watcher-web</code> which is a browser
+extension that is active when the browser is), I’ll write about them later on.</p></div></div></div><div class=sect1><h2 id=_remote_server_setup>Remote Server Setup</h2><div class=sectionbody><div class=paragraph><p>Activitywatch have on their roadmap the addition of authentication,
+encryption and multi-instance/multitenancy. At the time of writing this,
+those features are not yet finished. The workaround is to just have multiple
+instances of AW running somewhere, and SSH tunnels in place to allow data
+to go where it needs to.</p></div><div class=imageblock><div class=content><svg viewBox="0 0 471 523" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="626" height="695"><g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 519)"><title>g</title><polygon fill="#fff" points="-4,4 -4,-519 467,-519 467,4 -4,4" stroke="transparent"/><g class="cluster" id="clust1"><title>cluster_0</title><polygon fill="none" points="8,-174 8,-341 142,-341 142,-174 8,-174" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-325.8">storage server</text></g><g class="cluster" id="clust2"><title>cluster_1</title><polygon fill="none" points="150,-346 150,-507 455,-507 455,-346 150,-346" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="302.5" y="-491.8">machine1</text></g><g class="cluster" id="clust3"><title>cluster_2</title><polygon fill="none" points="150,-177 150,-338 455,-338 455,-177 150,-177" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="302.5" y="-322.8">machine2</text></g><g class="cluster" id="clust4"><title>cluster_3</title><polygon fill="none" points="150,-8 150,-169 455,-169 455,-8 150,-8" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="302.5" y="-153.8">machine3</text></g><g class="node" id="node1"><title>aw1</title><polygon fill="none" points="134,-310 16,-310 16,-272 134,-272 134,-310" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-294.8">aw1</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-279.8">remote server</text></g><g class="node" id="node7"><title>awt1</title><polygon fill="none" points="266,-413 158,-413 158,-375 266,-375 266,-413" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-397.8">5600 local</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-382.8">5600 remote</text></g><g class="edge" id="edge4"><title>aw1->awt1</title><path d="M100.4476-310.1321C122.4596-326.6813 154.4462-350.7296 178.5292-368.8358" fill="none" stroke="#000"/><polygon fill="#000" points="176.5924,-371.7585 186.6887,-374.9703 180.799,-366.1634 176.5924,-371.7585" stroke="#000"/></g><g class="node" id="node2"><title>aw2</title><polygon fill="none" points="134,-265 16,-265 16,-227 134,-227 134,-265" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-249.8">aw2</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-234.8">remote server</text></g><g class="node" id="node11"><title>awt2</title><polygon fill="none" points="266,-265 158,-265 158,-227 266,-227 266,-265" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-249.8">5600 local</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-234.8">5601 remote</text></g><g class="edge" id="edge8"><title>aw2->awt2</title><path d="M134.2934-246C138.6866-246 143.1313-246 147.5533-246" fill="none" stroke="#000"/><polygon fill="#000" points="147.7956,-249.5001 157.7956,-246 147.7955,-242.5001 147.7956,-249.5001" stroke="#000"/></g><g class="node" id="node3"><title>aw3</title><polygon fill="none" points="134,-220 16,-220 16,-182 134,-182 134,-220" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-204.8">aw3</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="75" y="-189.8">remote server</text></g><g class="node" id="node15"><title>awt3</title><polygon fill="none" points="266,-117 158,-117 158,-79 266,-79 266,-117" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-101.8">5600 local</text><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="212" y="-86.8">5602 remote</text></g><g class="edge" id="edge12"><title>aw3->awt3</title><path d="M100.4476-181.8679C122.4596-165.3187 154.4462-141.2704 178.5292-123.1642" fill="none" stroke="#000"/><polygon fill="#000" points="180.799,-125.8366 186.6887,-117.0297 176.5924,-120.2415 180.799,-125.8366" stroke="#000"/></g><g class="node" id="node4"><title>aww1</title><polygon fill="none" points="447,-390 288,-390 288,-354 447,-354 447,-390" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-368.3">aw-watcher-window</text></g><g class="node" id="node5"><title>awf1</title><polygon fill="none" points="431,-433 304,-433 304,-397 431,-397 431,-433" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-411.3">aw-watcher-afk</text></g><g class="node" id="node6"><title>awb1</title><polygon fill="none" points="434.5,-476 300.5,-476 300.5,-440 434.5,-440 434.5,-476" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-454.3">aw-watcher-web</text></g><g class="edge" id="edge1"><title>awt1->aww1</title><path d="M266.3864-386.3055C270.1086-385.7789 273.9095-385.2411 277.7505-384.6977" fill="none" stroke="#000"/><polygon fill="#000" points="278.5737,-388.1161 287.9848,-383.2497 277.5931,-381.1852 278.5737,-388.1161" stroke="#000"/></g><g class="edge" id="edge2"><title>awt1->awf1</title><path d="M266.3864-401.3448C275.2622-402.5434 284.5858-403.8026 293.8323-405.0513" fill="none" stroke="#000"/><polygon fill="#000" points="293.4321,-408.5289 303.8105,-406.3989 294.369,-401.5919 293.4321,-408.5289" stroke="#000"/></g><g class="edge" id="edge3"><title>awt1->awb1</title><path d="M242.6143-413.0745C256.1607-420.9423 272.5067-429.6781 288-436 288.8702-436.3551 289.7479-436.7064 290.6324-437.0539" fill="none" stroke="#000"/><polygon fill="#000" points="289.7266,-440.4503 300.3199,-440.6305 292.1511,-433.8836 289.7266,-440.4503" stroke="#000"/></g><g class="node" id="node8"><title>aww2</title><polygon fill="none" points="447,-221 288,-221 288,-185 447,-185 447,-221" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-199.3">aw-watcher-window</text></g><g class="node" id="node9"><title>awf2</title><polygon fill="none" points="431,-264 304,-264 304,-228 431,-228 431,-264" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-242.3">aw-watcher-afk</text></g><g class="node" id="node10"><title>awb2</title><polygon fill="none" points="434.5,-307 300.5,-307 300.5,-271 434.5,-271 434.5,-307" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-285.3">aw-watcher-web</text></g><g class="edge" id="edge5"><title>awt2->aww2</title><path d="M266.3864-230.9607C274.786-228.638 283.5866-226.2043 292.3434-223.7829" fill="none" stroke="#000"/><polygon fill="#000" points="293.4822,-227.0994 302.1877,-221.0606 291.6165,-220.3526 293.4822,-227.0994" stroke="#000"/></g><g class="edge" id="edge6"><title>awt2->awf2</title><path d="M266.3864-246C275.1678-246 284.3875-246 293.5372-246" fill="none" stroke="#000"/><polygon fill="#000" points="293.8106,-249.5001 303.8105,-246 293.8105,-242.5001 293.8106,-249.5001" stroke="#000"/></g><g class="edge" id="edge7"><title>awt2->awb2</title><path d="M266.3864-261.0393C274.786-263.362 283.5866-265.7957 292.3434-268.2171" fill="none" stroke="#000"/><polygon fill="#000" points="291.6165,-271.6474 302.1877,-270.9394 293.4822,-264.9006 291.6165,-271.6474" stroke="#000"/></g><g class="node" id="node12"><title>aww3</title><polygon fill="none" points="447,-52 288,-52 288,-16 447,-16 447,-52" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-30.3">aw-watcher-window</text></g><g class="node" id="node13"><title>awf3</title><polygon fill="none" points="431,-95 304,-95 304,-59 431,-59 431,-95" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-73.3">aw-watcher-afk</text></g><g class="node" id="node14"><title>awb3</title><polygon fill="none" points="434.5,-138 300.5,-138 300.5,-102 434.5,-102 434.5,-138" stroke="#000"/><text fill="#000" font-family="Times,serif" font-size="14" text-anchor="middle" x="367.5" y="-116.3">aw-watcher-web</text></g><g class="edge" id="edge9"><title>awt3->aww3</title><path d="M242.6143-78.9255C256.1607-71.0577 272.5067-62.3219 288-56 288.2072-55.9155 288.4148-55.8311 288.6228-55.747" fill="none" stroke="#000"/><polygon fill="#000" points="290.1135,-58.925 298.2236,-52.1076 287.6322,-52.3796 290.1135,-58.925" stroke="#000"/></g><g class="edge" id="edge10"><title>awt3->awf3</title><path d="M266.3864-90.6552C275.2622-89.4566 284.5858-88.1974 293.8323-86.9487" fill="none" stroke="#000"/><polygon fill="#000" points="294.369,-90.4081 303.8105,-85.6011 293.4321,-83.4711 294.369,-90.4081" stroke="#000"/></g><g class="edge" id="edge11"><title>awt3->awb3</title><path d="M266.3864-105.6945C274.0839-106.7836 282.1184-107.9203 290.1471-109.0562" fill="none" stroke="#000"/><polygon fill="#000" points="289.8964,-112.5555 300.2881,-110.4909 290.877,-105.6245 289.8964,-112.5555" stroke="#000"/></g></g></svg></div></div><div class=sect2><h3 id=_setup_for_the_remote_servers>Setup for the remote servers</h3><div class=paragraph><p>On the storage server I’ve created three users: <code>aw{1,2,3}</code>.
+For each of them a private key was generated and placed in their respective <code>authorized_keys</code> to
+allow SSH authentication using key.</p></div><div class=paragraph><p>Next I’ve distributed each key accordingly to <code>machine{1,2,3}</code>.</p></div><div class=paragraph><p>I’ve written the following at the end of <code>/etc/ssh/sshd_config</code> to only
+allow those three users to create SSH tunnels, and do port forwarding,
+each on its own port, and not be able to get a shell or do anything else:</p></div><div class=listingblock><div class=content><pre class="pygments highlight"><code><span></span>AllowTcpForwarding yes
+Match User aw1
+  PermitOpen 127.0.0.1:5600
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+
+Match User aw2
+  PermitOpen 127.0.0.1:5601
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+
+Match User aw3
+  PermitOpen 127.0.0.1:5602
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false</code></pre></div></div><div class=paragraph><p>Next up we’ll create 3 different chroot environments <code>/opt/aw-env{1,2,3}</code>.
+Each of the three instances of ActivityWatch <code>aw-server</code> will be running in a separate chroot, so they’re all going to be separate.</p></div><div class=listingblock><div class=content><pre class="pygments highlight"><code data-lang=bash><span></span><span class=tok-nb>cd</span> /opt/
+debootstrap --variant<span class=tok-o>=</span>minbase --include<span class=tok-o>=</span>bash,coreutils --exclude<span class=tok-o>=</span>gcc-10-base,gcc-9-base,perl-base,dpkg,apt,binutils,mount bullseye aw-env1 http://ftp.ro.debian.org/debian/
+rm -rf aw-env1/var/cache/apt/archives/*
+cp -r aw-env<span class=tok-o>{</span><span class=tok-m>1</span>,2<span class=tok-o>}</span>
+cp -r aw-env<span class=tok-o>{</span><span class=tok-m>1</span>,3<span class=tok-o>}</span>
+chown -R daemon:daemon /opt/aw-env*</code></pre></div></div><div class=paragraph><p>And then I’ve written init scripts for <code>aw-server</code> on the storage server in <code>/etc/init.d/aw{1,2,3}</code>.
+You can also write a Systemd service instead if you want, in my case an init script was a better fit.</p></div><div class=paragraph><p>I’m including one of them as the other ones are the same (the port they listen on will differ).</p></div><details><summary class=title><code>/etc/init.d/aw1</code></summary><div class=content><div class=listingblock><div class=content><pre class="pygments highlight"><code><span></span>#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          activitywatch1
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: activitywatch1 daemon
+### END INIT INFO
+
+
+#
+# Note: this script assumes you have a chroot in $CHROOT
+# and further, that inside $CHROOT/aw you have an unzipped activitywatch build199 ready-to-go.
+#
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+NAME=activitywatch1
+DESC=&#34;activitywatch1 daemon&#34;
+USER=&#34;daemon&#34;
+CHROOT=/opt/aw-env1
+PIDFILE=/aw.pid
+
+HOST=&#34;127.0.0.1&#34;
+PORT=&#34;5600&#34;
+
+test -d &#34;$CHROOT&#34; || exit 0
+
+. /lib/lsb/init-functions
+
+case &#34;$1&#34; in
+  start)
+
+	echo -n &#34;Starting $DESC: &#34;
+    start-stop-daemon --chroot $CHROOT --quiet -b --start --user daemon --chuid daemon --make-pidfile --pidfile $CHROOT/aw.pid --no-close --startas \
+    /usr/bin/env XDG_CONFIG_HOME=/aw/config XDG_CACHE_HOME=/aw/cache XDG_DATA_HOME=/aw/data /bin/bash -- -c &#34;/aw/aw-server/aw-server --host $HOST --port $PORT --log-json &gt; /aw/aw.log 2&gt;&amp;1&#34; &gt;/dev/null 2&gt;&amp;1
+
+	echo &#34;$NAME.&#34;
+	;;
+  stop)
+    # send SIGKILL to all descendants including the main parent
+    # (also see https://superuser.com/a/822450 )
+
+    if [ -f &#34;$CHROOT/$PIDFILE&#34; ]; then
+        MAIN_PID=$(cat $CHROOT/$PIDFILE)
+        kill $(ps --no-headers --forest -o pid -g $(ps -o sid= -p $MAIN_PID))
+        rm &#34;$CHROOT/$PIDFILE&#34;
+        echo -n &#34;Stopping $DESC: &#34;
+    else
+        echo &#34;$NAME not running&#34;
+    fi
+
+	echo &#34;$NAME.&#34;
+	;;
+  restart|force-reload)
+	$0 stop
+	sleep 2
+	$0 start
+	;;
+  status)
+
+    if test -f &#34;$CHROOT/$PIDFILE&#34; &amp;&amp; ps -p $(cat &#34;$CHROOT/$PIDFILE&#34;) &gt;/dev/null ; then
+        echo &#34;$NAME still active&#34;
+    else
+        echo &#34;$NAME inactive&#34;
+    fi
+
+    exit 0
+
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo &#34;Usage: $N {start|stop|restart|force-reload|status}&#34; &gt;&amp;2
+	exit 1
+	;;
+esac
+
+exit 0</code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_windows_client_machine>Setup for Windows client machine</h3><div class=paragraph><p>One of the machines <code>machine{1,2,3}</code> in my case is a Windows10 machine and I’d like
+to run ActivityWatch on there too. I just want it to start at logon and not get in the
+way so I wrote a Powershell script that will be run as a Scheduled Task and run at logon.</p></div><div class=paragraph><p>The script I wrote makes use of the Microsoft OpenSSH client which can be installed like this:
+<code>Add-WindowsCapability -Online -Name OpenSSH.Client*</code></p></div><div class=paragraph><p>The way it works is it just checks if the required SSH port on the storage server is accessible
+and if so, it creates an SSH tunnel (similar to how we’ve created the Linux SSH tunnel above) and
+then it starts <code>aw-qt.exe</code> which starts all the watchers.</p></div><div class=paragraph><p>This is optional, but the script will also start an SSH daemon from WSL, which is installed on my Windows machine.</p></div><div class=paragraph><p>It can be installed/uninstalled by running <code>Start > cmd.exe</code> and then running one of the following:</p></div><div class=listingblock><div class=content><pre class="pygments highlight"><code><span></span>schtasks /TN AWStartup /Create /TR &#34;powershell.exe -file c:\users\user\aw\aw-local\tunnel_on_startup.ps1&#34; /RU user /SC ONLOGON /IT
+schtasks /delete /tn AWStartup /f</code></pre></div></div><details><summary class=title><code>tunnel_on_startup.ps1</code></summary><div class=content><div class=listingblock><div class=content><pre class="pygments highlight"><code data-lang=powershell><span></span><span class=tok-k>function</span> <span class=tok-n>testport</span><span class=tok-p>{</span>
+  <span class=tok-k>param</span><span class=tok-p>(</span><span class=tok-no>[string]</span><span class=tok-nv>$hostname</span><span class=tok-p>,</span><span class=tok-no>[int]</span><span class=tok-nv>$port</span><span class=tok-p>,</span><span class=tok-no>[int]</span><span class=tok-nv>$timeout</span><span class=tok-p>)</span>
+
+  <span class=tok-nv>$requestCallback</span> <span class=tok-p>=</span> <span class=tok-nv>$state</span> <span class=tok-p>=</span> <span class=tok-nv>$null</span>
+  <span class=tok-nv>$client</span> <span class=tok-p>=</span> <span class=tok-nb>New-Object</span> <span class=tok-n>System</span><span class=tok-p>.</span><span class=tok-n>Net</span><span class=tok-p>.</span><span class=tok-n>Sockets</span><span class=tok-p>.</span><span class=tok-n>TcpClient</span>
+
+  <span class=tok-nv>$where</span> <span class=tok-p>=</span> <span class=tok-no>[IPAddress]</span><span class=tok-nv>$hostname</span><span class=tok-p>.</span><span class=tok-n>ToString</span><span class=tok-p>()</span>
+  <span class=tok-nv>$beginConnect</span> <span class=tok-p>=</span> <span class=tok-nv>$client</span><span class=tok-p>.</span><span class=tok-n>BeginConnect</span><span class=tok-p>(</span><span class=tok-nv>$where</span><span class=tok-p>,</span><span class=tok-nv>$port</span><span class=tok-p>,</span><span class=tok-nv>$requestCallback</span><span class=tok-p>,</span><span class=tok-nv>$state</span><span class=tok-p>)</span>
+  <span class=tok-nb>Start-Sleep</span> <span class=tok-n>-milli</span> <span class=tok-nv>$timeOut</span>
+  <span class=tok-k>if</span> <span class=tok-p>(</span><span class=tok-nv>$client</span><span class=tok-p>.</span><span class=tok-n>Connected</span><span class=tok-p>)</span> <span class=tok-p>{</span> <span class=tok-nv>$open</span> <span class=tok-p>=</span> <span class=tok-nv>$true</span> <span class=tok-p>}</span> <span class=tok-k>else</span> <span class=tok-p>{</span> <span class=tok-nv>$open</span> <span class=tok-p>=</span> <span class=tok-nv>$false</span> <span class=tok-p>}</span>
+  <span class=tok-nv>$client</span><span class=tok-p>.</span><span class=tok-n>Close</span><span class=tok-p>()</span>
+  <span class=tok-no>[pscustomobject]</span><span class=tok-p>@{</span><span class=tok-n>hostname</span><span class=tok-p>=</span><span class=tok-nv>$hostname</span><span class=tok-p>;</span><span class=tok-n>port</span><span class=tok-p>=</span><span class=tok-nv>$port</span><span class=tok-p>;</span><span class=tok-n>open</span><span class=tok-p>=</span><span class=tok-nv>$open</span><span class=tok-p>}</span>
+<span class=tok-p>}</span>
+
+<span class=tok-nv>$max_retries</span> <span class=tok-p>=</span> <span class=tok-n>7</span>
+
+<span class=tok-nv>$has_network_connectivity</span> <span class=tok-p>=</span> <span class=tok-nv>$false</span><span class=tok-p>;</span>
+<span class=tok-k>for</span><span class=tok-p>(</span><span class=tok-nv>$i</span><span class=tok-p>=</span><span class=tok-n>0</span><span class=tok-p>;</span><span class=tok-nv>$i</span> <span class=tok-o>-lt</span> <span class=tok-nv>$max_retries</span><span class=tok-p>;</span><span class=tok-nv>$i</span><span class=tok-p>++){</span>
+    <span class=tok-nv>$ping</span> <span class=tok-p>=</span> <span class=tok-n>testport</span> <span class=tok-n>-hostname</span> <span class=tok-s2>&#34;192.168.1.100&#34;</span> <span class=tok-n>-port</span> <span class=tok-n>2223</span> <span class=tok-n>-timeout</span> <span class=tok-n>800</span>
+    <span class=tok-k>if</span><span class=tok-p>(</span><span class=tok-nv>$ping</span><span class=tok-p>.</span><span class=tok-n>open</span><span class=tok-p>)</span> <span class=tok-p>{</span>
+        <span class=tok-nv>$has_network_connectivity</span> <span class=tok-p>=</span> <span class=tok-nv>$true</span>
+        <span class=tok-k>break</span>
+    <span class=tok-p>}</span>
+<span class=tok-p>}</span>
+
+<span class=tok-k>if</span><span class=tok-p>(!</span> <span class=tok-nv>$has_network_connectivity</span><span class=tok-p>)</span> <span class=tok-p>{</span>
+    <span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Not connected!&#34;</span>
+<span class=tok-p>}</span> <span class=tok-k>else</span> <span class=tok-p>{</span>
+    <span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Connected!&#34;</span>
+    <span class=tok-n>bash</span> <span class=tok-n>-c</span> <span class=tok-s2>&#34;sudo service ssh --full-restart&#34;</span>
+    <span class=tok-nb>Start-Process</span> <span class=tok-s2>&#34;C:\Windows\System32\OpenSSH\ssh.exe&#34;</span> <span class=tok-s2>&#34;-p 2223 -i c:\users\user\aw\aw-local\aw3.private -N -L 5600:127.0.0.1:5602 aw3@192.168.1.100&#34;</span>
+    <span class=tok-nb>Sleep </span><span class=tok-n>1</span>
+    <span class=tok-nb>Start-Process</span> <span class=tok-s2>&#34;C:\Users\user\aw\aw-local\activitywatch\aw-qt.exe&#34;</span>
+<span class=tok-p>}</span>
+
+
+<span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Finished..&#34;</span>
+<span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Sleeping 10 seconds ..&#34;</span>
+<span class=tok-nb>Sleep </span><span class=tok-n>10</span></code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_linux_client_machine>Setup for Linux client machine</h3><div class=paragraph><p>The following goes in <code>~/.config/systemd/user/aw-server.service</code></p></div><div class=listingblock><div class=content><pre>[Unit]
+Description=aw local server
+
+[Service]
+Type=simple
+StandardOutput=journal
+WorkingDirectory=/tmp
+ExecStart=/data/activitywatch/activitywatch/aw-server/aw-server
+RestartSec=1s
+Restart=always
+#Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target</pre></div></div><div class=paragraph><p>In the same way, write 3 more files:</p></div><div class=ulist><ul><li><p><code>~/.config/systemd/user/aw-ww.service</code> with <code>ExecStart=/data/activitywatch/activitywatch/aw-watcher-window/aw-watcher-window</code>.</p></li><li><p><code>~/.config/systemd/user/aw-afk.service</code> with <code>ExecStart=/data/activitywatch/activitywatch/aw-watcher-afk/aw-watcher-afk</code></p></li><li><p><code>~/.config/systemd/user/aw-remote-server.service</code> with
+<code>ExecStart=/usr/bin/ssh -p 2223 -i &lt;private_key> -N -S /home/user/.aw2.ssh.sock -L 5600:127.0.0.1:5601 aw2@192.168.1.100</code></p></li></ul></div><div class=paragraph><p>Now you install these user units and start them:</p></div><div class=listingblock><div class=content><pre>systemctl --user enable aw-ww
+systemctl --user enable aw-afk
+systemctl --user enable aw-server
+systemctl --user enable aw-remote-server
+systemctl --user disable aw-server
+systemctl --user daemon-reload
+systemctl --user restart aw-remote-server
+systemctl --user restart aw-ww
+systemctl --user restart aw-afk</pre></div></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>If you liked this article and would like to discuss more about setting up ActivityWatch
+feel free to reach out at <a href=mailto:stefan.petrea@gmail.com>stefan.petrea@gmail.com</a></td></tr></tbody></table></div></div></div></div><nav class=pagination><span class=prev><a href=/posts/p5/>Creating mosaics, clipping and removing overlapping satellite images</a></span></nav></article><aside class="toc sidebar" data-title data-levels=2><div class=toc-menu></div></aside></div></main></div><footer class=footer><p>This page was built with <a href=https://gohugo.io/>Hugo 0.79.1</a> using the <a href=https://github.com/basil/antora-default-ui-hugo-theme>Hugo port</a> of the <a href=https://gitlab.com/antora/antora-ui-default>Antora default UI</a>. The source code for this UI is licensed under the terms of the <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License, Version 2.0</a> (MPL-2.0).</p></footer><div id=copy-to-clipboard style=display:none data-svg=/img/octicons-16.svg></div><script src=/js/site.min.da461a26436bc4ba84975879f2d7f90a593245b694bbea075400ef251e78b2e0.js integrity="sha256-2kYaJkNrxLqEl1h58tf5ClkyRbaUu+oHVADvJR54suA="></script><script src=/js/vendor/highlight.pack.79c21a0aa45cc5756c18c07f0cf37be9ad1e1b728f6f0e6b210c3913cfef592f.js integrity="sha256-ecIaCqRcxXVsGMB/DPN76a0eG3KPbw5rIQw5E8/vWS8="></script><script>;[].slice.call(document.querySelectorAll('pre code.hljs')).forEach(function(node){hljs.highlightBlock(node)})</script></body></html>
