@@ -132,7 +132,7 @@ case &#34;$1&#34; in
 	;;
 esac
 
-exit 0</code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_windows_client_machine>Setup for Windows client machine</h3><div class=paragraph><p>One of the machines <code>machine{1,2,3}</code> in my case is a Windows10 machine and I’d like
+exit 0</code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_windows_machine>Setup for Windows machine</h3><div class=paragraph><p>One of the machines <code>machine{1,2,3}</code> in my case is a Windows10 machine and I’d like
 to run ActivityWatch on there too. I just want it to start at logon and not get in the
 way so I wrote a Powershell script that will be run as a Scheduled Task and run at logon.</p></div><div class=paragraph><p>The script I wrote makes use of the Microsoft OpenSSH client which can be installed like this:</p></div><div class=listingblock><div class=content><pre class="pygments highlight"><code><span></span>Add-WindowsCapability -Online -Name OpenSSH.Client*</code></pre></div></div><div class=paragraph><p>The way it works is it just checks if the required SSH port on the storage server is accessible
 and if so, it creates an SSH tunnel (similar to how we’ve created the Linux SSH tunnel above) and
@@ -175,7 +175,7 @@ schtasks /delete /tn AWStartup /f</code></pre></div></div><details><summary clas
 
 <span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Finished..&#34;</span>
 <span class=tok-nb>Write-Host</span> <span class=tok-s2>&#34;Sleeping 10 seconds ..&#34;</span>
-<span class=tok-nb>Sleep </span><span class=tok-n>10</span></code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_linux_client_machine>Setup for Linux client machine</h3><div class=paragraph><p>The following goes in <code>~/.config/systemd/user/aw-server.service</code></p></div><div class=listingblock><div class=content><pre>[Unit]
+<span class=tok-nb>Sleep </span><span class=tok-n>10</span></code></pre></div></div></div></details></div><div class=sect2><h3 id=_setup_for_linux_machine>Setup for Linux machine</h3><div class=paragraph><p>The following goes in <code>~/.config/systemd/user/aw-server.service</code></p></div><div class=listingblock><div class=content><pre>[Unit]
 Description=aw local server
 
 [Service]
