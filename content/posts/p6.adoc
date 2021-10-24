@@ -1,0 +1,392 @@
++++
+title = "Multiple instance Activitywatch remote server setup for time tracking"
+date = "2021-10-23"
+markup = "asciidoc"
+tags = ["linux","windows","setup","time-tracking","activitywatch"]
++++
+
+== Intro
+
+My setup includes several laptops, a desktop, and a storage server.
+
+Because I split my time across multiple projects, and sometimes I have
+a dedicated laptop for one project, I find this setup to be useful.
+
+For some time I've wanted to take a closer look at how exactly I spend
+my time during the day, for both personal projects and client work.
+
+I've tried other solutions in the past but they didn't work very well.
+
+Every now and then I have a look at Github and try to review existing
+projects, and specifically time-trackers and that's how I came across link:https://activitywatch.net/[ActivityWatch] (link:https://github.com/ActivityWatch/[github]).
+So ActivityWatch looks like a very well put-together solution, with a main server
+`aw-server` that collects the data, and a series of `aw-watcher-*`
+projects that monitor activity in different ways on the machines where
+they're deployed. I really liked that type of design, and I really like
+that it gets out of my way and I don't have to touch it after I have it
+set up.
+
+Another reason is sometimes I need to create reports from this data.
+
+== Local Setup
+
+Running ActivityWatch locally is very simple, the setup looks like this:
+
+[graphviz, "p6-local", "svg" ,opts="inline"]
+----
+digraph G {
+    node [shape=rectangle];
+    rankdir=BT;
+    nodesep=.1;
+    label = "\n\nLocal Setup";
+    aws1 [label="aw-server"];
+    aww1 [label="aw-watcher-window"];
+    awf1 [label="aw-watcher-afk"];
+    awb1 [label="aw-watcher-web"];
+    aww1, awf1, awb1 -> aws1;
+    graph[style=solid];
+}
+----
+
+The watchers will collect events and just send them to `aw-server` where they get stored (so far I know it can
+store the data in SQLite by default, or MongoDB).
+
+The watchers will send to whatever is listening on host 127.0.0.1 port 5600 (in this case `aw-server`).
+
+I wrote a couple of Systemd user unit files to start all of these (except for `aw-watcher-web` which is a browser
+extension that is active when the browser is), I'll write about them later on.
+
+One thing I liked here is AW offers both `.zip` and `.exe` for Windows
+(the `.exe` being an installer, and the `.zip` just self-contained
+binaries), which allows me to decide how and when I want to start
+it. And on Linux it ships in a `.zip` with self-contained binaries
+without external dependencies.
+
+== Remote Server Setup
+
+Activitywatch have on their roadmap the addition of authentication,
+encryption and multi-instance/multitenancy. At the time of writing this,
+those features are not yet finished. This is also mentioned link:https://docs.activitywatch.net/en/latest/remote-server.html#i-know-what-i-m-doing-how-can-i-set-it-up-anyway[in the documentation]
+but not fully detailed.
+
+One possible workaround is to just have multiple instances of AW running somewhere
+and SSH tunnels in place to allow data to go where it needs to.
+
+[graphviz, "p6-network", "svg" ,opts="inline"]
+----
+
+digraph g {
+    // newrank=true;
+    rankdir=LR;
+    graph[len=10,minlen=10];
+    ranksep=.3;
+    nodesep=.1;
+    node [shape=rectangle];
+
+    subgraph cluster_0 {
+        rank="max";
+        aw1 [label="aw1\nremote server"];
+        aw2 [label="aw2\nremote server"];
+        aw3 [label="aw3\nremote server"];
+        label = "storage server";
+        graph[style=solid];
+    }
+
+    subgraph cluster_1 {
+        label = "machine1";
+        aww1 [label="aw-watcher-window"];
+        awf1 [label="aw-watcher-afk"];
+        awb1 [label="aw-watcher-web"];
+        awt1 [label="SSH tunnel\n5600 local\n5600 remote"];
+        aww1, awf1, awb1 -> awt1 ;
+        graph[style=solid];
+    }
+
+    awt1 -> aw1;
+
+    subgraph cluster_2 {
+        label = "machine2";
+        aww2 [label="aw-watcher-window"];
+        awf2 [label="aw-watcher-afk"];
+        awb2 [label="aw-watcher-web"];
+        awt2 [label="SSH tunnel\n5600 local\n5601 remote"];
+        aww2, awf2, awb2 -> awt2;
+        graph[style=solid];
+    }
+    awt2 -> aw2;
+
+    subgraph cluster_3 {
+        label = "machine3";
+        aww3 [label="aw-watcher-window"];
+        awf3 [label="aw-watcher-afk"];
+        awb3 [label="aw-watcher-web"];
+        awt3 [label="SSH tunnel\n5600 local\n5602 remote"];
+        aww3, awf3, awb3 -> awt3;
+        graph[style=solid];
+    }
+    awt3 -> aw3;
+}
+----
+
+=== Setup for the remote servers
+
+On the storage server I've created three users: `aw{1,2,3}`.
+For each of them a private key was generated and placed in their respective `authorized_keys` to
+allow SSH authentication using key.
+
+Next I've distributed each key accordingly to `machine{1,2,3}`.
+
+I've written the following at the end of `/etc/ssh/sshd_config` to only
+allow those three users to create SSH tunnels, and do port forwarding,
+each on its own port, and not be able to get a shell or do anything else:
+
+[source]
+----
+AllowTcpForwarding yes
+Match User aw1
+  PermitOpen 127.0.0.1:5600
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+
+Match User aw2
+  PermitOpen 127.0.0.1:5601
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+
+Match User aw3
+  PermitOpen 127.0.0.1:5602
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+----
+
+
+Next up we'll create 3 different chroot environments `/opt/aw-env{1,2,3}`.
+Each of the three instances of ActivityWatch `aw-server` will be running in a separate chroot, so they're all going to be separate.
+
+[source,bash]
+----
+cd /opt/
+debootstrap --variant=minbase --include=bash,coreutils --exclude=gcc-10-base,gcc-9-base,perl-base,dpkg,apt,binutils,mount bullseye aw-env1 http://ftp.ro.debian.org/debian/
+rm -rf aw-env1/var/cache/apt/archives/*
+cp -r aw-env{1,2}
+cp -r aw-env{1,3}
+chown -R daemon:daemon /opt/aw-env*
+----
+
+And then I've written init scripts for `aw-server` on the storage server in `/etc/init.d/aw{1,2,3}`.
+You can also write a Systemd service instead if you want, in my case an init script was a better fit.
+
+I'm including one of them as the other ones are the same (the port they listen on will differ).
+
+.`/etc/init.d/aw1`
+[%collapsible]
+====
+[source]
+----
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          activitywatch1
+# Required-Start:    
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: activitywatch1 daemon
+### END INIT INFO
+
+
+#
+# Note: this script assumes you have a chroot in $CHROOT
+# and further, that inside $CHROOT/aw you have an unzipped activitywatch build199 ready-to-go.
+#
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+NAME=activitywatch1
+DESC="activitywatch1 daemon"
+USER="daemon"
+CHROOT=/opt/aw-env1
+PIDFILE=/aw.pid
+
+HOST="127.0.0.1"
+PORT="5600"
+
+test -d "$CHROOT" || exit 0
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+
+	echo -n "Starting $DESC: "
+    start-stop-daemon --chroot $CHROOT --quiet -b --start --user daemon --chuid daemon --make-pidfile --pidfile $CHROOT/aw.pid --no-close --startas \
+    /usr/bin/env XDG_CONFIG_HOME=/aw/config XDG_CACHE_HOME=/aw/cache XDG_DATA_HOME=/aw/data /bin/bash -- -c "/aw/aw-server/aw-server --host $HOST --port $PORT --log-json > /aw/aw.log 2>&1" >/dev/null 2>&1
+
+	echo "$NAME."
+	;;
+  stop)
+    # send SIGKILL to all descendants including the main parent
+    # (also see https://superuser.com/a/822450 )
+
+    if [ -f "$CHROOT/$PIDFILE" ]; then
+        MAIN_PID=$(cat $CHROOT/$PIDFILE)
+        kill $(ps --no-headers --forest -o pid -g $(ps -o sid= -p $MAIN_PID))
+        rm "$CHROOT/$PIDFILE"
+        echo -n "Stopping $DESC: "
+    else
+        echo "$NAME not running"
+    fi
+
+	echo "$NAME."
+	;;
+  restart|force-reload)
+	$0 stop
+	sleep 2
+	$0 start
+	;;
+  status)
+
+    if test -f "$CHROOT/$PIDFILE" && ps -p $(cat "$CHROOT/$PIDFILE") >/dev/null ; then
+        echo "$NAME still active"
+    else
+        echo "$NAME inactive"
+    fi
+
+    exit 0
+
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
+----
+====
+
+=== Setup for Windows machine
+
+One of the machines `machine{1,2,3}` in my case is a Windows10 machine and I'd like
+to run ActivityWatch on there too. I just want it to start at logon and not get in the
+way so I wrote a Powershell script that will be run as a Scheduled Task and run at logon.
+
+The script I wrote makes use of the Microsoft OpenSSH client which can be installed like this:
+
+[source]
+----
+Add-WindowsCapability -Online -Name OpenSSH.Client*
+----
+
+The way it works is it just checks if the required SSH port on the storage server is accessible
+and if so, it creates an SSH tunnel (similar to how we've created the Linux SSH tunnel above) and
+then it starts `aw-qt.exe` which starts all the watchers.
+
+This is optional, but the script will also start an SSH daemon from WSL, which is installed on my Windows machine.
+
+It can be installed/uninstalled by running `Start > cmd.exe` and then running one of the following:
+
+[source]
+----
+schtasks /TN AWStartup /Create /TR "powershell.exe -file c:\users\user\aw\aw-local\tunnel_on_startup.ps1" /RU user /SC ONLOGON /IT
+schtasks /delete /tn AWStartup /f
+----
+
+
+.`tunnel_on_startup.ps1`
+[%collapsible]
+====
+[source,powershell]
+----
+function testport{
+  param([string]$hostname,[int]$port,[int]$timeout) 
+
+  $requestCallback = $state = $null
+  $client = New-Object System.Net.Sockets.TcpClient
+  
+  $where = [IPAddress]$hostname.ToString()
+  $beginConnect = $client.BeginConnect($where,$port,$requestCallback,$state)
+  Start-Sleep -milli $timeOut
+  if ($client.Connected) { $open = $true } else { $open = $false }
+  $client.Close()
+  [pscustomobject]@{hostname=$hostname;port=$port;open=$open}
+}
+
+$max_retries = 7
+
+$has_network_connectivity = $false;
+for($i=0;$i -lt $max_retries;$i++){
+    $ping = testport -hostname "192.168.1.100" -port 2223 -timeout 800
+    if($ping.open) {
+        $has_network_connectivity = $true
+        break
+    }
+}
+
+if(! $has_network_connectivity) {
+    Write-Host "Not connected!"
+} else {
+    Write-Host "Connected!"
+    bash -c "sudo service ssh --full-restart"
+    Start-Process "C:\Windows\System32\OpenSSH\ssh.exe" "-p 2223 -i c:\users\user\aw\aw-local\aw3.private -N -L 5600:127.0.0.1:5602 aw3@192.168.1.100"
+    Sleep 1
+    Start-Process "C:\Users\user\aw\aw-local\activitywatch\aw-qt.exe"
+}
+
+
+Write-Host "Finished.."
+Write-Host "Sleeping 10 seconds .."
+Sleep 10
+----
+====
+
+
+=== Setup for Linux machine
+
+The following goes in `~/.config/systemd/user/aw-server.service`
+
+----
+[Unit]
+Description=aw local server
+
+[Service]
+Type=simple
+StandardOutput=journal
+WorkingDirectory=/tmp
+ExecStart=/data/activitywatch/activitywatch/aw-server/aw-server
+RestartSec=1s
+Restart=always
+#Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+----
+
+In the same way, write 3 more files:
+
+- `~/.config/systemd/user/aw-ww.service` with `ExecStart=/data/activitywatch/activitywatch/aw-watcher-window/aw-watcher-window`.
+- `~/.config/systemd/user/aw-afk.service` with `ExecStart=/data/activitywatch/activitywatch/aw-watcher-afk/aw-watcher-afk`
+- `~/.config/systemd/user/aw-remote-server.service` with 
+  `ExecStart=/usr/bin/ssh -p 2223 -i <private_key> -N -S /home/user/.aw2.ssh.sock -L 5600:127.0.0.1:5601 aw2@192.168.1.100`
+
+Now you install these user units and start them:
+
+----
+systemctl --user enable aw-ww
+systemctl --user enable aw-afk
+systemctl --user enable aw-server
+systemctl --user enable aw-remote-server
+systemctl --user disable aw-server
+systemctl --user daemon-reload
+systemctl --user restart aw-remote-server
+systemctl --user restart aw-ww
+systemctl --user restart aw-afk
+----
+
+[NOTE]
+If you liked this article and would like to discuss more about setting up ActivityWatch
+feel free to reach out at mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com]
+
+
