@@ -1,0 +1,130 @@
++++
+title = "Packing, encrypting and uploading deliverables"
+date = "2021-10-30"
+markup = "asciidoc"
+tags = ["bash", "encryption", "deliverables", "shipping", "projects"]
++++
+
+== Intro
+
+Sometimes when I do client work, I don't have time to set up Git
+repositories. When the work is done, I generate the invoice based on
+the link:/posts/p6[time spent] on the project, and I have to ship the
+deliverables.
+
+Recently I've been working on a C# project, and I use a Windows10 laptop where I happen
+to have a link:https://docs.microsoft.com/en-us/windows/wsl/install[WSL] installed.
+
+I could set up a continuous integration (CI) environment to trigger
+builds for every commit, and have the binaries available in some artifact
+repository, or I could set up a file server for this and use `scp` or
+`sftp`, but again, that's not the case.
+
+Transferring the deliverables by e-mail doesn't always work because
+sometimes the e-mail provider will block attachments that contain binaries
+or exceed a certain size.
+
+Because of this I needed a simple solution to just pack the deliverables
+(with strong enough encryption, data + headers) and just upload them to a file
+sharing service.
+
+== File sharing services
+
+I've had a look at existing file sharing services, and specifically I wanted
+to find something that:
+
+- allows direct download (no waiting times, no pop-ups, no ads)
+- doesn't require registration
+- supports upload using `curl`
+- does not require me to use a browser for the upload
+- is free
+
+There are many such services but these ones were a good fit for this use-case:
+
+[%header,cols="2,1,1,1"]
+|===
+| service
+| min expiry time
+| max size
+| direct download
+
+| link:https://www.file.io/[file.io]
+| 1 day
+| 100 MB
+| yes
+
+| link:https://transfer.sh/[transfer.sh]
+| 14 days
+| 1 GB
+| yes
+
+| link:https://free.keep.sh/[free.keep.sh]
+| 1 day
+| 500 MB
+| yes
+
+|===
+
+== Upload script
+
+To run this script you'll need some packages installed:
+
+[source,bash]
+----
+sudo apt-get install p7zip-full jq makepasswd curl
+----
+
+And the script itself:
+
+.pack_encrypted.sh
+[source,bash]
+----
+#!/bin/bash
+DIR="$1"
+PASS=$(makepasswd --chars 40)
+ARCHIVE=d1.7z
+
+if [[ -e "$DIR" && -d "$DIR" ]]; then
+    rm -f $ARCHIVE
+    find "$DIR" -name "*.dll" -or -name "*.exe" | xargs -I{} rm "{}"
+    7z a -r -p$PASS -mx=9 -mhe=on -t7z $ARCHIVE "$DIR"
+
+    echo "Password:" > pass.txt
+    echo "$PASS" >> pass.txt
+    echo "" >> pass.txt
+    echo "Mirrors:" >> pass.txt
+    curl -F "file=@$ARCHIVE" https://file.io/?expires=1w | jq -c -r '.link' >> pass.txt
+    curl --upload-file ./$ARCHIVE https://transfer.sh/$ARCHIVE >> pass.txt
+    echo "" >> pass.txt
+    curl --upload-file ./$ARCHIVE https://free.keep.sh >> pass.txt
+    echo "" >> pass.txt
+else
+    echo "Invalid directory as argument"
+fi
+----
+
+== Usage
+
+Here's a usage example, creating a directory with a file in it, using the script
+to create the encrypted archive, and afterwards displaying the urls where it was
+uploaded together with the password.
+
+----
+user@home:/tmp/sandbox$ mkdir test1
+user@home:/tmp/sandbox$ echo "test" > test1/test.txt
+user@home:/tmp/sandbox$ ./pack_encrypted.sh test1
+[...]
+user@home:/tmp/sandbox$ cat pass.txt 
+Password:
+tEGiJqdGwiynoCIIDAat6JrTHVCCPb5RFzitrb3o
+
+Mirrors:
+https://file.io/8d1cZVdQ49iY
+https://transfer.sh/gb7x9w/d1.7z
+https://free.keep.sh/F44BQzpAUMEbnAzB/d1.7z
+----
+
+[NOTE]
+If you liked this article and would like to discuss more about scripting or automating
+various tasks feel free to reach out at mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com]
+
