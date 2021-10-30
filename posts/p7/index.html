@@ -34,7 +34,7 @@ to find something that:</p></div><div class=ulist><ul><li><p>allows direct downl
     <span class=tok-nb>echo</span> <span class=tok-s2>&#34;&#34;</span> &gt;&gt; pass.txt
     <span class=tok-nb>echo</span> <span class=tok-s2>&#34;Mirrors:&#34;</span> &gt;&gt; pass.txt
     curl -F <span class=tok-s2>&#34;file=@</span><span class=tok-nv>$ARCHIVE</span><span class=tok-s2>&#34;</span> https://file.io/?expires<span class=tok-o>=</span>1w <span class=tok-p>|</span> jq -c -r <span class=tok-s1>&#39;.link&#39;</span> &gt;&gt; pass.txt
-    curl --upload-file ./<span class=tok-nv>$ARCHIVE</span> http://transfer.sh/<span class=tok-nv>$ARCHIVE</span> &gt;&gt; pass.txt
+    curl --upload-file ./<span class=tok-nv>$ARCHIVE</span> https://transfer.sh/<span class=tok-nv>$ARCHIVE</span> &gt;&gt; pass.txt
     <span class=tok-nb>echo</span> <span class=tok-s2>&#34;&#34;</span> &gt;&gt; pass.txt
     curl --upload-file ./<span class=tok-nv>$ARCHIVE</span> https://free.keep.sh &gt;&gt; pass.txt
     <span class=tok-nb>echo</span> <span class=tok-s2>&#34;&#34;</span> &gt;&gt; pass.txt
@@ -52,6 +52,6 @@ tEGiJqdGwiynoCIIDAat6JrTHVCCPb5RFzitrb3o
 
 Mirrors:
 https://file.io/8d1cZVdQ49iY
-http://transfer.sh/gb7x9w/d1.7z
+https://transfer.sh/gb7x9w/d1.7z
 https://free.keep.sh/F44BQzpAUMEbnAzB/d1.7z</pre></div></div><div class="admonitionblock note"><table><tbody><tr><td class=icon><i class="fa icon-note" title=Note></i></td><td class=content>If you liked this article and would like to discuss more about scripting or automating
 various tasks feel free to reach out at <a href=mailto:stefan.petrea@gmail.com>stefan.petrea@gmail.com</a></td></tr></tbody></table></div></div></div><nav class=pagination><span class=prev><a href=/posts/p6/>Multiple instance Activitywatch remote server setup for time tracking</a></span></nav></article><aside class="toc sidebar" data-title data-levels=2><div class=toc-menu></div></aside></div></main></div><footer class=footer><p>This page was built with <a href=https://gohugo.io/>Hugo 0.79.1</a> using the <a href=https://github.com/basil/antora-default-ui-hugo-theme>Hugo port</a> of the <a href=https://gitlab.com/antora/antora-ui-default>Antora default UI</a>. The source code for this UI is licensed under the terms of the <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License, Version 2.0</a> (MPL-2.0).</p></footer><div id=copy-to-clipboard style=display:none data-svg=/img/octicons-16.svg></div><script src=/js/site.min.da461a26436bc4ba84975879f2d7f90a593245b694bbea075400ef251e78b2e0.js integrity="sha256-2kYaJkNrxLqEl1h58tf5ClkyRbaUu+oHVADvJR54suA="></script><script src=/js/vendor/highlight.pack.79c21a0aa45cc5756c18c07f0cf37be9ad1e1b728f6f0e6b210c3913cfef592f.js integrity="sha256-ecIaCqRcxXVsGMB/DPN76a0eG3KPbw5rIQw5E8/vWS8="></script><script>;[].slice.call(document.querySelectorAll('pre code.hljs')).forEach(function(node){hljs.highlightBlock(node)})</script></body></html>
