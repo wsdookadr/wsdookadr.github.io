@@ -72,16 +72,19 @@ I haven’t covered pywb. I could probably fill 4 more blog posts just to
 describe how all of these work.</p></div><div class=paragraph><p><code>pywb</code> also has functionality to play back WARC files directly (I haven’t tried
 out that part yet)</p></div><div class=paragraph><p>At the time of writing this, browsertrix-crawler has the following open issues:</p></div><div class=ulist><ul><li><p>timeout logic require a bit more work <a href=https://github.com/webrecorder/browsertrix-cloud/issues/298>298</a>, <a href=https://github.com/webrecorder/browsertrix-crawler/issues/146>146</a></p></li><li><p>high CPU usage <a href=https://github.com/webrecorder/browsertrix-crawler/issues/106>106</a></p></li></ul></div><div class=paragraph><p>UPDATE: Already seeing commits that address some of these open issues.</p></div></div><div class=sect2><h3 id=_femtocrawl>Femtocrawl</h3><div class=paragraph><p>I’ve done some code-reading of multiple solutions, was able to look at
 pros and cons, realized that I really need just parts of these solutions
-and decided to write a simplified one that works for me.</p></div><div class=paragraph><p>I’ve uploaded <a href=https://github.com/wsdookadr/femtocrawl/>on Github here</a>.</p></div><div class=paragraph><p>To be able to better estimate when a crawl would end, I’ve noticed it’s
-much better in my case to build the sitemap externally instead of having
-the crawler decide which urls to follow in depth at runtime. So I’d
-rather build that sitemap as a separate process before I start crawling.
-This has the advantage of being able to know how much time the full
-crawl will take before starting it.</p></div><div class=paragraph><p>Some websites have a <code>/sitemap.xml</code> endpoint, some don’t. Some will have
+and decided to write a simplified one that works for me. I wrote it
+because it’s smaller, has fewer components and it’s easier for me to
+reason about and to debug it. Of course it doesn’t have all the
+functionality of the other solutions (browser behaviors would be one
+example, screencasting to name a few).</p></div><div class=paragraph><p>I’ve uploaded <a href=https://github.com/wsdookadr/femtocrawl/>on Github here</a>.</p></div><div class=paragraph><p>To be able to estimate when a crawl would end, I’ve noticed it’s easier
+in my case to build the sitemap as a separate step instead of letting
+the crawler decide which urls to recurse into. So I’d rather build that
+sitemap as a separate process before I start crawling. This makes the
+entire process more predictable.</p></div><div class=paragraph><p>Some websites have a <code>/sitemap.xml</code> endpoint, some don’t. Some will have
 it under a different name and listed in <code>/robots.txt</code>. Then some of them
 will have a nested <code>/sitemap.xml</code> which contains links to more specific
-sitemaps. And then some won’t have any sitemap at all and a complete
-crawl will be required to pull all the urls.</p></div><div class=paragraph><p>Doing this complete crawl could actually be avoided if <a href=https://commoncrawl.org/>Common Crawl</a>
+sitemaps. And then for some the sitemap will be completely missing and a complete
+crawl will be required to find all the urls.</p></div><div class=paragraph><p>Doing this complete crawl could actually be avoided if <a href=https://commoncrawl.org/>Common Crawl</a>
 is queried instead, but that won’t have the latest data (actually I’m not sure how often CC runs).</p></div><div class=paragraph><p>For some pages the crawler might not have enough time to fetch all the
 resources, but that’s okay because a second pass is possible to either:</p></div><div class=ulist><ul><li><p>pick up all the failed resources from the HAR files and fetch them</p></li><li><p>parse out the WARC records with text/html mimetype, find out which of them
 are absent from the WARC and fetch them</p></li></ul></div><div class=paragraph><p>These two methods above are not equivalent, but if used together they should
