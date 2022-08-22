@@ -72,7 +72,7 @@ I haven’t covered pywb. I could probably fill 4 more blog posts just to
 describe how all of these work.</p></div><div class=paragraph><p><code>pywb</code> also has functionality to play back WARC files directly (I haven’t tried
 out that part yet)</p></div><div class=paragraph><p>At the time of writing this, browsertrix-crawler has the following issues:</p></div><div class=ulist><ul><li><p>timeout logic require a bit more work <a href=https://github.com/webrecorder/browsertrix-cloud/issues/298>298</a>, <a href=https://github.com/webrecorder/browsertrix-crawler/issues/146>146</a></p></li><li><p>high CPU usage <a href=https://github.com/webrecorder/browsertrix-crawler/issues/106>106</a></p></li></ul></div></div><div class=sect2><h3 id=_femtocrawl>Femtocrawl</h3><div class=paragraph><p>I’ve done some code-reading of multiple solutions, was able to look at
 pros and cons, realized that I really need just parts of these solutions
-and decided to write a simplified one that works for me.</p></div><div class=paragraph><p>To be able to better estimate when a crawl would end, I’ve noticed it’s
+and decided to write a simplified one that works for me.</p></div><div class=paragraph><p>I’ve uploaded <a href=https://github.com/wsdookadr/femtocrawl/>on Github here</a>.</p></div><div class=paragraph><p>To be able to better estimate when a crawl would end, I’ve noticed it’s
 much better in my case to build the sitemap externally instead of having
 the crawler decide which urls to follow in depth at runtime. So I’d
 rather build that sitemap as a separate process before I start crawling.
