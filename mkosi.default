@@ -1,0 +1,35 @@
+[Distribution]
+Distribution=debian
+Release=bullseye
+
+[Output]
+Format=gpt_ext4
+Bootable=yes
+Output=/wdir2/envs/wsdookadr.github.io/m5.raw
+Hostname=m5
+
+[Partitions]
+RootSize=5G
+
+[Validation]
+Password=root
+
+[Packages]
+WithNetwork=yes
+Packages=
+    vim
+    jq
+    python3-pip
+    git
+    curl
+    wget
+    bc
+    ripgrep
+    ca-certificates
+    make
+    graphviz
+    ruby
+    rubygems
+    ruby2.7
+
+

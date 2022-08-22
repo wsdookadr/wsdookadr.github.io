@@ -1,0 +1,20 @@
+#!/bin/bash
+mkdir /usr/share/man/man1/
+
+apt-get -y update
+pip3 install poetry
+
+cd /
+rm -rf /hugo/
+wget https://github.com/gohugoio/hugo/releases/download/v0.79.1/hugo_0.79.1_Linux-64bit.tar.gz -O hugo_0.79.1_Linux-64bit.tar.gz
+mkdir hugo
+tar xf hugo_0.79.1_Linux-64bit.tar.gz -C hugo
+
+
+cat <<EOF >> /root/.bashrc
+alias asciidoctor="asciidoctor --attribute=experimental=true --attribute=icons=font"
+EOF
+
+gem install pygments.rb -v 2.1.0
+gem install asciidoctor -v 2.0.12
+gem install asciidoctor-diagram -v 2.1.0

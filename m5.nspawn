@@ -1,0 +1,15 @@
+[Network]
+VirtualEthernet=no
+
+[Files]
+# video
+Bind=/tmp/.X11-unix
+Bind=/dev/shm
+Bind=/wdir2/envs/wsdookadr.github.io/:/blog/
+Bind=/dev/input
+
+[Exec]
+Capability=all
+PrivateUsers=off
+
+

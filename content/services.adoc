@@ -29,7 +29,7 @@ to mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
 |docs improvements
 |Perl
 |link:https://github.com/darold/pgbadger/pull/665[link]
-|2020-06-09
+|2021-06-09
 
 |bugfix
 |Perl

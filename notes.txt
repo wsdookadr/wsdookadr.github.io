@@ -1,0 +1,21 @@
+
+building
+--------
+
+make image
+sudo machinectl import-raw m5.raw blog
+sudo crudini --set /run/systemd/nspawn/blog.nspawn Network VirtualEthernet no
+sudo cp blog.nspawn /etc/systemd/nspawn/
+sudo machinectl start blog
+
+
+running
+-------
+
+to run hugo inside the container run this:
+
+sudo mkosi --settings `pwd` shell bash -c 'cd /blog; make serve;'
+
+change and commit on the host, view results in the hugo server
+running on localhost
+

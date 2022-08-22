@@ -1,4 +1,5 @@
 
 [NOTE]
-If you liked this article and would like to discuss more about data collection pipelines
-and scraping feel free to get in touch at mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
+If you liked this article or if you have feedback and would like
+to discuss more about data collection pipelines and scraping feel free to
+get in touch at mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].

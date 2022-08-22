@@ -1,0 +1,262 @@
++++
+title = "Building offline archives"
+date = "2022-08-22"
+markup = "asciidoc"
+tags = ["offline", "web-archives","crawlers","browsers","mitmproxy","scraping"]
++++
+
+== Intro
+
+I've been looking into some ways to work offline.
+
+Here are some reasons for that:
+
+* Decrease in the quality of link:https://news.ycombinator.com/item?id=32201420[general purpose search engine results]
+* More targetted searches
+* Better response times and decreased latency for slow websites (since after I download them they're served from my local network, maybe directly from the disk of my laptop)
+* Sites are disappearing at a link:https://ccampbell.io/posts/10-percent-of-top-million-sites-are-dead/[high rate]. 
+  Some content you bookmark today might be gone tommorow.
+* Recently read this post that makes a lot of predictions about the future. One of them says this: link:https://matduggan.com/programming-in-the/[_"working asynchronously is going to be the new norm"_].
+  The post goes in more detail about what that means.
+
+== Main pipeline
+
+[graphviz, "p8-pipeline", "svg" ,opts="inline"]
+----
+digraph G {
+    graph[style=solid];
+    node [shape=rectangle];
+    rankdir=LR;
+    nodesep=.1;
+    p0 [label="generate\nsitemaps"];
+    p1 [label="crawler"];
+    p2 [label="WARC\nfiles"];
+    p3 [label="indexing for\ntargetted queries"];
+    p4 [label="warc2zim"];
+    p5 [label="ZIM file\ncan be browsed\noffline"];
+    p6 [label="HAR files"];
+    p0 -> p1 -> p2 -> p3;
+    p2 -> p4 -> p5;
+    p1 -> p6;
+}
+----
+
+This is the main pipeline. At the end of it, a ZIM file is produced which can be viewed offline by way
+of link:https://download.kiwix.org/release/kiwix-tools/[kiwix-tools].
+
+Running the following will start a web server that's able to serve all the pages for offline viewing.
+
+[source, bash]
+----
+kiwix-serve -i 127.0.0.1 --threads 30 --port 8083 big.zim
+----
+
+There's also a new archive format called
+link:https://github.com/webrecorder/specs[WACZ], and
+link:https://pywb.readthedocs.io/en/latest/index.html[pywb] is able to
+replay from both WARC and WACZ.
+
+Both pywb and kiwix-serve, rely on link:https://github.com/webrecorder/wombat[wombat.js] on the client-side which
+makes use of link:https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API[service workers] to rewrite
+all requests made by a page and have them point to the local archive instead of the original live urls. 
+
+== Crawlers for dynamic web pages
+
+=== Splash
+
+This crawler predates puppeteer by about 4 years. It's part of the larger
+Scrapy eco-system which is very popular for writing crawlers. Actually
+it's this component that allows Scrapy to crawl dynamic web pages.
+
+Splash uses Webkit bindings, spawns the browser engine provided by
+`PyQt5.QtWebKit` inside Python, it then wraps various callbacks or
+overrides them with its own and uses Twisted to attach to those callbacks.
+The first time I saw this I thought it was ingenious, I still think it is.
+Scrapy is also based on Twisted and makes extensive use of event-based
+programming.
+
+I found the following sources informative about Splash:
+link:https://old.reddit.com/r/Python/comments/2xp5mr/handling_javascript_in_scrapy_with_splash/cp2vgd6/?context=3[source1], 
+link:https://github.com/scrapinghub/splash/blob/ab28b0233c245461189881f1f5656b96371a4b40/splash/engines/webkit/browser_tab.py#L62[source2],
+link:https://github.com/scrapinghub/splash/blob/master/docs/internals/js-python-lua.rst[source3]
+
+Splash also embeds a Lua interpreter and sandbox it in the browser
+engine, which allows you to send Lua code from Python that gets executed
+in the browser engine and sends the result back to Python.
+
+Even though their latest docker image is from 2020, now it can still
+produce HAR files, but the code hasn't seen much updates lately,
+and a series of issues have started to crop up:
+
+* the browser engine or browser used in the docker image is too old link:https://github.com/scrapinghub/splash/issues/1147[1147], link:https://github.com/scrapinghub/splash/issues/1152[1152], link:https://github.com/scrapinghub/splash/issues/1122[1122], link:https://github.com/scrapinghub/splash/issues/1094[1094]
+* incompatible with modern js frameworks link:https://github.com/scrapinghub/splash/issues/1117[1117]
+* memory leaks link:https://github.com/scrapinghub/splash/issues/1042[1042], link:https://github.com/scrapinghub/splash/issues/1049[1049], link:https://github.com/scrapinghub/splash/issues/757[757]
+* some dependency problems are preventing a new build link:https://github.com/scrapinghub/splash/issues/1136[1136]
+
+Splash's approach is actually much closer to the events that happen
+in the browser but it signs up for the burden of playing catch-up with
+browser updates/changes. 
+
+=== Browsertrix-crawler
+
+This project has quite some momentum behind it because it's used by at least 3 different
+orgs on Github:
+link:https://github.com/openzim[openzim], link:https://github.com/kiwix[kiwix] and link:https://github.com/webrecorder[webrecorder].
+
+The main node.js script is link:https://github.com/webrecorder/browsertrix-crawler/blob/e22d95e2f07ef8a4cd3a4c309ee9ca0d6bab559e/crawler.js[crawler.js] which starts a link:https://github.com/thomasdondorf/puppeteer-cluster/blob/fa1ccbe49912c9b49182da5338247471e2d912c4/src/Cluster.ts#L86[puppeteer Cluster]
+and an in-memory job queue, and an uwsgi server running pywb (see
+link:https://github.com/webrecorder/browsertrix-crawler/blob/e22d95e2f07ef8a4cd3a4c309ee9ca0d6bab559e/config/uwsgi.ini[config/uwsgi.ini] ).
+
+There is a job queue of the pages that were crawled ( see
+link:https://github.com/webrecorder/browsertrix-crawler/blob/e22d95e2f07ef8a4cd3a4c309ee9ca0d6bab559e/util/state.js[util/state.js] ).
+The purpose of this queue is the same as in most crawlers, it keeps track
+of all urls seen, but also those in progress and those that are pending.
+
+The pywb instance has both a recorder and a proxy mode (see
+link:https://github.com/webrecorder/pywb/blob/f0340c6898626310a41bb87bfba8fa15df5ee87b/pywb/apps/frontendapp.py[pywb/apps/frontendapp.py]).
+From what I can tell it runs in both modes.
+The proxy mode should be responsible for mediating the data flow between
+the browser and the web pages it wants to access whereas the recorder
+mode should be responsible for generating the WARC records and writing
+them to disk.
+
+The recorder server lives here link:https://github.com/webrecorder/pywb/blob/f0340c6898626310a41bb87bfba8fa15df5ee87b/pywb/recorder/recorderapp.py[pywb/recorder/recorderapp.py] and it's
+called RecorderApp.
+
+The pywb instance will act as a proxy server that mediates all transfers
+between crawler.js and the browser.  It will also store and serialize
+all HTTP requests as WARC records.
+
+Let's imagine a scenario where a single static page is crawled.
+Here's a rundown of this scenario:
+
+1. crawler.js starts (in turn it will start a puppeteer cluster)
+2. the url is enqueued onto the in-memory job queue (or redis)
+3. puppeteer-cluster picks up the task from the job queue and checks if 
+   it was already crawled, otherwise it passes it to one of its workers
+4. once it reaches a worker(a pupeteer instance) it gets passed to a browser instance.
+5. this browser instance is actually set up to use a proxy-server. in fact
+   this proxy server is the pywb instance mentioned above.
+6. pywb mediates this HTTP request and already builds a WARC record for the HTTP request
+   it has received
+7. like all proxies, pywb performs this HTTP request (on behalf of the browser which
+   originally made the request).
+8. the HTTP request finishes and an HTTP response is sent back to pywb.
+9. pywb receives the response, builds a WARC record for it, but also
+   sends back the HTTP response to the browser.
+   at this point pywb might also write the WARC record to disk
+
+Now here's a count for the number of event loops that are present in this scenario: 
+
+* uwsgi
+* pywb and gevent
+* crawler.js
+* one for each puppeteer instance launched by puppeteer-cluster
+
+Even in this scenario there might be things I've missed. But even if I
+capture all the details for that scenario, there are a lot more features
+I haven't covered pywb. I could probably fill 4 more blog posts just to
+describe how all of these work.
+
+`pywb` also has functionality to play back WARC files directly (I haven't tried
+out that part yet)
+
+At the time of writing this, browsertrix-crawler has the following open issues:
+
+* timeout logic require a bit more work link:https://github.com/webrecorder/browsertrix-cloud/issues/298[298], link:https://github.com/webrecorder/browsertrix-crawler/issues/146[146]
+* high CPU usage link:https://github.com/webrecorder/browsertrix-crawler/issues/106[106]
+
+UPDATE: Already seeing commits that address some of these open issues.
+
+=== Femtocrawl
+
+I've done some code-reading of multiple solutions, was able to look at
+pros and cons, realized that I really need just parts of these solutions
+and decided to write a simplified one that works for me. I wrote it
+because it's smaller, has fewer components and it's easier for me to
+reason about and to debug it. Of course it doesn't have all the
+functionalities of the other solutions (browser behaviors and screencasting
+to name a few).
+
+I've uploaded it link:https://github.com/wsdookadr/femtocrawl/[on Github here].
+
+To be able to estimate when a crawl would end, I've noticed it's easier
+in my case to build the sitemap as a separate step instead of letting
+the crawler decide which urls to recurse into. So I'd rather build that
+sitemap as a separate process before I start crawling.  This makes the
+entire process more predictable.
+
+Some websites have a `/sitemap.xml` endpoint, some don't. Some will have
+it under a different name and listed in `/robots.txt`. Then some of them
+will have a nested `/sitemap.xml` which contains links to more specific
+sitemaps. And then for some the sitemap will be completely missing and a complete
+crawl will be required to find all the urls.
+
+Doing this complete crawl could actually be avoided if link:https://commoncrawl.org/[Common Crawl]
+is queried instead, but that won't have the latest data, actually I'm not sure how often CC runs.
+But even using a stale pre-computed CC sitemap should improve the speed of a crawl, even if
+you'd have to check status codes for all urls and figure out if there's any new urls you haven't
+seen, there's still less to process than if you were to do it from scratch.
+
+For some pages the crawler might not have enough time to fetch all the
+resources, but that's okay because a second pass is possible to either:
+
+* pick up all the failed resources from the HAR files and fetch them
+* parse out the WARC records with text/html mimetype, find out which of them
+  are absent from the WARC and fetch them
+
+These two methods above are not equivalent, but if used together they should
+bring in most of the content. There's just one exception which are expiring resources
+which are not handled, but I'm okay with those not being fetched.
+
+Another part I've noticed is the WARC files produced might not be compatible with `warc2zim`.
+Some web pages have really odd HTTP responses (corner-cases of the HTTP spec).
+And usually if I encounter such a corner-case(here's link:https://github.com/openzim/warc2zim/issues/94[an example]), I
+can either report it as an issue or exclude it somehow.
+
+The exclusion process is easy and fast before you join all WARC into one.
+If you've already joined them, it will be complicated and error-prone
+to eliminate a bad WARC record. Not only that but if you remove a WARC
+record, an entire web page depends on it, together with all its resources,
+so in fact, all WARC records belonging to that web page should be removed.
+
+I've read through the WARC spec. One unanswered question for me is given
+a WARC record, is it possible to know the web page it belongs to and all
+WARC records that this web page depends on. I found the WARC spec somewhat
+terse, maybe I'll find some more examples about how all their fields work.
+
+---
+
+Here's a short diagram that explains how femtocrawl works:
+
+[graphviz, "p8-femtocrawl", "svg" ,opts="inline"]
+----
+digraph G {
+    graph[style=solid];
+    node [shape=rectangle];
+    rankdir=LR;
+    nodesep=.1;
+    p1 [label="browser"];
+    p2 [label="mitmproxy"];
+    p3 [label="website"];
+    p4 [label="HAR output\nwritten to disk"];
+    p5 [label="har2warc"];
+    p6 [label="WARC files"];
+
+    p1 -> p2 -> p3;
+    p2 -> p4 -> p5 -> p6;
+
+}
+----
+
+There's no puppeteer involved, no devtools protocol is used. Just a browser, mitmproxy
+and har2warc. One piece that's not present in the diagram is a custom Firefox profile
+that's required for adblocking and proxy settings.
+
+The main use-cases are:
+
+* building offline web archives
+* website testing
+* cross-testing different web archiving tools
+
+include::layouts/partials/promo-scraping.adoc[]

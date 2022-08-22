@@ -1,10 +1,12 @@
-
 sync:
 	git push origin main
 
-fetch_hugo:
-	wget https://github.com/gohugoio/hugo/releases/download/v0.79.1/hugo_0.79.1_Linux-64bit.deb
+image:
+	sudo mkosi build
 
 serve:
-	hugo serve
+	# /hugo/hugo serve
+	/hugo/hugo server --bind 0.0.0.0 --port 9333
 
+build:
+	/hugo/hugo --ignoreCache=true --minify
