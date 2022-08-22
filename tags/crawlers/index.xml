@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>crawlers on Blog</title><link>https://wsdookadr.github.io/tags/crawlers/</link><description>Recent content in crawlers on Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 22 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://wsdookadr.github.io/tags/crawlers/index.xml" rel="self" type="application/rss+xml"/><item><title>Building offline archives</title><link>https://wsdookadr.github.io/posts/p8/</link><pubDate>Mon, 22 Aug 2022 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p8/</guid><description>Intro I’ve been looking into some ways to work offline.
+Here are some reasons for that:
+Decrease in the quality of general purpose search engine results
+More targetted searches
+Better response times and decreased latency for slow websites (since after I download them they’re served from my local network, maybe directly from the disk of my laptop)
+Sites are disappearing at a high rate.</description></item></channel></rss>

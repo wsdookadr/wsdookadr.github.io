@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog</title><link>https://wsdookadr.github.io/</link><description>Recent content on Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 30 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://wsdookadr.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Packing, encrypting and uploading deliverables</title><link>https://wsdookadr.github.io/posts/p7/</link><pubDate>Sat, 30 Oct 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p7/</guid><description>Intro Sometimes when I do client work, I don’t have time to set up Git repositories. When the work is done, I generate the invoice based on the time spent on the project, and I have to ship the deliverables.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog</title><link>https://wsdookadr.github.io/</link><description>Recent content on Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 22 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://wsdookadr.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Building offline archives</title><link>https://wsdookadr.github.io/posts/p8/</link><pubDate>Mon, 22 Aug 2022 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p8/</guid><description>Intro I’ve been looking into some ways to work offline.
+Here are some reasons for that:
+Decrease in the quality of general purpose search engine results
+More targetted searches
+Better response times and decreased latency for slow websites (since after I download them they’re served from my local network, maybe directly from the disk of my laptop)
+Sites are disappearing at a high rate.</description></item><item><title>Packing, encrypting and uploading deliverables</title><link>https://wsdookadr.github.io/posts/p7/</link><pubDate>Sat, 30 Oct 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p7/</guid><description>Intro Sometimes when I do client work, I don’t have time to set up Git repositories. When the work is done, I generate the invoice based on the time spent on the project, and I have to ship the deliverables.
 Recently I’ve been working on a C# project, and I use a Windows10 laptop where I happen to have a WSL installed.
 I could set up a continuous integration (CI) environment to trigger builds for every commit, and have the binaries available in some artifact repository, or I could set up a file server for this and use scp or sftp, but again, that’s not the case.</description></item><item><title>Multiple instance Activitywatch remote server setup for time tracking</title><link>https://wsdookadr.github.io/posts/p6/</link><pubDate>Sat, 23 Oct 2021 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/posts/p6/</guid><description>Intro My setup includes several laptops, a desktop, and a storage server.
 Because I split my time across multiple projects, and sometimes I have a dedicated laptop for one project, I find this setup to be useful.
@@ -15,7 +20,7 @@ If you need more details or want a quote for a project send an e-mail to stefan.
 Opensource contributions type technologies used links date docs improvements
 Perl
 link
-2020-06-09
+2021-06-09
 bugfix
 Perl
 link, link</description></item><item><title>Supported Technologies</title><link>https://wsdookadr.github.io/supported-tech/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://wsdookadr.github.io/supported-tech/</guid><description>Check the Services page for a list of services provided for these technologies Web servers: Nginx, Apache2, HAProxy
