@@ -75,8 +75,8 @@ pros and cons, realized that I really need just parts of these solutions
 and decided to write a simplified one that works for me. I wrote it
 because it’s smaller, has fewer components and it’s easier for me to
 reason about and to debug it. Of course it doesn’t have all the
-functionality of the other solutions (browser behaviors would be one
-example, screencasting to name a few).</p></div><div class=paragraph><p>I’ve uploaded <a href=https://github.com/wsdookadr/femtocrawl/>on Github here</a>.</p></div><div class=paragraph><p>To be able to estimate when a crawl would end, I’ve noticed it’s easier
+functionalities of the other solutions (browser behaviors and screencasting
+to name a few).</p></div><div class=paragraph><p>I’ve uploaded it <a href=https://github.com/wsdookadr/femtocrawl/>on Github here</a>.</p></div><div class=paragraph><p>To be able to estimate when a crawl would end, I’ve noticed it’s easier
 in my case to build the sitemap as a separate step instead of letting
 the crawler decide which urls to recurse into. So I’d rather build that
 sitemap as a separate process before I start crawling. This makes the
@@ -85,7 +85,10 @@ it under a different name and listed in <code>/robots.txt</code>. Then some of t
 will have a nested <code>/sitemap.xml</code> which contains links to more specific
 sitemaps. And then for some the sitemap will be completely missing and a complete
 crawl will be required to find all the urls.</p></div><div class=paragraph><p>Doing this complete crawl could actually be avoided if <a href=https://commoncrawl.org/>Common Crawl</a>
-is queried instead, but that won’t have the latest data (actually I’m not sure how often CC runs).</p></div><div class=paragraph><p>For some pages the crawler might not have enough time to fetch all the
+is queried instead, but that won’t have the latest data, actually I’m not sure how often CC runs.
+But even using a stale pre-computed CC sitemap should improve the speed of a crawl, even if
+you’d have to check status codes for all urls and figure out if there’s any new urls you haven’t
+seen, there’s still less to process than if you were to do it from scratch.</p></div><div class=paragraph><p>For some pages the crawler might not have enough time to fetch all the
 resources, but that’s okay because a second pass is possible to either:</p></div><div class=ulist><ul><li><p>pick up all the failed resources from the HAR files and fetch them</p></li><li><p>parse out the WARC records with text/html mimetype, find out which of them
 are absent from the WARC and fetch them</p></li></ul></div><div class=paragraph><p>These two methods above are not equivalent, but if used together they should
 bring in most of the content. There’s just one exception which are expiring resources
