@@ -62,7 +62,7 @@ This will build a system of equations which is then passed to SymPy.
 
 image::/posts/p9-syseq.png[]
 
-After it's solved, we can get the length of the square by adding 3 to
+After it's solved, we can get the side of the square by adding 3 to
 the yellow height.
 
 
