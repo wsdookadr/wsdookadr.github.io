@@ -11,8 +11,10 @@ I'm offering services related to databases, custom software
 (including custom addons, modules etc), automation, infrastructure
 and documentation.
 
-If you need more details or want a quote for a project send an e-mail
-to mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com].
+My link:https://www.linkedin.com/in/stefan-petrea-8b0746110/[linkedin profile is here].
+
+If you need more details or want to request a quote, feel free to reach
+out at: mailto:stefan.petrea@gmail.com[stefan.petrea@gmail.com] .
 
 == Opensource contributions
 
