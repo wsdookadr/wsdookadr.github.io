@@ -72,7 +72,7 @@ When I was working a devops position in an online gaming company, I was
 handed a problem about dashboards being broken and reports in them not
 showing up anymore.
 
-The way these were structured was this: `Dashboards --> Reports --> Queries --> Tables`
+The way these were structured was this: `Dashboards => Reports => Queries => Tables`
 
 So a dashboard had multiple reports, and reports were using queries,
 and in turn queries were accessing data from tables (all these relations
