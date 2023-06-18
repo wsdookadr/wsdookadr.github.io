@@ -1,5 +1,5 @@
 +++
-title = "Some tasks I've have worked on"
+title = "Some tasks I've worked on"
 date = "2021-02-20"
 markup = "asciidoc"
 tags = ["databases","logs","monitoring","analytics","postgresql","interviews"]
