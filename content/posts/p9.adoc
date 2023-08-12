@@ -2,7 +2,7 @@
 title = "Solving a simple puzzle using SymPy"
 date = "2023-01-04"
 markup = "asciidoc"
-tags = ["sympy","math"]
+tags = ["sympy","math","deliberate-practice"]
 +++
 
 :pygments-css: style

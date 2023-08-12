@@ -1,0 +1,121 @@
++++
+title = "Counting non-intersecting double-diagonals in polygons"
+date = "2023-08-12"
+markup = "asciidoc"
+tags = ["combinatorics","python","math","deliberate-practice"]
++++
+
+:pygments-css: style
+
+++++
+<div></div>
+++++
+
+++++
+include::layouts/partials/mathjax.html[]
+++++
+
+The purpose of this blog post is to outline some deliberate practice I've done on solving a problem.
+
+A friend told me recently he was solving a problem about polygons.
+
+The original problem statement is in portuguese so I'm posting the original statement
+and then the english translation:
+
+image::/posts/p10-problem-statement-portuguese.png[]
+
+Translation:
+
+[quote]
+Given a link:https://en.wikipedia.org/wiki/Regular_polygon[regular N-gon],
+how many ways can it be cut using two diagonals that don't intersect (they
+can't intersect in the interior and they don't share a common vertex).
+
+So for an N-gon the number of diagonals is +++$\binom{N}{2} - N = \frac{N(N-3)}{2}$+++ (for proofs see
+link:https://math.stackexchange.com/q/4555196[1],
+link:https://math.stackexchange.com/q/3769432[2],
+link:https://math.stackexchange.com/q/3365965[3], 
+link:https://math.stackexchange.com/q/662503[4]).
+
+Sidenote: One of those threads has the title "Number of Diagonals in
+Regular Polygon Makes me Question my Sanity".  That's a bit too dramatic
+but anyways.
+
+The previous formula just counts all the ways of picking two vertices but
+removes the edges of the polygon because those are not diagonals. Another
+proof would be that after we pick a first vertex, we can pick the second
+vertex to be different from the first and its adjacent neighbours,
+and then we need to account for the double-counting.
+
+Returning to the problem at hand, for +++$N \leq 5$+++ there are no such layouts because there is no room for the 2nd diagonal.
+
+This is what happens for +++$N=6$+++ (hexagons):
+
+++++
+include::content/posts/p10-case-6.html[]
+++++
+
+And here is +++$N=7$+++ (septagons):
+
+++++
+include::content/posts/p10-case-7.html[]
+++++
+
+Sidenote: link:https://github.com/wsdookadr/wsdookadr.github.io/blob/main/content/posts/p10-drawing-polygons.ipynb[I wrote this notebook] to generate the
+layouts seen above.
+
+I wrote the following program to count these layouts:
+
+[source%linenums,python3]
+----
+N=10
+S=0
+
+def L(x):
+    return (x*(x-3))/2
+
+def C(x):
+    if x < 5:
+        return 0
+    u = L(x) - 2*(x-3)
+    if u < 0:
+        return 0
+    else:
+        return u
+
+for x in range(N):
+    y1 = (x-2)%N
+    y2 = (x+2)%N
+    while True:
+        if x<y2:
+            u=y2-x+1
+            v=N-u+2
+            dS=C(u)+C(v)
+            S+=dS
+        y2 = (y2+1)%N
+        if y2 == (y1+1)%N:
+            break
+S/=2
+display(S)
+----
+
+This program iterates through all the first diagonals. This diagonal will
+split the N-gon into a u-gon and a v-gon.  Next it needs to find how many
+second diagonals the u-gon and v-gon can hold. So the second diagonal
+is part of an u-gon or a v-gon but is not allowed to use any of the two
+vertices of the first diagonal(which is why we subtract that quantity
+in function C).  It then adds up all these possibilities. As before, we
+have to handle double-counting because if the first diagonal doesn't
+intersect the second, the second doesn't intersect the first(both (D1,D2)
+and (D2,D1) will be considered).
+
+link:https://oeis.org/search?q=3%2C14%2C40%2C90%2C175%2C308%2C504&go=Search[A search] on OEIS shows that this was already
+classified as link:https://oeis.org/A117662[A117662], link:https://oeis.org/A005701[A005701], https://oeis.org/A050297[A050297],
+so the problem has a closed-form. Maybe I'll read more about the closed form at some point.
+
+The program's output matches the OEIS formula (I've only checked up to +++$N=15$+++).
+If I have some time I'll probably think more about ways
+to derive that formula. The problem in its original form was solved.
+I had some fun writing this but I'll set the problem aside for now.
+
+
