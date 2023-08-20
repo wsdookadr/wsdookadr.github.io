@@ -26,14 +26,16 @@ MathJax.Hub.Config({
         all[i].SourceElement().parentNode.className += ' has-jax';
     }
 });
-</script><div class=paragraph><p>The purpose of this blog post is to outline some deliberate practice I’ve done on solving a problem.</p></div><div class=paragraph><p>A friend told me recently he was solving a problem about polygons.</p></div><div class=paragraph><p>The original problem statement is in portuguese so I’m posting the original statement
+</script><div class=paragraph><p>The purpose of this blog post is to outline some deliberate practice I’ve done on solving a problem.
+A friend and I were talking about his polygon problem.
+The original problem statement is in portuguese so I’m posting the original statement
 and then the english translation:</p></div><div class=imageblock><div class=content><img src=/posts/p10-problem-statement-portuguese.png alt="p10 problem statement portuguese"></div></div><div class=paragraph><p>Translation:</p></div><div class=quoteblock><blockquote>Given a <a href=https://en.wikipedia.org/wiki/Regular_polygon>regular N-gon</a>,
 how many ways can it be cut using two diagonals that don’t intersect (they
-can’t intersect in the interior and they don’t share a common vertex).</blockquote></div><div class=paragraph><p>So for an N-gon the number of diagonals is $\binom{N}{2} - N = \frac{N(N-3)}{2}$ (for proofs see
+can’t intersect in the interior and they don’t share a common vertex).</blockquote></div><div class=paragraph><p>I found the following fact to be useful: In an N-gon the number of diagonals is $\binom{N}{2} - N = \frac{N(N-3)}{2}$ (for proofs see
 <a href=https://math.stackexchange.com/q/4555196>1</a>,
 <a href=https://math.stackexchange.com/q/3769432>2</a>,
 <a href=https://math.stackexchange.com/q/3365965>3</a>,
-<a href=https://math.stackexchange.com/q/662503>4</a>).</p></div><div class=paragraph><p>Sidenote: One of those threads has the title "Number of Diagonals in
+<a href=https://math.stackexchange.com/q/662503>4</a>).</p></div><div class=paragraph><p>Sidenote: The title of the first thread is "Number of Diagonals in
 Regular Polygon Makes me Question my Sanity". That’s a bit too dramatic
 but anyways.</p></div><div class=paragraph><p>The previous formula just counts all the ways of picking two vertices but
 removes the edges of the polygon because those are not diagonals. Another
@@ -108,6 +110,6 @@ intersect the second, the second doesn’t intersect the first(both (D1,D2)
 and (D2,D1) will be considered).</p></div><div class=paragraph><p><a href="https://oeis.org/search?q=3%2C14%2C40%2C90%2C175%2C308%2C504&go=Search">A search</a> on OEIS shows that this was already
 classified as <a href=https://oeis.org/A117662>A117662</a>, <a href=https://oeis.org/A005701>A005701</a>, <a href=https://oeis.org/A050297>A050297</a>,
 so the problem has a closed-form. Maybe I’ll read more about the closed form at some point.</p></div><div class=paragraph><p>The program’s output matches the OEIS formula (I’ve only checked up to $N=15$).
-If I have some time I’ll probably think more about ways
-to derive that formula. The problem in its original form was solved.
-I had some fun writing this but I’ll set the problem aside for now.</p></div><nav class=pagination><span class=prev><a href=/posts/p9/>Solving a simple puzzle using SymPy</a></span></nav></article><aside class="toc sidebar" data-title data-levels=2><div class=toc-menu></div></aside></div></main></div><footer class=footer><p>This page was built with <a href=https://gohugo.io/>Hugo 0.79.1</a> using the <a href=https://github.com/basil/antora-default-ui-hugo-theme>Hugo port</a> of the <a href=https://gitlab.com/antora/antora-ui-default>Antora default UI</a>. The source code for this UI is licensed under the terms of the <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License, Version 2.0</a> (MPL-2.0).</p></footer><div id=copy-to-clipboard style=display:none data-svg=/img/octicons-16.svg></div><script src=/js/site.min.da461a26436bc4ba84975879f2d7f90a593245b694bbea075400ef251e78b2e0.js integrity="sha256-2kYaJkNrxLqEl1h58tf5ClkyRbaUu+oHVADvJR54suA="></script><script src=/js/vendor/highlight.pack.79c21a0aa45cc5756c18c07f0cf37be9ad1e1b728f6f0e6b210c3913cfef592f.js integrity="sha256-ecIaCqRcxXVsGMB/DPN76a0eG3KPbw5rIQw5E8/vWS8="></script><script>;[].slice.call(document.querySelectorAll('pre code.hljs')).forEach(function(node){hljs.highlightBlock(node)})</script></body></html>
+If I have some time I’ll probably think more about ways to derive that formula.
+I had some fun writing this but since the problem in its original form
+was solved I’ll set the problem aside for now.</p></div><nav class=pagination><span class=prev><a href=/posts/p9/>Solving a simple puzzle using SymPy</a></span></nav></article><aside class="toc sidebar" data-title data-levels=2><div class=toc-menu></div></aside></div></main></div><footer class=footer><p>This page was built with <a href=https://gohugo.io/>Hugo 0.79.1</a> using the <a href=https://github.com/basil/antora-default-ui-hugo-theme>Hugo port</a> of the <a href=https://gitlab.com/antora/antora-ui-default>Antora default UI</a>. The source code for this UI is licensed under the terms of the <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License, Version 2.0</a> (MPL-2.0).</p></footer><div id=copy-to-clipboard style=display:none data-svg=/img/octicons-16.svg></div><script src=/js/site.min.da461a26436bc4ba84975879f2d7f90a593245b694bbea075400ef251e78b2e0.js integrity="sha256-2kYaJkNrxLqEl1h58tf5ClkyRbaUu+oHVADvJR54suA="></script><script src=/js/vendor/highlight.pack.79c21a0aa45cc5756c18c07f0cf37be9ad1e1b728f6f0e6b210c3913cfef592f.js integrity="sha256-ecIaCqRcxXVsGMB/DPN76a0eG3KPbw5rIQw5E8/vWS8="></script><script>;[].slice.call(document.querySelectorAll('pre code.hljs')).forEach(function(node){hljs.highlightBlock(node)})</script></body></html>
