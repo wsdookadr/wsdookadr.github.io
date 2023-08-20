@@ -16,9 +16,7 @@ include::layouts/partials/mathjax.html[]
 ++++
 
 The purpose of this blog post is to outline some deliberate practice I've done on solving a problem.
-
-A friend told me recently he was solving a problem about polygons.
-
+A friend and I were talking about his polygon problem.
 The original problem statement is in portuguese so I'm posting the original statement
 and then the english translation:
 
@@ -31,13 +29,13 @@ Given a link:https://en.wikipedia.org/wiki/Regular_polygon[regular N-gon],
 how many ways can it be cut using two diagonals that don't intersect (they
 can't intersect in the interior and they don't share a common vertex).
 
-So for an N-gon the number of diagonals is +++$\binom{N}{2} - N = \frac{N(N-3)}{2}$+++ (for proofs see
+I found the following fact to be useful: In an N-gon the number of diagonals is +++$\binom{N}{2} - N = \frac{N(N-3)}{2}$+++ (for proofs see
 link:https://math.stackexchange.com/q/4555196[1],
 link:https://math.stackexchange.com/q/3769432[2],
 link:https://math.stackexchange.com/q/3365965[3], 
 link:https://math.stackexchange.com/q/662503[4]).
 
-Sidenote: One of those threads has the title "Number of Diagonals in
+Sidenote: The title of the first thread is "Number of Diagonals in
 Regular Polygon Makes me Question my Sanity".  That's a bit too dramatic
 but anyways.
 
@@ -114,8 +112,7 @@ classified as link:https://oeis.org/A117662[A117662], link:https://oeis.org/A005
 so the problem has a closed-form. Maybe I'll read more about the closed form at some point.
 
 The program's output matches the OEIS formula (I've only checked up to +++$N=15$+++).
-If I have some time I'll probably think more about ways
-to derive that formula. The problem in its original form was solved.
-I had some fun writing this but I'll set the problem aside for now.
-
+If I have some time I'll probably think more about ways to derive that formula.
+I had some fun writing this but since the problem in its original form
+was solved I'll set the problem aside for now.
 
